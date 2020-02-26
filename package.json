@@ -12,12 +12,13 @@
   "author": "Diego Ruiz",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.18.3",
     "csurf": "^1.9.0",
     "express": "^4.16.4",
+    "express-async-handler": "^1.1.4",
     "helmet": "^3.15.1",
     "jsonwebtoken": "^8.5.1",
-    "winston": "^3.2.1",
-    "bcrypt": "^3.0.7"
+    "winston": "^3.2.1"
   }
 }
