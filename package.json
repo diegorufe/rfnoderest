@@ -1,6 +1,6 @@
 {
   "name": "rfnoderest",
-  "version": "0.0.1",
+  "version": "0.0.3b",
   "description": "Library to automate certain rest tasks",
   "main": "index.js",
   "scripts": {
