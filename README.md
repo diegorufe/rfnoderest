@@ -15,3 +15,8 @@ Incluye routing, security, log ...
 ## 0.0.4b 
 - Changes for simplify code and solved issued resolve filters and joins sequelize
 
+## master 
+
+- Incluye 0.0.1, 0.0.2,  0.0.3, 0.0.4b
+- Mondodb db
+
