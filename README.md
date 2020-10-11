@@ -13,5 +13,5 @@ Incluye routing, security, log ...
 - Add interoperability between rest and electron so that it works in the same way as we want to deploy in rest or in desktop mode
 
 ## 0.0.4b 
-- ...
+- Changes for simplify code and solved issued resolve filters and joins sequelize
 
