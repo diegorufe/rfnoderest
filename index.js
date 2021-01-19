@@ -1,7 +1,7 @@
 // Express libraries configuration
-const EXPRESS = require("./lib/express.config");
+const EXPRESS = require("./lib/express/express.config");
 // Services and beans services for application
-const SERVICES = require("./lib/service.config");
+const SERVICES = require("./lib/service/service.config");
 // Configuration for database sequelize
 const DATABASE_SEQUELIZE = require("./lib/db/database.sequelize");
 // Configuration for database mongo

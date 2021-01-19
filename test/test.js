@@ -3,7 +3,7 @@ const UtilsCommons = require("../lib/utils/UtilsCommons");
 
 const MAP_PROPERTIES_EXPRESS = {};
 
-const EXPRESS_APP = require("../lib/express.config").create_express_app(
+const EXPRESS_APP = require("../lib/express/express.config").create_express_app(
   MAP_PROPERTIES_EXPRESS
 );
 

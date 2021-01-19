@@ -1,7 +1,8 @@
-const LOG = require("../lib/log.config");
+const LOG = require("../lib/log/log.config");
 
-const MAP_PROPERTIES = require("../lib/properties.express").MAP_PROPERTIES;
-const MAP_PROPERTIES_STATUS_HTTP = require("../lib/properties.express")
+const MAP_PROPERTIES = require("../lib/express/properties.express")
+  .MAP_PROPERTIES;
+const MAP_PROPERTIES_STATUS_HTTP = require("../lib/express/properties.express")
   .MAP_PROPERTIES_STATUS_HTTP;
 const MAP_PROPERTIES_CREATE_EXPRESS = Object.assign({}, MAP_PROPERTIES);
 
@@ -12,5 +13,5 @@ const LOGGER = LOG.log.createLogger(
   MAP_PROPERTIES_CREATE_EXPRESS.MAX_FILES_LOG
 );
 //LOGGER.transports[0].level = 'debug'
-console.log(LOGGER.transports[0].level)
-LOGGER.debug('This is a debug')
+console.log(LOGGER.transports[0].level);
+LOGGER.debug("This is a debug");
