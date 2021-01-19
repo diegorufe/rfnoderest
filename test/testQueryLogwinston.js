@@ -14,4 +14,4 @@ const LOGGER = LOG.log.createLogger(
 );
 //LOGGER.transports[0].level = 'debug'
 console.log(LOGGER.transports[0].level);
-LOGGER.debug("This is a debug");
+LOGGER.info("This is a debug");

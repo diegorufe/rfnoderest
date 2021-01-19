@@ -1,6 +1,25 @@
-2021-01-19 15:30:11:3011 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\expressapp.js:167) | App on port 3000
-2021-01-19 15:30:16:3016 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\expressapp.js:167) | App on port 3000
-2021-01-19 16:40:10:4010 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\expressapp.js:167) | App on port 3000
-2021-01-19 16:58:29:5829 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\express\expressapp.js:167) | App on port 3000
-2021-01-19 17:00:48:048 | info | EXPRESS_APP | E:\trabajo\repos\rfnoderest\test\test.js:11) | Test
-2021-01-19 17:03:52:352 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\express\expressapp.js:167) | App on port 3000
+2021-01-19 18:45:54:4554 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\log\loggerwinston\logwinston.js:81) | This is a debug
+2021-01-19 18:46:00:460 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\log\loggerwinston\logwinston.js:81) | This is a debug
+2021-01-19 18:46:21:4621 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\lib\log\loggerwinston\logwinston.js:81) | This is a debug
+2021-01-19 18:47:29:4729 | info | EXPRESS_APP | loader.js:1133) | This is a debug
+2021-01-19 18:48:50:4850 | info | EXPRESS_APP | loader.js:1133) | This is a debug
+2021-01-19 18:54:26:5426 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\test\testQueryLogwinston.js:17) | This is a debug
+2021-01-19 18:54:39:5439 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\test\testQueryLogwinston.js:17) | This is a debug
+2021-01-19 18:55:05:555 | info | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\test\testQueryLogwinston.js:17) | This is a debug
+2021-01-19 18:55:32:5532 | error | EXPRESS_APP | (E:\trabajo\repos\rfnoderest\test\testQueryLogwinston.js:17) | This is a debug
+2021-01-19T19:02:14.012 | ERROR | default | testQueryLog4js.js | 17 | 8 | This is a debug 
+2021-01-19T19:07:40.349 | ERROR | default | testQueryLog4js.js | 17 | 8 | This is a debug 
+2021-01-19T19:08:07.222 | INFO | default | expressapp.js | 167 | 21 | App on port 3000 
+2021-01-19T19:09:44.610 | INFO | default | expressapp.js | 167 | 21 | App on port 3000 
+2021-01-19T19:09:53.936 | INFO | default | test.js | 10 | 22 | Test 
+2021-01-19T19:09:53.941 | ERROR | default | expressapp.js | 193 | 23 | Error: test
+    at E:\trabajo\repos\rfnoderest\test\test.js:13:9
+    at Layer.handle [as handle_request] (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\layer.js:95:5)
+    at next (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\layer.js:95:5)
+    at E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\index.js:281:22
+    at Function.process_params (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\index.js:335:12)
+    at next (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\index.js:275:10)
+    at E:\trabajo\repos\rfnoderest\lib\createApp\rest\createapprest.js:205:11
+    at Layer.handle [as handle_request] (E:\trabajo\repos\rfnoderest\node_modules\express\lib\router\layer.js:95:5) 

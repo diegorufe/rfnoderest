@@ -16,6 +16,7 @@ EXPRESS_APP.addGetRoute("/", function (req, res) {
 EXPRESS_APP.addGetRoute("/secure/test", function (req, res) {
   res.status(EXPRESS_APP.mapStatusHttp.ACCESS_SUCCES);
   res.json({ key: "Hello world!" });
+  
 });
 
 if (UtilsCommons.isNotNull(EXPRESS_APP)) {
