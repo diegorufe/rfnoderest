@@ -3,9 +3,9 @@ const EXPRESS = require("./lib/express.config");
 // Services and beans services for application
 const SERVICES = require("./lib/service.config");
 // Configuration for database sequelize
-const DATABASE_SEQUELIZE = require("./lib/database.sequelize");
+const DATABASE_SEQUELIZE = require("./lib/db/database.sequelize");
 // Configuration for database mongo
-const DATABASE_MONGO = require("./lib/database.mongodb");
+const DATABASE_MONGO = require("./lib/db/database.mongodb");
 
 module.exports = {
   rfnoderest: {
