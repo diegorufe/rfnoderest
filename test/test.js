@@ -1,4 +1,4 @@
-const UtilsCommons = require("./lib/utils/UtilsCommons");
+const UtilsCommons = require("../lib/utils/UtilsCommons");
 
 
 const MAP_PROPERTIES_EXPRESS = {};
