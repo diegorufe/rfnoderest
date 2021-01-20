@@ -2,12 +2,13 @@
 /**
  * Class for get fields for query
  */
-class Field {
+export class Field {
 
+   
     name: string;
-    aliasTable: string | undefined | null;
-    aliasField: string | undefined | null;
-    customField: string | undefined | null;
+    aliasTable?: string;
+    aliasField?: string;
+    customField?: string;
 
     /**
      * Constructor class field only with name propertie
