@@ -5,7 +5,7 @@ import { IBaseSearchDao } from "./IBaseSearhDao";
 /**
  * Base dao for crud
  */
-export interface IBaseCrudDao<T> extends IBaseSearchDao<T> {
+export interface IBaseCrudDao<T> {
 
     /**
      * Method for add data
@@ -51,14 +51,18 @@ export interface IBaseCrudDao<T> extends IBaseSearchDao<T> {
      * 
      * @param pkValue         to find entity
      * @param collectionJoins for entity
+     * @param mapParams is a map for params send to method, example builder,
+     *                          constants ...
      * @return data find by pk
      */
-    findByPk(pkValue: any, collectionJoins?: Join[]): T;
+    findByPk(pkValue: any, collectionJoins: Join[] | undefined | null, mapParams: {}): T;
 
     /**
      * Method for generate new instace data
      * 
+     * @param mapParams is a map for params send to method, example builder,
+     *                          constants ...
      * @return instace data
      */
-    newInstace(): T;
+    newInstace(mapParams: {}): T;
 }
