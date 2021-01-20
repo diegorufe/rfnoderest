@@ -15,5 +15,5 @@ export function isNull(value: any): boolean {
  * @returns false if value is null or undefined true if not
  */
 export function isNotNull(value: any): boolean {
-    return isNull(value);
+    return !isNull(value);
 }

@@ -1,4 +1,5 @@
-import { isNull } from "../../utils/UtilsCommons";
+import { isNull } from "../../../utils/UtilsCommons";
+
 
 /**
  * Class for apply filters for query

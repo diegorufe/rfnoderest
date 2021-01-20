@@ -15,7 +15,7 @@ export interface IBaseCrudDao<T> {
      *                          constants ...
      * @return data added
      */
-    add(data: T, mapParams: {}): T;
+    add(data: T, mapParams: {}): Promise<T>;
 
     /**
      * Method for edit data
@@ -25,7 +25,7 @@ export interface IBaseCrudDao<T> {
      *                          constants ...
      * @return data edited
      */
-    edit(data: T, mapParams: {}): T;
+    edit(data: T, mapParams: {}): Promise<T>;
 
     /**
      * Remove data
@@ -34,7 +34,7 @@ export interface IBaseCrudDao<T> {
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
      */
-    delete(data: T, mapParams: {}): T;
+    delete(data: T, mapParams: {}): Promise<T>;
 
     /**
      * Method for read value with pk
@@ -44,7 +44,7 @@ export interface IBaseCrudDao<T> {
      *                          constants ...
      * @return data
      */
-    read(pkValue: any, mapParams: {}): T;
+    read(pkValue: any, mapParams: {}): Promise<T>;
 
     /**
      * Method by find by pk
@@ -55,7 +55,7 @@ export interface IBaseCrudDao<T> {
      *                          constants ...
      * @return data find by pk
      */
-    findByPk(pkValue: any, collectionJoins: Join[] | undefined | null, mapParams: {}): T;
+    findByPk(pkValue: any, collectionJoins: Join[] | undefined | null, mapParams: {}): Promise<T>;
 
     /**
      * Method for generate new instace data
@@ -64,5 +64,5 @@ export interface IBaseCrudDao<T> {
      *                          constants ...
      * @return instace data
      */
-    newInstace(mapParams: {}): T;
+    newInstace(mapParams: {}): Promise<T>;
 }

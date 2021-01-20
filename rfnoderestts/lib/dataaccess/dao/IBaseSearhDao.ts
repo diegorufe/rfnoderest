@@ -16,7 +16,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams is a map for params send to method, example builder,
      *                  constants ...
      */
-    applySelect(mapParams: {}): void;
+    applySelect(mapParams: {}): Promise<void>;
 
     /**
      * Method for apply from
@@ -24,7 +24,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams is a map for params send to method, example builder,
      *                  constants ...
      */
-    applyFrom(mapParams: {}): void;
+    applyFrom(mapParams: {}): Promise<void>;
 
     /**
      * Method for apply where
@@ -32,7 +32,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams is a map for params send to method, example builder,
      *                  constants ...
      */
-    applyWhere(mapParams: {}): void;
+    applyWhere(mapParams: {}): Promise<void>;
 
     /**
      * Methods for apply filters query
@@ -40,7 +40,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
      */
-    applyFilters(collectionFilters: Filter[] | undefined | null, mapParams: {}): void;
+    applyFilters(collectionFilters: Filter[] | undefined | null, mapParams: {}): Promise<void>;
 
     /**
      * Methods for apply joins query
@@ -49,7 +49,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams       is a map for params send to method, example builder,
      *                        constants ...
      */
-    applyJoins(collectionJoins: Join[] | undefined | null, mapParams: {}): void;
+    applyJoins(collectionJoins: Join[] | undefined | null, mapParams: {}): Promise<void>;
 
     /**
      * Methods for apply orders query
@@ -57,7 +57,7 @@ export interface IBaseSearchDao<T> {
      * @param collectionOrders to apply
      * @param mapParams
      */
-    applyOrders(collectionOrders: Order[] | undefined | null, mapParams: {}): void;
+    applyOrders(collectionOrders: Order[] | undefined | null, mapParams: {}): Promise<void>;
 
     /**
      * Methods for apply groups query
@@ -66,7 +66,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams        is a map for params send to method, example builder,
      *                         constants ...
      */
-    applyGroups(collectionGroups: Group[] | undefined | null, mapParams: {}): void;
+    applyGroups(collectionGroups: Group[] | undefined | null, mapParams: {}): Promise<void>;
 
     /**
      * Methods for apply fields query
@@ -75,7 +75,7 @@ export interface IBaseSearchDao<T> {
      * @param mapParams        is a map for params send to method, example builder,
      *                         constants ...
      */
-    applyFields(collectionFields: Field[] | undefined | null, mapParams: {}): void;
+    applyFields(collectionFields: Field[] | undefined | null, mapParams: {}): Promise<void>;
 
     /**
      * Method for list data dao
@@ -91,7 +91,7 @@ export interface IBaseSearchDao<T> {
      */
     list(collectionFields: Field[], collectionFilters: Filter[],
         collectionJoins: Join[], collectionOrders: Order[],
-        collectionGroups: Group[], limit: Limit, mapParams: {}): T[]
+        collectionGroups: Group[], limit: Limit, mapParams: {}): Promise<T[]>
 
     /**
      * Method for count
@@ -104,6 +104,6 @@ export interface IBaseSearchDao<T> {
      */
     count(collectionFilters: Filter[],
         collectionJoins: Join[],
-        collectionGroups: Group[], limit: Limit, mapParams: {}): number
+        collectionGroups: Group[], limit: Limit, mapParams: {}): Promise<number>
 
 }
