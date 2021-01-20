@@ -1,4 +1,4 @@
-import { isNull } from "../../../utils/UtilsCommons";
+import { isNull } from "../../../core/utils/UtilsCommons";
 
 
 /**
