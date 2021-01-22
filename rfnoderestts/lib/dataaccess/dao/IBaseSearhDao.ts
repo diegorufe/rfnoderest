@@ -36,74 +36,77 @@ export interface IBaseSearchDao<T> {
 
     /**
      * Methods for apply filters query
-     * @param collectionFilters to apply
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
+     * @param collectionFilters to apply
      */
-    applyFilters(collectionFilters: Filter[] | undefined | null, mapParams: {}): Promise<void>;
+    applyFilters(mapParams: {}, collectionFilters: Filter[] | undefined | null): Promise<void>;
 
     /**
      * Methods for apply joins query
      * 
-     * @param collectionJoins to apply
      * @param mapParams       is a map for params send to method, example builder,
      *                        constants ...
+     * @param collectionJoins to apply
      */
-    applyJoins(collectionJoins: Join[] | undefined | null, mapParams: {}): Promise<void>;
+    applyJoins(mapParams: {}, collectionJoins: Join[] | undefined | null,): Promise<void>;
 
     /**
      * Methods for apply orders query
      * 
-     * @param collectionOrders to apply
      * @param mapParams
+     * @param collectionOrders to apply
+     * 
      */
-    applyOrders(collectionOrders: Order[] | undefined | null, mapParams: {}): Promise<void>;
+    applyOrders(mapParams: {}, collectionOrders: Order[] | undefined | null): Promise<void>;
 
     /**
      * Methods for apply groups query
      * 
-     * @param collectionGroups to apply
      * @param mapParams        is a map for params send to method, example builder,
      *                         constants ...
+     * @param collectionGroups to apply
      */
-    applyGroups(collectionGroups: Group[] | undefined | null, mapParams: {}): Promise<void>;
+    applyGroups(mapParams: {}, collectionGroups: Group[] | undefined | null,): Promise<void>;
 
     /**
      * Methods for apply fields query
      * 
-     * @param collectionFields to apply
      * @param mapParams        is a map for params send to method, example builder,
      *                         constants ...
+     * @param collectionFields to apply
+     * 
      */
-    applyFields(collectionFields: Field[] | undefined | null, mapParams: {}): Promise<void>;
+    applyFields(mapParams: {}, collectionFields: Field[] | undefined | null,): Promise<void>;
 
     /**
      * Method for list data dao
      * 
+     * @param mapParams         extra params apply for search dto
      * @param collectionFields  to set in DTO
      * @param collectionFilters apply for search DTO
      * @param collectionJoins   apply for search DTO
      * @param collectionOrders  apply for search DTO
      * @param collectionGroups  apply for search DTO
      * @param limit             to apply in query
-     * @param mapParams         extra params apply for search dto
+
      * @return list data dao
      */
-    list(collectionFields: Field[], collectionFilters: Filter[],
+    list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[],
         collectionJoins: Join[], collectionOrders: Order[],
-        collectionGroups: Group[], limit: Limit, mapParams: {}): Promise<T[]>
+        collectionGroups: Group[], limit: Limit,): Promise<T[]>
 
     /**
      * Method for count
      * 
+     * @param mapParams         extra params apply for count
      * @param collectionFilters apply for search data
      * @param collectionJoins   apply for search data
      * @param collectionGroups  apply for search data
-     * @param mapParams         extra params apply for count
      * @return count
      */
-    count(collectionFilters: Filter[],
+    count(mapParams: {}, collectionFilters: Filter[],
         collectionJoins: Join[],
-        collectionGroups: Group[], limit: Limit, mapParams: {}): Promise<number>
+        collectionGroups: Group[], limit: Limit): Promise<number>
 
 }

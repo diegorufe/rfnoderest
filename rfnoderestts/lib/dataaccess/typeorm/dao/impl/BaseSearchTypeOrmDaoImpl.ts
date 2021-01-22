@@ -10,35 +10,36 @@ import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
  * Base search dao implementantion for type orm
  */
 export abstract class BaseSearchTypeOrmDaoImpl<T> implements IBaseSearchDao<T>{
-    async applySelect(mapParams: {}): Promise<void> {
+    applySelect(mapParams: {}): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyFrom(mapParams: {}): Promise<void> {
+    applyFrom(mapParams: {}): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyWhere(mapParams: {}): Promise<void> {
+    applyWhere(mapParams: {}): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyFilters(collectionFilters: Filter[] | null | undefined, mapParams: {}): Promise<void> {
+    applyFilters(mapParams: {}, collectionFilters: Filter[] | null | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyJoins(collectionJoins: Join[] | null | undefined, mapParams: {}): Promise<void> {
+    applyJoins(mapParams: {}, collectionJoins: Join[] | null | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyOrders(collectionOrders: Order[] | null | undefined, mapParams: {}): Promise<void> {
+    applyOrders(mapParams: {}, collectionOrders: Order[] | null | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyGroups(collectionGroups: Group[] | null | undefined, mapParams: {}): Promise<void> {
+    applyGroups(mapParams: {}, collectionGroups: Group[] | null | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async applyFields(collectionFields: Field[] | null | undefined, mapParams: {}): Promise<void> {
+    applyFields(mapParams: {}, collectionFields: Field[] | null | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    async list(collectionFields: Field[], collectionFilters: Filter[], collectionJoins: Join[], collectionOrders: Order[], collectionGroups: Group[], limit: Limit, mapParams: {}): Promise<T[]> {
+    list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[], collectionJoins: Join[], collectionOrders: Order[], collectionGroups: Group[], limit: Limit): Promise<T[]> {
         throw new Error("Method not implemented.");
     }
-    async count(collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[], limit: Limit, mapParams: {}): Promise<number> {
+    count(mapParams: {}, collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[], limit: Limit): Promise<number> {
         throw new Error("Method not implemented.");
     }
+   
 
 }

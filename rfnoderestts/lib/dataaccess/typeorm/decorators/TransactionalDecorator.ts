@@ -26,13 +26,13 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
         // Original method transaction
         let originalMethod = descriptor.value;
 
+
         // wrapping the original method
         descriptor.value = async function (...args: any[]) {
-            //console.log("wrapped function: before invoking " + propertyKey);
-            //console.log(args);
+
             if (isArrayNotEmpty(args)) {
-                // Map params always last arg
-                let mapParams = args[args.length - 1];
+                // Map params always first arg
+                let mapParams = args[0];
 
                 // Only check when lasta param is map 
                 if (isNotNull(mapParams) && canBeDictionary(mapParams)) {
@@ -51,6 +51,8 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
                             transactional = true;
                             if (!haveCreateTransaction) {
                                 transaction = mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION];
+                            } else {
+                                mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = createTransaction();
                             }
                             break;
 
@@ -58,19 +60,15 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
                         case EnumTransactionTypes.REQUIRED_NEW:
                             haveCreateTransaction = true;
                             transactional = true;
+                            mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = createTransaction();
                             break;
                     }
                 }
 
             }
 
-            // If create transaction
-            if (transactional && haveCreateTransaction) {
-                transaction = createTransaction();
-            }
-
             let result = null;
-            let hasError = false;
+            let haveError = false;
 
             try {
 
@@ -92,12 +90,13 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
                     throw responseMethod.error;
                 }
             } catch (exception) {
-                hasError = true;
+                haveError = true;
+                throw exception;
             } finally {
                 if (transactional) {
 
                     // If has error rollback
-                    if (hasError && transaction != null) {
+                    if (haveError) {
                         await transaction.rollbackTransaction();
                     } else {
                         // Commit transaction
@@ -108,8 +107,6 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
                     await transaction.release();
                 }
             }
-
-            //console.log("wrapped function: after invoking " + propertyKey);
 
             return result;
         }

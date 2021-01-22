@@ -10,52 +10,52 @@ export interface IBaseCrudDao<T> {
     /**
      * Method for add data
      * 
-     * @param data to add
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
+     * @param data to add
      * @return data added
      */
-    add(data: T, mapParams: {}): Promise<T>;
+    add(mapParams: {}, data: T): Promise<T>;
 
     /**
      * Method for edit data
      * 
-     * @param data to edit
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
+     * @param data to edit
      * @return data edited
      */
-    edit(data: T, mapParams: {}): Promise<T>;
+    edit(mapParams: {}, data: T): Promise<T>;
 
     /**
      * Remove data
      * 
-     * @param data to remove
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
+     * @param data to remove
      */
-    delete(data: T, mapParams: {}): Promise<T>;
+    delete(mapParams: {}, data: T): Promise<T>;
 
     /**
      * Method for read value with pk
      * 
-     * @param pkValue for read
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
+     * @param pkValue for read
      * @return data
      */
-    read(pkValue: any, mapParams: {}): Promise<T>;
+    read(mapParams: {}, pkValue: any): Promise<T>;
 
     /**
      * Method by find by pk
      * 
-     * @param pkValue         to find entity
-     * @param collectionJoins for entity
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
+     * @param pkValue         to find entity
+     * @param collectionJoins for entity
      * @return data find by pk
      */
-    findByPk(pkValue: any, collectionJoins: Join[] | undefined | null, mapParams: {}): Promise<T>;
+    findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[] | undefined | null,): Promise<T>;
 
     /**
      * Method for generate new instace data
