@@ -40,7 +40,7 @@ export interface IBaseSearchDao<T> {
      *                          constants ...
      * @param collectionFilters to apply
      */
-    applyFilters(mapParams: {}, collectionFilters: Filter[] | undefined | null): Promise<void>;
+    applyFilters(mapParams: {}, collectionFilters: Filter[]): Promise<void>;
 
     /**
      * Methods for apply joins query
@@ -49,7 +49,7 @@ export interface IBaseSearchDao<T> {
      *                        constants ...
      * @param collectionJoins to apply
      */
-    applyJoins(mapParams: {}, collectionJoins: Join[] | undefined | null,): Promise<void>;
+    applyJoins(mapParams: {}, collectionJoins: Join[]): Promise<void>;
 
     /**
      * Methods for apply orders query
@@ -58,7 +58,7 @@ export interface IBaseSearchDao<T> {
      * @param collectionOrders to apply
      * 
      */
-    applyOrders(mapParams: {}, collectionOrders: Order[] | undefined | null): Promise<void>;
+    applyOrders(mapParams: {}, collectionOrders: Order[]): Promise<void>;
 
     /**
      * Methods for apply groups query
@@ -67,7 +67,7 @@ export interface IBaseSearchDao<T> {
      *                         constants ...
      * @param collectionGroups to apply
      */
-    applyGroups(mapParams: {}, collectionGroups: Group[] | undefined | null,): Promise<void>;
+    applyGroups(mapParams: {}, collectionGroups: Group[]): Promise<void>;
 
     /**
      * Methods for apply fields query
@@ -77,7 +77,15 @@ export interface IBaseSearchDao<T> {
      * @param collectionFields to apply
      * 
      */
-    applyFields(mapParams: {}, collectionFields: Field[] | undefined | null,): Promise<void>;
+    applyFields(mapParams: {}, collectionFields: Field[]): Promise<void>;
+
+    /**
+     * Method for apply limit
+     * @param mapParams        is a map for params send to method, example builder,
+     *                         constants ...
+     * @param limit to apply
+     */
+    applyLimit(mapParams: {}, limit: Limit): Promise<void>;
 
     /**
      * Method for list data dao
@@ -108,5 +116,12 @@ export interface IBaseSearchDao<T> {
     count(mapParams: {}, collectionFilters: Filter[],
         collectionJoins: Join[],
         collectionGroups: Group[], limit: Limit): Promise<number>
+
+
+    /**
+     * Method for get table name for buld queries orm
+     * @returns table name build orms
+     */
+    getTableNameBuildORM(): string;
 
 }

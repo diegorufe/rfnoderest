@@ -17,3 +17,36 @@ export function createTransaction(): Transaction {
 
     return trasanction;
 }
+
+/**
+ * Function for create query builder from transaction
+ * @param transaction 
+ */
+export function createQueryBuilderFromTransaction(transaction: Transaction) {
+
+}
+
+/**
+ * Method for find transaction in map params
+ * @param mapParams for find transaction
+ */
+export function findTransactionMapParams(mapParams: { [key: string]: any }): Transaction {
+    return <Transaction>mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION];
+}
+
+/**
+ * Method for find query builder map params 
+ * @param mapParams for find query builder
+ */
+export function findQueryBuilderMapParams(mapParams: { [key: string]: any }) {
+    return mapParams[EnumParamsBuildQueryDataAccess.QUERY_BUILDER];
+}
+
+/**
+ * Method for put query builder in mapParams
+ * @param mapParams for find query builder
+ * @param queryBuilder query buidler to set
+ */
+export function putQueryBuilderMapParams(mapParams: { [key: string]: any }, queryBuilder: any) {
+    mapParams[EnumParamsBuildQueryDataAccess.QUERY_BUILDER] = queryBuilder;
+}

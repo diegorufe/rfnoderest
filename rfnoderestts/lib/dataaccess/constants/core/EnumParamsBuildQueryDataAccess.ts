@@ -9,5 +9,7 @@ enum EnumParamsBuildQueryDataAccess {
      */
     TRANSACTION = "TRANSACTION",
 
+    QUERY_BUILDER = "QUERY_BUILDER",
+
     UNDEFINED = "",
 }
