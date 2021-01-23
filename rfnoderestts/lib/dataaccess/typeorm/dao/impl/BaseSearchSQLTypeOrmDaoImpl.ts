@@ -26,6 +26,15 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
     }
 
     /**
+     * Method for remove query builder map params 
+     * @param mapParams for remove query builder
+     */
+    removeQueryBuilderMapParams(mapParams: { [key: string]: any }) {
+        // Create query build and put in map params
+        mapParams[EnumParamsBuildQueryDataAccess.QUERY_BUILDER] = undefined;
+    }
+
+    /**
      * @override
      */
     async applySelect(mapParams: {}): Promise<void> {
@@ -307,21 +316,30 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
     async list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[], collectionJoins: Join[], collectionOrders: Order[], collectionGroups: Group[], limit: Limit): Promise<T[]> {
         // create query builder and punt in map params
         this.createQueryBuilderAndPutInMapParams(mapParams);
+
         // Apply fields
         await this.applyFields(mapParams, collectionFields);
+
         // Apply from
         await this.applyFrom(mapParams);
+
         // Apply joins
         await this.applyJoins(mapParams, collectionJoins);
+
         // Apply filters
         await this.applyFilters(mapParams, collectionFilters, true);
+
         // Apply groups 
         await this.applyGroups(mapParams, collectionGroups);
+        
         // Apply limit
         await this.applyLimit(mapParams, limit);
 
         // List data
         const data: T[] = findQueryBuilderMapParams(mapParams).getMany();
+
+        // Remove query builder map params
+        this.removeQueryBuilderMapParams(mapParams);
 
         return data;
     }
