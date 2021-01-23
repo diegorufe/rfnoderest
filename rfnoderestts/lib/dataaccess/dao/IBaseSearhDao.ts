@@ -39,8 +39,9 @@ export interface IBaseSearchDao<T> {
      * @param mapParams is a map for params send to method, example builder,
      *                          constants ...
      * @param collectionFilters to apply
+     * @param firstLevel true if firt level apply query. TODO comment this param
      */
-    applyFilters(mapParams: {}, collectionFilters: Filter[]): Promise<void>;
+    applyFilters(mapParams: {}, collectionFilters: Filter[], firstLevel: boolean): Promise<{}>;
 
     /**
      * Methods for apply joins query
