@@ -89,7 +89,7 @@ export interface IBaseSearchDao<T> {
     applyLimit(mapParams: {}, limit: Limit): Promise<void>;
 
     /**
-     * Method for list data dao
+     * Method for list data 
      * 
      * @param mapParams         extra params apply for search dto
      * @param collectionFields  to set in DTO
@@ -99,7 +99,7 @@ export interface IBaseSearchDao<T> {
      * @param collectionGroups  apply for search DTO
      * @param limit             to apply in query
 
-     * @return list data dao
+     * @return list data 
      */
     list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[],
         collectionJoins: Join[], collectionOrders: Order[],
@@ -116,7 +116,7 @@ export interface IBaseSearchDao<T> {
      */
     count(mapParams: {}, collectionFilters: Filter[],
         collectionJoins: Join[],
-        collectionGroups: Group[], limit: Limit): Promise<number>
+        collectionGroups: Group[]): Promise<number>
 
 
     /**

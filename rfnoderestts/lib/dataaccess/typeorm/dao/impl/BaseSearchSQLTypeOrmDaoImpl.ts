@@ -1,5 +1,5 @@
 import { isArrayEmpty, isArrayNotEmpty, isNull } from "../../../../core/utils/UtilsCommons";
-import { DOT, isNotEmpty, SPACE, COMA, uniqueId, TWO_POINTS } from "../../../../core/utils/UtilsString";
+import { DOT, isNotEmpty, SPACE, COMA, uniqueId, TWO_POINTS, EMPTY } from "../../../../core/utils/UtilsString";
 import { Field } from "../../../beans/query/Field";
 import { Filter } from "../../../beans/query/Filter";
 import { Group } from "../../../beans/query/Group";
@@ -95,10 +95,10 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
             }
         } else {
             // All fiedls 
-            arrayFieldsSelect.push(this.getTableNameBuildORM());
+            arrayFieldsSelect.push(DEFAULT_ALIAS_TABLE_QUERY);
         }
 
-        // Select fields adn put in map params 
+        // Select fields and put in map params 
         putQueryBuilderMapParams(mapParams, findQueryBuilderMapParams(mapParams).select(arrayFieldsSelect));
     }
 
@@ -106,7 +106,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
      * @override
      */
     async applyFrom(mapParams: {}): Promise<void> {
-        putQueryBuilderMapParams(mapParams, findQueryBuilderMapParams(mapParams).from(this.getTableNameBuildORM()));
+        putQueryBuilderMapParams(mapParams, findQueryBuilderMapParams(mapParams).from(this.getTableNameBuildORM(), DEFAULT_ALIAS_TABLE_QUERY));
     }
 
     /**
@@ -300,14 +300,39 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
      * @override
      */
     async applyOrders(mapParams: {}, collectionOrders: Order[]): Promise<void> {
-        throw new Error("Method not implemented.");
+        if (isArrayNotEmpty(collectionOrders)) {
+
+            const mapOrders: { [key: string]: string } = {};
+
+            for (let order of collectionOrders) {
+                let builder = EMPTY;
+
+                // Alias for order 
+                if (order.alias != undefined && isNotEmpty(order.alias)) {
+                    builder = builder + order.alias + DOT + order.field;
+                    // Default alias
+                } else {
+                    builder = builder + DEFAULT_ALIAS_TABLE_QUERY + DOT + order.field;
+                }
+
+                mapOrders[builder] = order.orderType;
+            }
+
+            // add orders
+            putQueryBuilderMapParams(mapParams, findQueryBuilderMapParams(mapParams).orderBy(mapOrders));
+        }
     }
 
     /**
      * @override
      */
     async applyLimit(mapParams: {}, limit: Limit): Promise<void> {
-        throw new Error("Method not implemented.");
+        let queryBuilder = findQueryBuilderMapParams(mapParams);
+
+        queryBuilder = queryBuilder.offset(limit.start);
+        queryBuilder = queryBuilder.limit(limit.end);
+
+        putQueryBuilderMapParams(mapParams, queryBuilder);
     }
 
     /**
@@ -331,12 +356,12 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
 
         // Apply groups 
         await this.applyGroups(mapParams, collectionGroups);
-        
+
         // Apply limit
         await this.applyLimit(mapParams, limit);
 
         // List data
-        const data: T[] = findQueryBuilderMapParams(mapParams).getMany();
+        const data: T[] = await findQueryBuilderMapParams(mapParams).getMany();
 
         // Remove query builder map params
         this.removeQueryBuilderMapParams(mapParams);
@@ -344,11 +369,47 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
         return data;
     }
 
-    async count(mapParams: {}, collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[], limit: Limit): Promise<number> {
-        throw new Error("Method not implemented.");
+    /**
+    * @override
+    */
+    async count(mapParams: {}, collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[]): Promise<number> {
+
+        // create query builder and punt in map params
+        this.createQueryBuilderAndPutInMapParams(mapParams);
+
+        const collectionFields: Field[] = [];
+
+        const countField: Field = new Field("");
+
+        countField.customField = " count(1) ";
+
+        collectionFields.push(countField)
+
+        // Apply fields
+        await this.applyFields(mapParams, collectionFields);
+
+        // Apply from
+        await this.applyFrom(mapParams);
+
+        // Apply joins
+        await this.applyJoins(mapParams, collectionJoins);
+
+        // Apply filters
+        await this.applyFilters(mapParams, collectionFilters, true);
+
+        // Apply groups 
+        await this.applyGroups(mapParams, collectionGroups);
+
+        // Count data
+        const count: number = await findQueryBuilderMapParams(mapParams).getRawOne();
+
+        return count;
     }
 
 
+    /**
+    * @override
+    */
     getTableNameBuildORM(): string {
         throw new Error("Method not implemented.");
     }
