@@ -55,7 +55,7 @@ export interface IBaseCrudDao<T> {
      * @param collectionJoins for entity
      * @return data find by pk
      */
-    findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[] | undefined | null,): Promise<T>;
+    findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[]): Promise<T | undefined>;
 
     /**
      * Method for generate new instace data
@@ -65,4 +65,10 @@ export interface IBaseCrudDao<T> {
      * @return instace data
      */
     newInstace(mapParams: {}): Promise<T>;
+
+    /**
+    * Method for get pk filed name
+    * @returns field pk name
+    */
+    getPKFieldName(): string;
 }

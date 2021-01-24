@@ -1,9 +1,9 @@
 import { Column, createConnection, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Limit } from "../../lib/dataaccess/beans/query/Limit";
-import { BaseSearchSQLTypeOrmDaoImpl } from "../../lib/dataaccess/typeorm/dao/impl/BaseSearchSQLTypeOrmDaoImpl";
+import { BaseCrudSQLTypeOrmDaoImpl } from "../../lib/dataaccess/typeorm/dao/impl/BaseCrudSQLTypeOrmDaoImpl";
 import { BaseSearchSQLTypeOrmServiceImpl } from "../../lib/dataaccess/typeorm/service/impl/BaseSearchSQLTypeOrmServiceImpl";
 
-@Entity()
+@Entity("test")
 class Test {
 
     @PrimaryGeneratedColumn()
@@ -13,7 +13,7 @@ class Test {
     code!: string;
 }
 
-class TestDaoImpl extends BaseSearchSQLTypeOrmDaoImpl<Test>{
+class TestDaoImpl extends BaseCrudSQLTypeOrmDaoImpl<Test>{
     getTableNameBuildORM() {
         return "test";
     }
