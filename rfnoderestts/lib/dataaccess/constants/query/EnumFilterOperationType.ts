@@ -1,7 +1,7 @@
 /**
  *  Enum for condition operators
  */
-enum EnumFilterOperationType {
+export enum EnumFilterOperationType {
 
     AND = "AND",
 

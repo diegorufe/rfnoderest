@@ -3,12 +3,14 @@ import { canBeDictionary, isArrayNotEmpty, isNotNull, isNull } from "../../../co
 import { Transaction } from "../../beans/transactions/Transaction";
 import { createTransaction } from "../../utils/UtilsTransactions";
 import { applyFunctionWithHandlerError } from "../../../core/utils/UtilsError";
+import { EnumTransactionsTypes } from "../../constants/transactions/EnumTransactionsTypes";
+import { EnumParamsBuildQueryDataAccess } from "../../constants/core/EnumParamsBuildQueryDataAccess";
 
 /**
  * Decorator for indicante service have a transaction 
  * @param enumTransactionType indicates transaction type for service method
  */
-export function Transactional(enumTransactionType: EnumTransactionTypes) {
+export function Transactional(enumTransactionType: EnumTransactionsTypes) {
     return function (
         target: any,
         propertyKey: string,
@@ -41,26 +43,28 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
                     switch (enumTransactionType) {
 
                         // No transaction 
-                        case EnumTransactionTypes.NO_TRANSACTION:
+                        case EnumTransactionsTypes.NO_TRANSACTION:
                             mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = null;
                             break;
 
                         // Required. Find if not exists create
-                        case EnumTransactionTypes.REQUIRED:
+                        case EnumTransactionsTypes.REQUIRED:
                             haveCreateTransaction = !(EnumParamsBuildQueryDataAccess.TRANSACTION in mapParams);
                             transactional = true;
-                            if (!haveCreateTransaction) {
-                                transaction = mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION];
+                            if (haveCreateTransaction) {
+                                transaction = createTransaction();
+                                mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = transaction;
                             } else {
-                                mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = createTransaction();
+                                transaction = mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION];
                             }
                             break;
 
                         // Required new always create transaction
-                        case EnumTransactionTypes.REQUIRED_NEW:
+                        case EnumTransactionsTypes.REQUIRED_NEW:
                             haveCreateTransaction = true;
                             transactional = true;
-                            mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = createTransaction();
+                            transaction = createTransaction();
+                            mapParams[EnumParamsBuildQueryDataAccess.TRANSACTION] = transaction;
                             break;
                     }
                 }
@@ -91,6 +95,7 @@ export function Transactional(enumTransactionType: EnumTransactionTypes) {
                 }
             } catch (exception) {
                 haveError = true;
+                console.log(exception);
                 throw exception;
             } finally {
                 if (transactional) {

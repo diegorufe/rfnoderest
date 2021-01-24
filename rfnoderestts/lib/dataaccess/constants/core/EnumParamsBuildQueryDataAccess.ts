@@ -2,7 +2,7 @@
 /**
  * Enum for define params pass map params build query data access
  */
-enum EnumParamsBuildQueryDataAccess {
+export enum EnumParamsBuildQueryDataAccess {
 
     UNDEFINED = "",
 

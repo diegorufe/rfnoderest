@@ -1,7 +1,7 @@
 /**
  * Filter types for query
  */
-enum EnumFilterTypes {
+export enum EnumFilterTypes {
 
     EQUAL = "=",
 

@@ -2,7 +2,7 @@
 /**
  * Enum for types transactions
  */
-enum EnumTransactionTypes {
+export enum EnumTransactionsTypes {
 
     /**
      * If transaction dont exists create it 

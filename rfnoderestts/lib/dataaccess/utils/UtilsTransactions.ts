@@ -1,5 +1,6 @@
 import { getConnection } from "typeorm";
 import { Transaction } from "../beans/transactions/Transaction";
+import { EnumParamsBuildQueryDataAccess } from "../constants/core/EnumParamsBuildQueryDataAccess";
 
 /**
  * Method for create transaction. By the moment only works with typeOrm
@@ -23,7 +24,7 @@ export function createTransaction(): Transaction {
  * @param transaction 
  */
 export function createQueryBuilderFromTransaction(transaction: Transaction) {
-
+    return transaction.queryRunner.manager.createQueryBuilder();
 }
 
 /**

@@ -1,7 +1,7 @@
 /**
  *  Enum for join types
  */
-enum EnumJoinTypes {
+export enum EnumJoinTypes {
 
     NNER_JOIN = "INNER JOIN",
 

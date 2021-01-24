@@ -9,6 +9,10 @@ import { Order } from "../../../beans/query/Order";
 import { DEFAULT_ALIAS_TABLE_QUERY, OPEN_BRACKET, CLOSE_BRACKET } from "../../../constants/core/ConstantsDataAccess";
 import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
 import { createQueryBuilderFromTransaction, findTransactionMapParams, findQueryBuilderMapParams, putQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
+import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOperationType';
+import { EnumFilterTypes } from '../../../constants/query/EnumFilterTypes';
+import { EnumJoinTypes } from '../../../constants/query/EnumJoinTypes';
+import { EnumParamsBuildQueryDataAccess } from "../../../constants/core/EnumParamsBuildQueryDataAccess";
 
 /**
  * Base search SQL dao implementantion for type orm
@@ -91,6 +95,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
 
                 builder = builder + SPACE;
 
+                arrayFieldsSelect.push(builder);
 
             }
         } else {
@@ -401,7 +406,16 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
         await this.applyGroups(mapParams, collectionGroups);
 
         // Count data
-        const count: number = await findQueryBuilderMapParams(mapParams).getRawOne();
+        const countMap: { [key: string]: number } = await findQueryBuilderMapParams(mapParams).getRawOne();
+
+        let count: number = 0;
+
+        if (countMap != undefined) {
+            for (let key in countMap) {
+                count = countMap[key];
+                break;
+            }
+        }
 
         return count;
     }

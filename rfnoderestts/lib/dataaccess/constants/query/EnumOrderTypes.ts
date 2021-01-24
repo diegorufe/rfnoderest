@@ -1,7 +1,7 @@
 /**
  *  Enum for order types
  */
-enum EnumOrderTypes {
+export enum EnumOrderTypes {
 
     ASC = "ASC",
 

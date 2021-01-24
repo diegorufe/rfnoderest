@@ -7,6 +7,7 @@ import { Order } from "../../../beans/query/Order";
 import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
 import { IBaseSearchService } from "../../../service/IBaseSearchService";
 import { Transactional } from "../../decorators/TransactionalDecorator";
+import { EnumTransactionsTypes } from "../../../constants/transactions/EnumTransactionsTypes";
 
 /**
  * Base class implementation for service serach sql type orm
@@ -26,7 +27,7 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
     /**
      * @override
      */
-    @Transactional(EnumTransactionTypes.REQUIRED)
+    @Transactional(EnumTransactionsTypes.REQUIRED)
     async list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[], collectionJoins: Join[], collectionOrders: Order[], collectionGroups: Group[], limit: Limit): Promise<T[]> {
         return await this.getDao().list(mapParams, collectionFields, collectionFilters, collectionJoins, collectionOrders, collectionGroups, limit);
     }
@@ -34,7 +35,7 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
     /**
      * @override
      */
-    @Transactional(EnumTransactionTypes.REQUIRED)
+    @Transactional(EnumTransactionsTypes.REQUIRED)
     async count(mapParams: {}, collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[]): Promise<number> {
         return await this.getDao().count(mapParams, collectionFilters, collectionJoins, collectionGroups);
     }

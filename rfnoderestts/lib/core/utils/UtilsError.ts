@@ -56,8 +56,8 @@ export async function applyFunctionWithHandlerError(fn: Function): Promise<Repon
     let result = fn.apply(fn, arguments);
     if (
       isNotNull(result) &&
-      typeof result.then.toLowerCase() === "function" &&
-      typeof result.catch.toLowerCase() === "function"
+      typeof result.then === "function" &&
+      typeof result.catch === "function"
     ) {
       try {
         response.data = await result;
