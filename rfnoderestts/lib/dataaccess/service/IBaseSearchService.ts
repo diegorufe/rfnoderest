@@ -1,3 +1,5 @@
+import { RequestBrowser } from "../beans/core/RequestBrowser";
+import { ResponseBrowser } from "../beans/core/ResponseBrowser";
 import { Field } from "../beans/query/Field";
 import { Filter } from "../beans/query/Filter";
 import { Group } from "../beans/query/Group";
@@ -43,6 +45,14 @@ export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> {
         collectionGroups: Group[]): Promise<number>
 
     /**
+     * Method for browser operation
+     * @param mapParams  extra params apply for count
+     * @param requestBrowser data request browser
+     * @param mapParamsRequest extra params request
+     */
+    browser(mapParams: {}, requestBrowser: RequestBrowser, mapParamsRequest: {}): Promise<ResponseBrowser<T>>;
+
+    /**
      * Method for get dao
      * @returns dao
      */
@@ -53,4 +63,6 @@ export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> {
      * @param dao to set
      */
     setDao(dao: DAO): void;
+
+
 }
