@@ -28,6 +28,14 @@ export function createQueryBuilderFromTransaction(transaction: Transaction) {
 }
 
 /**
+ * Function for create enity manager from transaction
+ * @param transaction 
+ */
+export function createEntityManagerrFromTransaction(transaction: Transaction) {
+    return transaction.queryRunner.manager;
+}
+
+/**
  * Method for find transaction in map params
  * @param mapParams for find transaction
  */
@@ -50,4 +58,12 @@ export function findQueryBuilderMapParams(mapParams: { [key: string]: any }) {
  */
 export function putQueryBuilderMapParams(mapParams: { [key: string]: any }, queryBuilder: any) {
     mapParams[EnumParamsBuildQueryDataAccess.QUERY_BUILDER] = queryBuilder;
+}
+
+/**
+ * Method for find entity manager map params 
+ * @param mapParams for find entity manager
+ */
+export function findEntityManagerMapParams(mapParams: { [key: string]: any }) {
+    return mapParams[EnumParamsBuildQueryDataAccess.ENTITY_MANAGER];
 }

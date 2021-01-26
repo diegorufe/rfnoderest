@@ -8,7 +8,7 @@ import { Limit } from "../../../beans/query/Limit";
 import { Order } from "../../../beans/query/Order";
 import { DEFAULT_ALIAS_TABLE_QUERY, OPEN_BRACKET, CLOSE_BRACKET } from "../../../constants/core/ConstantsDataAccess";
 import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
-import { createQueryBuilderFromTransaction, findTransactionMapParams, findQueryBuilderMapParams, putQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
+import { createQueryBuilderFromTransaction, findTransactionMapParams, findQueryBuilderMapParams, putQueryBuilderMapParams, createEntityManagerrFromTransaction } from "../../../utils/UtilsTransactions";
 import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOperationType';
 import { EnumFilterTypes } from '../../../constants/query/EnumFilterTypes';
 import { EnumJoinTypes } from '../../../constants/query/EnumJoinTypes';
@@ -27,6 +27,16 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
     createQueryBuilderAndPutInMapParams(mapParams: { [key: string]: any }) {
         // Create query build and put in map params
         mapParams[EnumParamsBuildQueryDataAccess.QUERY_BUILDER] = createQueryBuilderFromTransaction(findTransactionMapParams(mapParams));
+    }
+
+    /**
+    * Method for create entity manager and put in map params 
+    * @param transaction for create entity manager
+    * @param mapParams for put entity manager
+    */
+    createEntityManagerAndPutInMapParams(mapParams: { [key: string]: any }) {
+        // Create query build and put in map params
+        mapParams[EnumParamsBuildQueryDataAccess.ENTITY_MANAGER] = createEntityManagerrFromTransaction(findTransactionMapParams(mapParams));
     }
 
     /**
@@ -221,7 +231,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
             // If fist level apply query and params. Else if call this method from this
             if (firstLevel) {
                 let queryBuiler = findQueryBuilderMapParams(mapParams);
-                queryBuiler = queryBuiler.where(builder, { name: mapParamsApplyFilters })
+                queryBuiler = queryBuiler.where(builder, mapParamsApplyFilters)
                 putQueryBuilderMapParams(mapParams, queryBuiler);
             }
 

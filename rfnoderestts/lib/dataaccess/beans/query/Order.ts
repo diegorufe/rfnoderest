@@ -1,3 +1,4 @@
+import { EnumOrderTypes } from "../../constants/query/EnumOrderTypes";
 
 /**
  * Class for apply order in queries

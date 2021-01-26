@@ -1,4 +1,6 @@
 import { isNull } from "../../../core/utils/UtilsCommons";
+import { EnumFilterOperationType } from "../../constants/query/EnumFilterOperationType";
+import { EnumFilterTypes } from "../../constants/query/EnumFilterTypes";
 
 
 /**

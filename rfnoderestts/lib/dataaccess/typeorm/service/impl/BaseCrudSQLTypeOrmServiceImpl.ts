@@ -71,7 +71,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      * @override
      */
     async newInstace(mapParams: {}): Promise<T> {
-        throw new Error("Method not implemented.");
+        return await this.getDao().newInstace(mapParams);
     }
 
 

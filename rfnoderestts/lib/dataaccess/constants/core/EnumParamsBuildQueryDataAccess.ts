@@ -16,4 +16,9 @@ export enum EnumParamsBuildQueryDataAccess {
      */
     QUERY_BUILDER = "QUERY_BUILDER",
 
+     /**
+     * For get entity manager. See TypeOrm EntityManager
+     */
+    ENTITY_MANAGER = "ENTITY_MANAGER",
+
 }

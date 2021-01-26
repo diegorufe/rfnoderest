@@ -1,3 +1,4 @@
+import { EnumJoinTypes } from "../../constants/query/EnumJoinTypes";
 
 /**
  * Class for joinin queries

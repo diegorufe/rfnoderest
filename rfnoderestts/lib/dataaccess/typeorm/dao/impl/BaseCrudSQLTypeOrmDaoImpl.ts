@@ -4,7 +4,7 @@ import { Filter } from "../../../beans/query/Filter";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { IBaseCrudDao } from "../../../dao/IBaseCrudDao";
-import { findQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
+import { findEntityManagerMapParams, findQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
 import { BaseSearchSQLTypeOrmDaoImpl } from "./BaseSearchSQLTypeOrmDaoImpl";
 
 /**
@@ -17,8 +17,8 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      */
     async add(mapParams: {}, data: T): Promise<T> {
         // create query builder and punt in map params
-        this.createQueryBuilderAndPutInMapParams(mapParams);
-        const dataReturn = await findQueryBuilderMapParams(mapParams).insert(data);
+        this.createEntityManagerAndPutInMapParams(mapParams);
+        const dataReturn = await findEntityManagerMapParams(mapParams).save(data);
         return dataReturn;
     }
 
@@ -27,8 +27,8 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      */
     async edit(mapParams: {}, data: T): Promise<T> {
         // create query builder and punt in map params
-        this.createQueryBuilderAndPutInMapParams(mapParams);
-        const dataReturn = await findQueryBuilderMapParams(mapParams).save(data);
+        this.createEntityManagerAndPutInMapParams(mapParams);
+        const dataReturn = await findEntityManagerMapParams(mapParams).save(data);
         return dataReturn;
     }
 
@@ -37,8 +37,8 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      */
     async delete(mapParams: {}, data: T): Promise<boolean> {
         // create query builder and punt in map params
-        this.createQueryBuilderAndPutInMapParams(mapParams);
-        await findQueryBuilderMapParams(mapParams).remove(data);
+        this.createEntityManagerAndPutInMapParams(mapParams);
+        await findEntityManagerMapParams(mapParams).remove(data);
         return true;
     }
 
