@@ -4,6 +4,7 @@ import { Filter } from "../../../beans/query/Filter";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { IBaseCrudDao } from "../../../dao/IBaseCrudDao";
+import { findQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
 import { BaseSearchSQLTypeOrmDaoImpl } from "./BaseSearchSQLTypeOrmDaoImpl";
 
 /**
@@ -15,28 +16,37 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      * @override
      */
     async add(mapParams: {}, data: T): Promise<T> {
-        throw new Error("Method not implemented.");
+        // create query builder and punt in map params
+        this.createQueryBuilderAndPutInMapParams(mapParams);
+        const dataReturn = await findQueryBuilderMapParams(mapParams).insert(data);
+        return dataReturn;
     }
 
     /**
      * @override
      */
     async edit(mapParams: {}, data: T): Promise<T> {
-        throw new Error("Method not implemented.");
+        // create query builder and punt in map params
+        this.createQueryBuilderAndPutInMapParams(mapParams);
+        const dataReturn = await findQueryBuilderMapParams(mapParams).save(data);
+        return dataReturn;
     }
 
     /**
      * @override
      */
-    async delete(mapParams: {}, data: T): Promise<T> {
-        throw new Error("Method not implemented.");
+    async delete(mapParams: {}, data: T): Promise<boolean> {
+        // create query builder and punt in map params
+        this.createQueryBuilderAndPutInMapParams(mapParams);
+        await findQueryBuilderMapParams(mapParams).remove(data);
+        return true;
     }
 
     /**
      * @override
      */
-    async read(mapParams: {}, pkValue: any): Promise<T> {
-        throw new Error("Method not implemented.");
+    async read(mapParams: {}, pkValue: any): Promise<T | undefined> {
+        return await this.findByPk(mapParams, pkValue, []);
     }
 
     /**

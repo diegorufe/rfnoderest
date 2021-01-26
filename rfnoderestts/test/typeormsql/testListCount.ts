@@ -1,7 +1,7 @@
 import { Column, createConnection, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Limit } from "../../lib/dataaccess/beans/query/Limit";
 import { BaseCrudSQLTypeOrmDaoImpl } from "../../lib/dataaccess/typeorm/dao/impl/BaseCrudSQLTypeOrmDaoImpl";
-import { BaseSearchSQLTypeOrmServiceImpl } from "../../lib/dataaccess/typeorm/service/impl/BaseSearchSQLTypeOrmServiceImpl";
+import { BaseCrudSQLTypeOrmServiceImpl } from "../../lib/dataaccess/typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl";
 
 @Entity("test")
 class Test {
@@ -19,7 +19,7 @@ class TestDaoImpl extends BaseCrudSQLTypeOrmDaoImpl<Test>{
     }
 }
 
-class TestServiceImpl extends BaseSearchSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
+class TestServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
     constructor() {
         super(new TestDaoImpl());
     }
@@ -48,7 +48,7 @@ class TestServiceImpl extends BaseSearchSQLTypeOrmServiceImpl<Test, TestDaoImpl>
 
     const list: Test[] = await testService.list({}, [], [], [], [], [], new Limit(1, 2));
 
-    for(let test of list){
+    for (let test of list) {
         console.log("List data: " + test.code);
     }
 
