@@ -6,8 +6,7 @@ import { IBaseService } from "../../../dataaccess/service/IBaseService";
 export interface IBaseController {
 
     /**
-     * Method for find service by name
-     * @param serviceName for find
+     * Method for get path controller
      */
-    getServiceByName(serviceName: string): IBaseService;
+    getPath(): string;
 }

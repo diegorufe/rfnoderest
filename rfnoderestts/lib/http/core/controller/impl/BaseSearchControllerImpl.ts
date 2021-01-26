@@ -13,17 +13,18 @@ import { BaseControllerImpl } from "./BaseControllerImpl";
  */
 export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>, SERVICE extends IBaseSearchService<T, DAO>> extends BaseControllerImpl implements IBaseSearchController<T, DAO, SERVICE>{
 
-    service?: SERVICE;
+    service: SERVICE;
+
+    constructor(path: string, service: SERVICE) {
+        super(path);
+        this.service = service;
+    }
 
     /**
      * @override
      */
     getService(): SERVICE {
-        // Add service if is undefined
-        if (this.service == undefined) {
-            this.getServiceByName(this.getKeyService());
-        }
-        return this.service!;
+        return this.service;
     }
 
     /**

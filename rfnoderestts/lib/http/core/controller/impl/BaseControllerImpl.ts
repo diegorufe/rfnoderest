@@ -6,9 +6,18 @@ import { IBaseController } from "../IBaseController";
  */
 export abstract class BaseControllerImpl implements IBaseController {
 
+    path: string;
 
-    getServiceByName(serviceName: string): IBaseService {
-        throw new Error("Method not implemented.");
+    constructor(path: string) {
+        this.path = path;
     }
+
+    /**
+     * @override
+     */
+    getPath(): string {
+        return this.path;
+    }
+
 
 }
