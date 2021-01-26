@@ -7,12 +7,13 @@ import { Join } from "../beans/query/Join";
 import { Limit } from "../beans/query/Limit";
 import { Order } from "../beans/query/Order";
 import { IBaseSearchDao } from "../dao/IBaseSearhDao";
+import { IBaseService } from "./IBaseService";
 
 
 /**
  * Base service for search
  */
-export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> {
+export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> extends IBaseService {
 
     /**
     * Method for list data 
