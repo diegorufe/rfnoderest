@@ -244,7 +244,9 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
      * @override
      */
     async applyJoins(mapParams: {}, collectionJoins: Join[]): Promise<void> {
+
         if (isArrayNotEmpty(collectionJoins)) {
+
             let queryBuiler = findQueryBuilderMapParams(mapParams);
 
             // For each join
@@ -252,6 +254,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                 let builderJoin = SPACE;
                 let builderAlias = SPACE;
                 // Custom join query  // TODO
+
                 if (join.customQueryJoin != undefined && isNotEmpty(join.customQueryJoin)) {
 
 
@@ -261,7 +264,8 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                     if (join.alias != undefined && isNotEmpty(join.alias)) {
                         builderJoin = builderJoin + join.alias + DOT + join.field;
                     } else {
-                        builderJoin = builderJoin + DEFAULT_ALIAS_TABLE_QUERY + DOT + join.field;
+                        // Thids dont work
+                        builderJoin =  DEFAULT_ALIAS_TABLE_QUERY + DOT + join.field;
                     }
 
                     // Alias join
@@ -273,7 +277,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
 
                     // Types joins
                     switch (join.joinType) {
-                        case EnumJoinTypes.NNER_JOIN:
+                        case EnumJoinTypes.INNER_JOIN:
                             queryBuiler = queryBuiler.innerJoin(builderJoin, builderAlias);
                             break;
 
@@ -371,6 +375,9 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
 
         // Apply groups 
         await this.applyGroups(mapParams, collectionGroups);
+
+        // Apply orders 
+        await this.applyOrders(mapParams, collectionOrders);
 
         // Apply limit
         await this.applyLimit(mapParams, limit);

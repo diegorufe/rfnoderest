@@ -1,5 +1,7 @@
-import { Column, createConnection, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, createConnection, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Join } from "../../lib/dataaccess/beans/query/Join";
 import { Limit } from "../../lib/dataaccess/beans/query/Limit";
+import { EnumJoinTypes } from "../../lib/dataaccess/constants/query/EnumJoinTypes";
 import { BaseCrudSQLTypeOrmDaoImpl } from "../../lib/dataaccess/typeorm/dao/impl/BaseCrudSQLTypeOrmDaoImpl";
 import { BaseCrudSQLTypeOrmServiceImpl } from "../../lib/dataaccess/typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl";
 
@@ -7,11 +9,36 @@ import { BaseCrudSQLTypeOrmServiceImpl } from "../../lib/dataaccess/typeorm/serv
 class Test {
 
     @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     id!: number;
 
     @Column()
     code!: string;
+
 }
+
+@Entity("testfore")
+class TestFore {
+
+    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
+    id!: number;
+
+    @Column()
+    descr!: string;
+
+    @Column()
+    amount!: number;
+
+    @ManyToOne(() => Test, test => test.id)
+    @JoinColumn({ name: 'testId', referencedColumnName: 'id' })
+    test!: Test;
+
+    @ManyToOne(() => Test, testBis => testBis.id)
+    @JoinColumn({ name: 'testIdBis', referencedColumnName: 'id' })
+    testBis!: Test;
+}
+
 
 class TestDaoImpl extends BaseCrudSQLTypeOrmDaoImpl<Test>{
     getTableNameBuildORM() {
@@ -23,9 +50,27 @@ class TestDaoImpl extends BaseCrudSQLTypeOrmDaoImpl<Test>{
     }
 }
 
+class TestForeDaoImpl extends BaseCrudSQLTypeOrmDaoImpl<TestFore>{
+    getTableNameBuildORM() {
+        return "testfore";
+    }
+
+    async newInstace(mapParams: {}): Promise<TestFore> {
+        return new TestFore();
+    }
+}
+
 class TestServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
     constructor() {
         super(new TestDaoImpl());
+    }
+
+
+}
+
+class TestForeServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<TestFore, TestForeDaoImpl>{
+    constructor() {
+        super(new TestForeDaoImpl());
     }
 
 
@@ -40,13 +85,15 @@ class TestServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
         password: "root",
         database: "test",
         entities: [
-            Test
+            Test, TestFore
         ],
         synchronize: false,
         logging: true
     });
 
     const testService = new TestServiceImpl();
+    const testForeService = new TestForeServiceImpl();
+
 
     const count = await testService.count({}, [], [], []);
 
@@ -54,14 +101,25 @@ class TestServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
 
     const list: Test[] = await testService.list({}, [], [], [], [], [], new Limit(1, 2));
 
+    console.log(list);
+
     for (let test of list) {
         console.log("List data: " + test.code);
+    }
+
+
+    const listFore: TestFore[] = await testForeService.list({}, [], [], [new Join("test", EnumJoinTypes.INNER_JOIN_FETCH)], [], [], new Limit(0, 2));
+
+    for (let testFore of listFore) {
+        console.log("List data fore: ");
+        console.log(testFore);
+        console.log(testFore.test.id);
     }
 
     const testInsert = false;
 
     if (testInsert) {
-        const dataInsert = await testService.newInstace({});
+        const dataInsert = await testService.loadNew({});
         dataInsert.code = "INSERT"
         const data = await testService.add({}, dataInsert);
         console.log("Data insert " + data.code);
@@ -70,17 +128,17 @@ class TestServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
     const testUpdate = false;
 
     if (testUpdate) {
-        const dataUpdate = await testService.newInstace({});
+        const dataUpdate = await testService.loadNew({});
         dataUpdate.code = "INSERTU"
         dataUpdate.id = 4;
         const data = await testService.edit({}, dataUpdate);
         console.log("Data update " + data.code);
     }
 
-    const testRead = true;
+    const testRead = false;
 
     if (testRead) {
-        const dataRead = await testService.newInstace({});
+        const dataRead = await testService.loadNew({});
         dataRead.code = "READ"
         dataRead.id = 4;
         const data = await testService.read({}, dataRead.id)
@@ -90,7 +148,7 @@ class TestServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<Test, TestDaoImpl>{
     const testRemove = false;
 
     if (testRemove) {
-        const dataRemove = await testService.newInstace({});
+        const dataRemove = await testService.loadNew({});
         dataRemove.code = "INSERTU"
         dataRemove.id = 4;
         const data = await testService.delete({}, dataRemove);

@@ -7,7 +7,7 @@ export class Join {
 
     field: string;
     alias?: string;
-    joinType: EnumJoinTypes = EnumJoinTypes.NNER_JOIN;
+    joinType: EnumJoinTypes = EnumJoinTypes.INNER_JOIN;
     customQueryJoin?: string;
     aliasJoinField?: string;
 
