@@ -70,7 +70,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     /**
      * @override
      */
-    async newInstace(mapParams: {}): Promise<T> {
+    async loadNew(mapParams: {}): Promise<T> {
         return await this.getDao().newInstace(mapParams);
     }
 

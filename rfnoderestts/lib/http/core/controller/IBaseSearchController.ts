@@ -18,11 +18,6 @@ export interface IBaseSearchController<T, DAO extends IBaseSearchDao<T>, SERVICE
     getService(): SERVICE;
 
     /**
-     * Method for get key service
-     */
-    getKeyService(): string;
-
-    /**
      * Method for count data 
      * @param restRequestBody 
      */

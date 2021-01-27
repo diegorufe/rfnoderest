@@ -71,5 +71,5 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      *                          constants ...
      * @return instace data
      */
-    newInstace(mapParams: {}): Promise<T>;
+    loadNew(mapParams: {}): Promise<T>;
 }

@@ -82,7 +82,7 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
     }
 
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async browser(mapParams: {}, requestBrowser: RequestBrowser, mapParamsRequest: {}): Promise<ResponseBrowser<T>> {
+    async browser(mapParams: {}, requestBrowser: RequestBrowser): Promise<ResponseBrowser<T>> {
         const responseBrowser: ResponseBrowser<T> = new ResponseBrowser();
 
         // Build params build query

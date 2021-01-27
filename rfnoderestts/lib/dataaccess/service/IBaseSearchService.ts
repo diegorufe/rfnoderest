@@ -49,9 +49,8 @@ export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> extends IB
      * Method for browser operation
      * @param mapParams  extra params apply for count
      * @param requestBrowser data request browser
-     * @param mapParamsRequest extra params request
      */
-    browser(mapParams: {}, requestBrowser: RequestBrowser, mapParamsRequest: {}): Promise<ResponseBrowser<T>>;
+    browser(mapParams: {}, requestBrowser: RequestBrowser): Promise<ResponseBrowser<T>>;
 
     /**
      * Method for get dao
