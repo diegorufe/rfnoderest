@@ -1,4 +1,5 @@
 import { Column, createConnection, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Field } from "../../lib/dataaccess/beans/query/Field";
 import { Join } from "../../lib/dataaccess/beans/query/Join";
 import { Limit } from "../../lib/dataaccess/beans/query/Limit";
 import { EnumJoinTypes } from "../../lib/dataaccess/constants/query/EnumJoinTypes";
@@ -115,6 +116,17 @@ class TestForeServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<TestFore, TestFo
         console.log(testFore);
         console.log(testFore.test.id);
     }
+
+    const listFore2: TestFore[] = await testForeService.list({}, [new Field("id"), new Field("descr")], [], [], [], [], new Limit(0, 2));
+
+    for (let testFore of listFore2) {
+        console.log("List data fore 2: ");
+        console.log(testFore);
+        console.log(testFore.test.id);
+    }
+
+    const findPk: TestFore | undefined = await testForeService.findByPk({}, 1, []);
+    console.log(findPk);
 
     const testInsert = false;
 

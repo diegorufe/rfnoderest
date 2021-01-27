@@ -4,7 +4,7 @@
  */
 export class Field {
 
-   
+
     name: string;
     aliasTable?: string;
     aliasField?: string;
@@ -15,6 +15,13 @@ export class Field {
      * @param name for field
      */
     constructor(name: string);
+
+    /**
+     * Constructor field with all params 
+     * @param name for field 
+     * @param aliasTable  build query 
+     */
+    constructor(name: string, aliasTable?: string);
 
     /**
      * Constructor field with all params 

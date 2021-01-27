@@ -6,7 +6,7 @@ import { Group } from "../../../beans/query/Group";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { Order } from "../../../beans/query/Order";
-import { DEFAULT_ALIAS_TABLE_QUERY, OPEN_BRACKET, CLOSE_BRACKET } from "../../../constants/core/ConstantsDataAccess";
+import { DEFAULT_ALIAS_TABLE_QUERY, FIELD_SEPARATOR, OPEN_BRACKET, CLOSE_BRACKET } from "../../../constants/core/ConstantsDataAccess";
 import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
 import { createQueryBuilderFromTransaction, findTransactionMapParams, findQueryBuilderMapParams, putQueryBuilderMapParams, createEntityManagerrFromTransaction } from "../../../utils/UtilsTransactions";
 import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOperationType';
@@ -98,7 +98,12 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                     if (field.aliasField != undefined && isNotEmpty(field.aliasField)) {
                         builder = builder + SPACE + field.aliasField;
                     } else {
-                        builder = builder + SPACE + field.name;
+                        if (field.aliasTable != undefined && isNotEmpty(field.aliasTable)) {
+                            builder = builder + SPACE + field.aliasTable + FIELD_SEPARATOR + field.name;
+                        } else {
+                            builder = builder + SPACE + DEFAULT_ALIAS_TABLE_QUERY + FIELD_SEPARATOR + field.name;
+                        }
+
                     }
 
                 }
@@ -265,7 +270,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                         builderJoin = builderJoin + join.alias + DOT + join.field;
                     } else {
                         // Thids dont work
-                        builderJoin =  DEFAULT_ALIAS_TABLE_QUERY + DOT + join.field;
+                        builderJoin = DEFAULT_ALIAS_TABLE_QUERY + DOT + join.field;
                     }
 
                     // Alias join
