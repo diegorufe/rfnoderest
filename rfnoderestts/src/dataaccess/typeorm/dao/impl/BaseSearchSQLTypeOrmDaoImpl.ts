@@ -1,18 +1,17 @@
-import { isArrayEmpty, isArrayNotEmpty, isNotNull, isNull } from "../../../../core/utils/UtilsCommons";
-import { DOT, isNotEmpty, SPACE, COMA, uniqueId, TWO_POINTS, EMPTY } from "../../../../core/utils/UtilsString";
+import { isArrayEmpty, isArrayNotEmpty, isNull, DOT, EMPTY, isNotEmpty, SPACE, TWO_POINTS, uniqueId } from "rfcorets";
 import { Field } from "../../../beans/query/Field";
 import { Filter } from "../../../beans/query/Filter";
 import { Group } from "../../../beans/query/Group";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { Order } from "../../../beans/query/Order";
-import { DEFAULT_ALIAS_TABLE_QUERY, FIELD_SEPARATOR, OPEN_BRACKET, CLOSE_BRACKET } from "../../../constants/core/ConstantsDataAccess";
-import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
-import { createQueryBuilderFromTransaction, findTransactionMapParams, findQueryBuilderMapParams, putQueryBuilderMapParams, createEntityManagerrFromTransaction } from "../../../utils/UtilsTransactions";
+import { CLOSE_BRACKET, DEFAULT_ALIAS_TABLE_QUERY, OPEN_BRACKET } from "../../../constants/core/ConstantsDataAccess";
+import { EnumParamsBuildQueryDataAccess } from "../../../constants/core/EnumParamsBuildQueryDataAccess";
 import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOperationType';
 import { EnumFilterTypes } from '../../../constants/query/EnumFilterTypes';
 import { EnumJoinTypes } from '../../../constants/query/EnumJoinTypes';
-import { EnumParamsBuildQueryDataAccess } from "../../../constants/core/EnumParamsBuildQueryDataAccess";
+import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
+import { createEntityManagerrFromTransaction, createQueryBuilderFromTransaction, findQueryBuilderMapParams, findTransactionMapParams, putQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
 
 /**
  * Base search SQL dao implementantion for type orm

@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
+    "rfcorets": "file:../rfcorets",
     "typeorm": "^0.2.30"
   },
   "devDependencies": {

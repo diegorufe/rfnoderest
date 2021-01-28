@@ -1,8 +1,6 @@
-import { ReponseMethod } from "../../../core/beans/ResponseMethod";
-import { canBeDictionary, isArrayNotEmpty, isNotNull, isNull } from "../../../core/utils/UtilsCommons";
+import { canBeDictionary, isArrayNotEmpty, isNotNull, ReponseMethod, applyFunctionWithHandlerError } from "rfcorets";
 import { Transaction } from "../../beans/transactions/Transaction";
 import { createTransaction } from "../../utils/UtilsTransactions";
-import { applyFunctionWithHandlerError } from "../../../core/utils/UtilsError";
 import { EnumTransactionsTypes } from "../../constants/transactions/EnumTransactionsTypes";
 import { EnumParamsBuildQueryDataAccess } from "../../constants/core/EnumParamsBuildQueryDataAccess";
 

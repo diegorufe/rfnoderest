@@ -1,10 +1,9 @@
-import { isArrayNotEmpty } from "../../../../core/utils/UtilsCommons";
-import { Field } from "../../../beans/query/Field";
+import { isArrayNotEmpty } from "rfcorets";
 import { Filter } from "../../../beans/query/Filter";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { IBaseCrudDao } from "../../../dao/IBaseCrudDao";
-import { findEntityManagerMapParams, findQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
+import { findEntityManagerMapParams } from "../../../utils/UtilsTransactions";
 import { BaseSearchSQLTypeOrmDaoImpl } from "./BaseSearchSQLTypeOrmDaoImpl";
 
 /**

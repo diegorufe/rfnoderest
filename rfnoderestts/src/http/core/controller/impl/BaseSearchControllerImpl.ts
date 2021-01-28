@@ -3,8 +3,8 @@ import { ResponseBrowser } from "../../../../dataaccess/beans/core/ResponseBrows
 import { Limit } from "../../../../dataaccess/beans/query/Limit";
 import { IBaseSearchDao } from "../../../../dataaccess/dao/IBaseSearhDao";
 import { IBaseSearchService } from "../../../../dataaccess/service/IBaseSearchService";
-import { RestRequestBody } from "../../../core/beans/RestRequestBody";
-import { RestRequestResponse } from "../../../core/beans/RestRequestResponse";
+import { RestRequestBody } from "../../beans/RestRequestBody";
+import { RestRequestResponse } from "../../beans/RestRequestResponse";
 import { IBaseSearchController } from "../IBAseSearchController";
 import { BaseControllerImpl } from "./BaseControllerImpl";
 
