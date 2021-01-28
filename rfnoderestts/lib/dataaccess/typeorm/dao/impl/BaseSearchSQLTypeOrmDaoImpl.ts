@@ -13,7 +13,6 @@ import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOper
 import { EnumFilterTypes } from '../../../constants/query/EnumFilterTypes';
 import { EnumJoinTypes } from '../../../constants/query/EnumJoinTypes';
 import { EnumParamsBuildQueryDataAccess } from "../../../constants/core/EnumParamsBuildQueryDataAccess";
-import { IClassPropertiesTypesDefinition } from "../../../../core/features/IClassPropertiesTypesDefinition";
 
 /**
  * Base search SQL dao implementantion for type orm
@@ -98,20 +97,13 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                     // Check alias field
                     if (field.aliasField != undefined && isNotEmpty(field.aliasField)) {
                         builder = builder + SPACE + field.aliasField;
-                    } else {
-                        if (field.aliasTable != undefined && isNotEmpty(field.aliasTable)) {
-                            builder = builder + SPACE + field.aliasTable + FIELD_SEPARATOR + field.name;
-                        } else {
-                            builder = builder + SPACE + DEFAULT_ALIAS_TABLE_QUERY + FIELD_SEPARATOR + field.name;
-                        }
-
                     }
 
                 }
 
                 builder = builder + SPACE;
 
-                arrayFieldsSelect.push(builder);
+                arrayFieldsSelect.push(builder.trim());
 
             }
         } else {
@@ -388,29 +380,9 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
         // Apply limit
         await this.applyLimit(mapParams, limit);
 
-        let data: T[] = [];
-
         // List data
-        if (isArrayEmpty(collectionFields)) {
-            data = await findQueryBuilderMapParams(mapParams).getMany();
-        } else {
-            const arrayRawData = await findQueryBuilderMapParams(mapParams).getRawMany();
+        const data = await findQueryBuilderMapParams(mapParams).getMany();
 
-            if (isArrayNotEmpty(arrayRawData)) {
-
-                let instance: any = await this.newInstace({});
-
-                let instanceColumnDefiniton = instance as any as IClassPropertiesTypesDefinition;
-
-                instance.id = 2;
-
-                data.push(<T>instance);
-
-                for (let rawData of arrayRawData) {
-                    // TODO store data in objects
-                }
-            }
-        }
 
         // Remove query builder map params
         this.removeQueryBuilderMapParams(mapParams);
