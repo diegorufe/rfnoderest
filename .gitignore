@@ -8,3 +8,5 @@
 
 /log
 /.project
+**/dist
+/dist/**
