@@ -118,6 +118,14 @@ export interface IBaseSearchDao<T> {
         collectionJoins: Join[],
         collectionGroups: Group[]): Promise<number>
 
+    /**
+     * Method for generate new instace data
+     * 
+     * @param mapParams is a map for params send to method, example builder,
+     *                          constants ...
+     * @return instace data
+     */
+    newInstace(mapParams: {}): Promise<T>;
 
     /**
      * Method for get table name for buld queries orm

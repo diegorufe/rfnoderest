@@ -1,4 +1,4 @@
-import { isArrayEmpty, isArrayNotEmpty, isNull } from "../../../../core/utils/UtilsCommons";
+import { isArrayEmpty, isArrayNotEmpty, isNotNull, isNull } from "../../../../core/utils/UtilsCommons";
 import { DOT, isNotEmpty, SPACE, COMA, uniqueId, TWO_POINTS, EMPTY } from "../../../../core/utils/UtilsString";
 import { Field } from "../../../beans/query/Field";
 import { Filter } from "../../../beans/query/Filter";
@@ -13,6 +13,7 @@ import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOper
 import { EnumFilterTypes } from '../../../constants/query/EnumFilterTypes';
 import { EnumJoinTypes } from '../../../constants/query/EnumJoinTypes';
 import { EnumParamsBuildQueryDataAccess } from "../../../constants/core/EnumParamsBuildQueryDataAccess";
+import { IClassPropertiesTypesDefinition } from "../../../../core/features/IClassPropertiesTypesDefinition";
 
 /**
  * Base search SQL dao implementantion for type orm
@@ -387,8 +388,29 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
         // Apply limit
         await this.applyLimit(mapParams, limit);
 
+        let data: T[] = [];
+
         // List data
-        const data: T[] = await findQueryBuilderMapParams(mapParams).getMany();
+        if (isArrayEmpty(collectionFields)) {
+            data = await findQueryBuilderMapParams(mapParams).getMany();
+        } else {
+            const arrayRawData = await findQueryBuilderMapParams(mapParams).getRawMany();
+
+            if (isArrayNotEmpty(arrayRawData)) {
+
+                let instance: any = await this.newInstace({});
+
+                let instanceColumnDefiniton = instance as any as IClassPropertiesTypesDefinition;
+
+                instance.id = 2;
+
+                data.push(<T>instance);
+
+                for (let rawData of arrayRawData) {
+                    // TODO store data in objects
+                }
+            }
+        }
 
         // Remove query builder map params
         this.removeQueryBuilderMapParams(mapParams);
@@ -442,6 +464,12 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
         return count;
     }
 
+    /**
+    * @override
+    */
+    async newInstace(mapParams: {}): Promise<T> {
+        throw new Error("Method not implemented.");
+    }
 
     /**
     * @override

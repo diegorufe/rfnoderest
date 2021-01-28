@@ -1,4 +1,6 @@
+import { Interface } from "readline";
 import { Column, createConnection, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { IClassPropertiesTypesDefinition } from "../../lib/core/features/IClassPropertiesTypesDefinition";
 import { Field } from "../../lib/dataaccess/beans/query/Field";
 import { Join } from "../../lib/dataaccess/beans/query/Join";
 import { Limit } from "../../lib/dataaccess/beans/query/Limit";
@@ -6,8 +8,11 @@ import { EnumJoinTypes } from "../../lib/dataaccess/constants/query/EnumJoinType
 import { BaseCrudSQLTypeOrmDaoImpl } from "../../lib/dataaccess/typeorm/dao/impl/BaseCrudSQLTypeOrmDaoImpl";
 import { BaseCrudSQLTypeOrmServiceImpl } from "../../lib/dataaccess/typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl";
 
+
 @Entity("test")
-class Test {
+class Test implements IClassPropertiesTypesDefinition {
+
+    static propsDefinitionTypes: { [key: string]: any } = { 'id': undefined, 'code': undefined };
 
     @PrimaryGeneratedColumn()
     @PrimaryColumn()
@@ -16,10 +21,20 @@ class Test {
     @Column()
     code!: string;
 
+    /**
+     * @override
+     */
+    propsDefinition(): { [key: string]: any; } {
+        return Test.propsDefinitionTypes;
+    }
+
 }
 
+
 @Entity("testfore")
-class TestFore {
+class TestFore implements IClassPropertiesTypesDefinition {
+
+    static propsDefinitionTypes: { [key: string]: any } = { 'id': undefined, 'descr': undefined, "amount": undefined, "test": Test, "testBis": Test, };
 
     @PrimaryGeneratedColumn()
     @PrimaryColumn()
@@ -38,6 +53,14 @@ class TestFore {
     @ManyToOne(() => Test, testBis => testBis.id)
     @JoinColumn({ name: 'testIdBis', referencedColumnName: 'id' })
     testBis!: Test;
+
+    /**
+    * @override
+    */
+    propsDefinition(): { [key: string]: any; } {
+        return TestFore.propsDefinitionTypes;
+    }
+
 }
 
 
@@ -114,10 +137,10 @@ class TestForeServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<TestFore, TestFo
     for (let testFore of listFore) {
         console.log("List data fore: ");
         console.log(testFore);
-        console.log(testFore.test.id);
+        console.log(testFore.test!.id);
     }
 
-    const listFore2: TestFore[] = await testForeService.list({}, [new Field("id"), new Field("descr")], [], [], [], [], new Limit(0, 2));
+    const listFore2: TestFore[] = await testForeService.list({}, [new Field("id"), new Field("descr"), new Field("code", "test")], [], [new Join("test", EnumJoinTypes.INNER_JOIN)], [], [], new Limit(0, 2));
 
     for (let testFore of listFore2) {
         console.log("List data fore 2: ");

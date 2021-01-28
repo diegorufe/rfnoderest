@@ -57,15 +57,7 @@ export interface IBaseCrudDao<T> extends IBaseSearchDao<T> {
      */
     findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[]): Promise<T | undefined>;
 
-    /**
-     * Method for generate new instace data
-     * 
-     * @param mapParams is a map for params send to method, example builder,
-     *                          constants ...
-     * @return instace data
-     */
-    newInstace(mapParams: {}): Promise<T>;
-
+    
     /**
     * Method for get pk filed name
     * @returns field pk name

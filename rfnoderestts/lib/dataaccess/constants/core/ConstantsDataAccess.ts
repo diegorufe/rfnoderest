@@ -4,7 +4,7 @@
  */
 export const DEFAULT_ALIAS_TABLE_QUERY = "DEFAULT_ALIAS_TABLE_QUERY"
 
-export const FIELD_SEPARATOR = "_FIELD_PARATOR_"
+export const FIELD_SEPARATOR = "_FIELD_SEPARATOR_"
 
 /**
  * Open brackets

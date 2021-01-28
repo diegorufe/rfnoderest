@@ -64,13 +64,6 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
     /**
      * @override
      */
-    async newInstace(mapParams: {}): Promise<T> {
-        throw new Error("Method not implemented.");
-    }
-
-    /**
-     * @override
-     */
     getPKFieldName(): string {
         return "id";
     }
