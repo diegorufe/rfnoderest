@@ -18,7 +18,7 @@ export const EMPTY = "";
 /**
  * coma
  */
-export const COMA = "";
+export const COMA = ",";
 
 /**
  * Thow points

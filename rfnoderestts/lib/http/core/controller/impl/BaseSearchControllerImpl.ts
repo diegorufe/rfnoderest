@@ -32,7 +32,7 @@ export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>,
      */
     async count(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<number>> {
         const restRequestResponse: RestRequestResponse<number> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().count(restRequestBody.mapParams || {}, restRequestBody.filters || [], restRequestBody.joins || [], []);
+        restRequestResponse.data = (await this.getService().count(restRequestBody.mapParams || {}, restRequestBody.filters || [], restRequestBody.joins || [], [])).data;
         return restRequestResponse;
     }
 
@@ -41,7 +41,7 @@ export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>,
      */
     async list(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T[]>> {
         const restRequestResponse: RestRequestResponse<T[]> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().list(restRequestBody.mapParams || {}, restRequestBody.fields || [], restRequestBody.filters || [], restRequestBody.joins || [], restRequestBody.orders || [], [], restRequestBody.limit || new Limit(0, 0));
+        restRequestResponse.data = (await this.getService().list(restRequestBody.mapParams || {}, restRequestBody.fields || [], restRequestBody.filters || [], restRequestBody.joins || [], restRequestBody.orders || [], [], restRequestBody.limit || new Limit(0, 0))).data;
         return restRequestResponse;
     }
 
@@ -50,7 +50,7 @@ export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>,
      */
     async browser(restRequestBody: RestRequestBody<RequestBrowser>): Promise<RestRequestResponse<ResponseBrowser<T>>> {
         const restRequestResponse: RestRequestResponse<ResponseBrowser<T>> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().browser(restRequestBody.mapParams || {}, restRequestBody.data || new RequestBrowser());
+        restRequestResponse.data = (await this.getService().browser(restRequestBody.mapParams || {}, restRequestBody.data || new RequestBrowser())).data;
         return restRequestResponse;
     }
 

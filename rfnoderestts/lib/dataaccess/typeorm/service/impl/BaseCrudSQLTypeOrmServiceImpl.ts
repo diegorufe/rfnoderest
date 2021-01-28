@@ -1,15 +1,9 @@
-import { Field } from "../../../beans/query/Field";
-import { Filter } from "../../../beans/query/Filter";
-import { Group } from "../../../beans/query/Group";
+import { ResponseService } from "../../../beans/core/ResponseService";
 import { Join } from "../../../beans/query/Join";
-import { Limit } from "../../../beans/query/Limit";
-import { Order } from "../../../beans/query/Order";
-import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
-import { IBaseSearchService } from "../../../service/IBaseSearchService";
-import { Transactional } from "../../decorators/TransactionalDecorator";
 import { EnumTransactionsTypes } from "../../../constants/transactions/EnumTransactionsTypes";
 import { IBaseCrudDao } from "../../../dao/IBaseCrudDao";
 import { IBaseCrudService } from "../../../service/IBaseCrudService";
+import { Transactional } from "../../decorators/TransactionalDecorator";
 import { BaseSearchSQLTypeOrmServiceImpl } from "./BaseSearchSQLTypeOrmServiceImpl";
 
 /**
@@ -30,48 +24,48 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async add(mapParams: {}, data: T): Promise<T> {
-        return await this.getDao().add(mapParams, data);
+    async add(mapParams: {}, data: T): Promise<ResponseService<T>> {
+        return new ResponseService(await this.getDao().add(mapParams, data));
     }
 
     /**
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async edit(mapParams: {}, data: T): Promise<T> {
-        return await this.getDao().edit(mapParams, data);
+    async edit(mapParams: {}, data: T): Promise<ResponseService<T>> {
+        return new ResponseService(await this.getDao().edit(mapParams, data));
     }
 
     /**
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async delete(mapParams: {}, data: T): Promise<boolean> {
-        return await this.getDao().delete(mapParams, data);
+    async delete(mapParams: {}, data: T): Promise<ResponseService<boolean>> {
+        return new ResponseService(await this.getDao().delete(mapParams, data));
     }
 
     /**
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async read(mapParams: {}, pkValue: any): Promise<T | undefined> {
-        return await this.getDao().read(mapParams, pkValue);
+    async read(mapParams: {}, pkValue: any): Promise<ResponseService<T | undefined>> {
+        return new ResponseService(await this.getDao().read(mapParams, pkValue));
     }
 
     /**
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[]): Promise<T | undefined> {
-        return await this.getDao().findByPk(mapParams, pkValue, collectionJoins);
+    async findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[]): Promise<ResponseService<T | undefined>> {
+        return new ResponseService(await this.getDao().findByPk(mapParams, pkValue, collectionJoins));
     }
 
 
     /**
      * @override
      */
-    async loadNew(mapParams: {}): Promise<T> {
-        return await this.getDao().newInstace(mapParams);
+    async loadNew(mapParams: {}): Promise<ResponseService<T>> {
+        return new ResponseService(await this.getDao().newInstace(mapParams));
     }
 
 

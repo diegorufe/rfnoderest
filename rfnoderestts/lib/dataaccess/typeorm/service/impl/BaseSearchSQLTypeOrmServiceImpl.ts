@@ -11,6 +11,7 @@ import { EnumTransactionsTypes } from "../../../constants/transactions/EnumTrans
 import { RequestBrowser } from "../../../beans/core/RequestBrowser";
 import { ResponseBrowser } from "../../../beans/core/ResponseBrowser";
 import { ParamBuildQuery } from "../../../beans/core/ParamBuildQuery";
+import { ResponseService } from "../../../beans/core/ResponseService";
 
 /**
  * Base class implementation for service serach sql type orm
@@ -32,16 +33,16 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[], collectionJoins: Join[], collectionOrders: Order[], collectionGroups: Group[], limit: Limit): Promise<T[]> {
-        return await this.getDao().list(mapParams, collectionFields, collectionFilters, collectionJoins, collectionOrders, collectionGroups, limit);
+    async list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[], collectionJoins: Join[], collectionOrders: Order[], collectionGroups: Group[], limit: Limit): Promise<ResponseService<T[]>> {
+        return new ResponseService(await this.getDao().list(mapParams, collectionFields, collectionFilters, collectionJoins, collectionOrders, collectionGroups, limit));
     }
 
     /**
      * @override
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async count(mapParams: {}, collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[]): Promise<number> {
-        return await this.getDao().count(mapParams, collectionFilters, collectionJoins, collectionGroups);
+    async count(mapParams: {}, collectionFilters: Filter[], collectionJoins: Join[], collectionGroups: Group[]): Promise<ResponseService<number>> {
+        return new ResponseService(await this.getDao().count(mapParams, collectionFilters, collectionJoins, collectionGroups));
     }
 
     /**
@@ -82,24 +83,24 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
     }
 
     @Transactional(EnumTransactionsTypes.REQUIRED)
-    async browser(mapParams: {}, requestBrowser: RequestBrowser): Promise<ResponseBrowser<T>> {
+    async browser(mapParams: {}, requestBrowser: RequestBrowser): Promise<ResponseService<ResponseBrowser<T>>> {
         const responseBrowser: ResponseBrowser<T> = new ResponseBrowser();
 
         // Build params build query
         const paramsBuildQuery: ParamBuildQuery = this.buildParamsQueryCountListAndBrowser(requestBrowser);
 
         // Count data 
-        responseBrowser.count = await this.count(mapParams, paramsBuildQuery.collectionFilters || [], paramsBuildQuery.collectionJoins || [], paramsBuildQuery.collectioGroups || []);
+        responseBrowser.count = (await this.count(mapParams, paramsBuildQuery.collectionFilters || [], paramsBuildQuery.collectionJoins || [], paramsBuildQuery.collectioGroups || [])).data;
 
         // Find data if have records
-        if (responseBrowser.count > 0) {
-            responseBrowser.data = await this.list(mapParams, requestBrowser.fields || [], paramsBuildQuery.collectionFilters || [],
+        if (responseBrowser.count != undefined && responseBrowser.count > 0) {
+            responseBrowser.data = (await this.list(mapParams, requestBrowser.fields || [], paramsBuildQuery.collectionFilters || [],
                 paramsBuildQuery.collectionJoins || [], paramsBuildQuery.collectionOrders || [], paramsBuildQuery.collectioGroups || [],
-                this.calculateLimitPage(requestBrowser.first || 0, requestBrowser.recordsPage || 0, responseBrowser.count));
+                this.calculateLimitPage(requestBrowser.first || 0, requestBrowser.recordsPage || 0, responseBrowser.count))).data;
         }
 
 
-        return responseBrowser;
+        return new ResponseService(responseBrowser);
     }
 
     /**

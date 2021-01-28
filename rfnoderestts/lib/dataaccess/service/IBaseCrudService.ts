@@ -1,3 +1,4 @@
+import { ResponseService } from "../beans/core/ResponseService";
 import { Field } from "../beans/query/Field";
 import { Filter } from "../beans/query/Filter";
 import { Group } from "../beans/query/Group";
@@ -22,7 +23,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     * @param data to add
     * @return data added
     */
-    add(mapParams: {}, data: T): Promise<T>;
+    add(mapParams: {}, data: T): Promise<ResponseService<T>>;
 
     /**
      * Method for edit data
@@ -32,7 +33,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      * @param data to edit
      * @return data edited
      */
-    edit(mapParams: {}, data: T): Promise<T>;
+    edit(mapParams: {}, data: T): Promise<ResponseService<T>>;
 
     /**
      * Remove data
@@ -41,7 +42,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      *                          constants ...
      * @param data to remove
      */
-    delete(mapParams: {}, data: T): Promise<boolean>;
+    delete(mapParams: {}, data: T): Promise<ResponseService<boolean>>;
 
     /**
      * Method for read value with pk
@@ -51,7 +52,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      * @param pkValue for read
      * @return data
      */
-    read(mapParams: {}, pkValue: any): Promise<T | undefined>;
+    read(mapParams: {}, pkValue: any): Promise<ResponseService<T | undefined>>;
 
     /**
     * Method by find by pk
@@ -62,7 +63,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     * @param collectionJoins for entity
     * @return data find by pk
     */
-    findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[]): Promise<T | undefined>;
+    findByPk(mapParams: {}, pkValue: any, collectionJoins: Join[]): Promise<ResponseService<T | undefined>>;
 
     /**
      * Method for generate new instace data
@@ -71,5 +72,5 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      *                          constants ...
      * @return instace data
      */
-    loadNew(mapParams: {}): Promise<T>;
+    loadNew(mapParams: {}): Promise<ResponseService<T>>;
 }

@@ -19,7 +19,7 @@ export abstract class BaseCrudControllerImpl<T, DAO extends IBaseCrudDao<T>, SER
      */
     async add(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>> {
         const restRequestResponse: RestRequestResponse<T> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().add(restRequestBody.mapParams || {}, restRequestBody.data!);
+        restRequestResponse.data = (await this.getService().add(restRequestBody.mapParams || {}, restRequestBody.data!)).data;
         return restRequestResponse;
     }
 
@@ -28,7 +28,7 @@ export abstract class BaseCrudControllerImpl<T, DAO extends IBaseCrudDao<T>, SER
      */
     async edit(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>> {
         const restRequestResponse: RestRequestResponse<T> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().edit(restRequestBody.mapParams || {}, restRequestBody.data!);
+        restRequestResponse.data = (await this.getService().edit(restRequestBody.mapParams || {}, restRequestBody.data!)).data;
         return restRequestResponse;
     }
 
@@ -37,7 +37,7 @@ export abstract class BaseCrudControllerImpl<T, DAO extends IBaseCrudDao<T>, SER
      */
     async delete(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<boolean>> {
         const restRequestResponse: RestRequestResponse<boolean> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().delete(restRequestBody.mapParams || {}, restRequestBody.data!);
+        restRequestResponse.data = (await this.getService().delete(restRequestBody.mapParams || {}, restRequestBody.data!)).data;
         return restRequestResponse;
     }
 
@@ -47,7 +47,7 @@ export abstract class BaseCrudControllerImpl<T, DAO extends IBaseCrudDao<T>, SER
      */
     async loadNew(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>> {
         const restRequestResponse: RestRequestResponse<T> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().loadNew(restRequestBody.mapParams || {});
+        restRequestResponse.data = (await this.getService().loadNew(restRequestBody.mapParams || {})).data;
         return restRequestResponse;
     }
 
@@ -56,7 +56,7 @@ export abstract class BaseCrudControllerImpl<T, DAO extends IBaseCrudDao<T>, SER
      */
     async read(restRequestBody: RestRequestBody<any>): Promise<RestRequestResponse<T>> {
         const restRequestResponse: RestRequestResponse<T> = new RestRequestResponse();
-        restRequestResponse.data = await this.getService().read(restRequestBody.mapParams || {}, restRequestBody.data!);
+        restRequestResponse.data = (await this.getService().read(restRequestBody.mapParams || {}, restRequestBody.data!)).data;
         return restRequestResponse;
     }
 

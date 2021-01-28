@@ -1,5 +1,6 @@
 import { RequestBrowser } from "../beans/core/RequestBrowser";
 import { ResponseBrowser } from "../beans/core/ResponseBrowser";
+import { ResponseService } from "../beans/core/ResponseService";
 import { Field } from "../beans/query/Field";
 import { Filter } from "../beans/query/Filter";
 import { Group } from "../beans/query/Group";
@@ -30,7 +31,7 @@ export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> extends IB
     */
     list(mapParams: {}, collectionFields: Field[], collectionFilters: Filter[],
         collectionJoins: Join[], collectionOrders: Order[],
-        collectionGroups: Group[], limit: Limit): Promise<T[]>
+        collectionGroups: Group[], limit: Limit): Promise<ResponseService<T[]>>
 
     /**
      * Method for count
@@ -43,14 +44,14 @@ export interface IBaseSearchService<T, DAO extends IBaseSearchDao<T>> extends IB
      */
     count(mapParams: {}, collectionFilters: Filter[],
         collectionJoins: Join[],
-        collectionGroups: Group[]): Promise<number>
+        collectionGroups: Group[]): Promise<ResponseService<number>>
 
     /**
      * Method for browser operation
      * @param mapParams  extra params apply for count
      * @param requestBrowser data request browser
      */
-    browser(mapParams: {}, requestBrowser: RequestBrowser): Promise<ResponseBrowser<T>>;
+    browser(mapParams: {}, requestBrowser: RequestBrowser): Promise<ResponseService<ResponseBrowser<T>>>;
 
     /**
      * Method for get dao

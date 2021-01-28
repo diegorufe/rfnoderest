@@ -104,7 +104,7 @@ class TestForeServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<TestFore, TestFo
 
     console.log("Count data: " + count);
 
-    const list: Test[] = await testService.list({}, [], [], [], [], [], new Limit(1, 2));
+    const list: Test[] = (await testService.list({}, [], [], [], [], [], new Limit(1, 2))).data!;
 
     console.log(list);
 
@@ -113,7 +113,7 @@ class TestForeServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<TestFore, TestFo
     }
 
 
-    const listFore: TestFore[] = await testForeService.list({}, [], [], [new Join("test", EnumJoinTypes.INNER_JOIN_FETCH)], [], [], new Limit(0, 2));
+    const listFore: TestFore[] = (await testForeService.list({}, [], [], [new Join("test", EnumJoinTypes.INNER_JOIN_FETCH)], [], [], new Limit(0, 2))).data!;
 
     for (let testFore of listFore) {
         console.log("List data fore: ");
@@ -121,52 +121,52 @@ class TestForeServiceImpl extends BaseCrudSQLTypeOrmServiceImpl<TestFore, TestFo
         console.log(testFore.test!.id);
     }
 
-    const listFore2: TestFore[] = await testForeService.list({}, [new Field("id"), new Field("descr"), new Field("code", "test"), new Field("id", "test")], [], [new Join("test", EnumJoinTypes.INNER_JOIN)], [], [], new Limit(0, 2));
+    const listFore2: TestFore[] = (await testForeService.list({}, [new Field("id"), new Field("code", "test")], [], [new Join("test", EnumJoinTypes.INNER_JOIN)], [], [], new Limit(0, 2))).data!;
 
     for (let testFore of listFore2) {
         console.log("List data fore 2: ");
         console.log(testFore);
     }
 
-    const findPk: TestFore | undefined = await testForeService.findByPk({}, 1, []);
-    console.log("Amount "+(findPk!.amount / 2));
+    const findPk: TestFore | undefined = (await testForeService.findByPk({}, 1, [])).data;
+    console.log("Amount " + (findPk!.amount / 2));
 
     const testInsert = false;
 
     if (testInsert) {
-        const dataInsert = await testService.loadNew({});
-        dataInsert.code = "INSERT"
-        const data = await testService.add({}, dataInsert);
-        console.log("Data insert " + data.code);
+        const dataInsert = (await testService.loadNew({})).data;
+        dataInsert!.code = "INSERT"
+        const data = (await testService.add({}, dataInsert!)).data;
+        console.log("Data insert " + data!.code);
     }
 
     const testUpdate = false;
 
     if (testUpdate) {
-        const dataUpdate = await testService.loadNew({});
-        dataUpdate.code = "INSERTU"
-        dataUpdate.id = 4;
-        const data = await testService.edit({}, dataUpdate);
-        console.log("Data update " + data.code);
+        const dataUpdate = (await testService.loadNew({})).data;
+        dataUpdate!.code = "INSERTU"
+        dataUpdate!.id = 4;
+        const data = (await testService.edit({}, dataUpdate!)).data;
+        console.log("Data update " + data!.code);
     }
 
     const testRead = false;
 
     if (testRead) {
-        const dataRead = await testService.loadNew({});
-        dataRead.code = "READ"
-        dataRead.id = 4;
-        const data = await testService.read({}, dataRead.id)
+        const dataRead = (await testService.loadNew({})).data;
+        dataRead!.code = "READ"
+        dataRead!.id = 4;
+        const data = (await testService.read({}, dataRead!.id)).data
         console.log("Data read " + data!.code);
     }
 
     const testRemove = false;
 
     if (testRemove) {
-        const dataRemove = await testService.loadNew({});
-        dataRemove.code = "INSERTU"
-        dataRemove.id = 4;
-        const data = await testService.delete({}, dataRemove);
+        const dataRemove = (await testService.loadNew({})).data;
+        dataRemove!.code = "INSERTU"
+        dataRemove!.id = 4;
+        const data = (await testService.delete({}, dataRemove!)).data;
         console.log("Data remove " + data);
     }
 

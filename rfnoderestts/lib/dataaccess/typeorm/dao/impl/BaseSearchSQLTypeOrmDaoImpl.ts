@@ -63,18 +63,9 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
 
         // Fields pass to method 
         if (isArrayNotEmpty(collectionFields)) {
-            let first: boolean = true;
 
             for (let field of collectionFields) {
                 let builder = SPACE;
-
-                // Add coma separatr
-                if (!first) {
-                    builder = builder + COMA;
-                }
-
-                // Set first to false
-                first = false;
 
                 // Custom field 
                 if (field.customField != undefined && isNotEmpty(field.customField)) {
