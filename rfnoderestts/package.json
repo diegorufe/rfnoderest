@@ -10,13 +10,13 @@
   "author": "diego.ruiz",
   "license": "ISC",
   "dependencies": {
+    "@types/helmet": "^4.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "csurf": "^1.9.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
-    "helmet": "^3.15.1",
     "jsonwebtoken": "^8.5.1",
     "rfcorets": "file:../rfcorets",
     "rfdataaccessts": "file:../rfdataaccessts",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/csurf": "^1.11.0",
     "@types/express": "^4.17.11",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.14.22",

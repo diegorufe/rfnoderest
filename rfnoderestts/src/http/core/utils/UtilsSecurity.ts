@@ -56,3 +56,15 @@ export function bcryptPassword(saltRounds: number, password: string): string {
 export function compareBcrypt(passwordBcrypt: string, passwordCompare: string): boolean {
     return bcrypt.compareSync(passwordCompare, passwordBcrypt.trim());
 }
+
+/**
+ * Method for decode jwt 
+ * @param token to decode 
+ * @param jwtKey key jwt
+ */
+export function decodeJwt(token: any, jwtKey: any) {
+    return jsonwebtoken.decode(
+        token,
+        jwtKey
+    );
+}

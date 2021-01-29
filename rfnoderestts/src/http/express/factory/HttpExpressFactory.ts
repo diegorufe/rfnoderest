@@ -2,8 +2,10 @@ import { PropertiesExpressApp } from "../beans/PropertiesExpressApp";
 import crypto from "crypto";
 import { EnumKeysEncryptJsonSession } from "../constants/EnumKeysEncryptJsonSession";
 import expressAsyncHandler from "express-async-handler";
-import { isNotEmpty, isNotNull, isNull } from "rfcorets";
+import { EMPTY, isNotEmpty, isNotNull, isNull } from "rfcorets";
 import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
+import { decodeJwt, signJwt } from "../../core/utils/UtilsSecurity";
+import { EnumKeysHttpHeader } from "../../core/constants/EnumKeysHttpHeader";
 
 /**
  * Class for manage express app
@@ -126,6 +128,44 @@ export class HttpExpressFactory {
             }
             next(error);
         });
+    }
+
+    /**
+     * Method for sign jwt
+     * @param tokenData to sign
+     */
+    signJwt(tokenData: {}): string {
+        return signJwt(tokenData, this.propertiesExpressApp.timeExpireJwtToken, this.propertiesExpressApp.keyJwtToken);
+    }
+
+    /**
+     * Method for decode jwt 
+     * @param req request express
+     */
+    decodeJwt(req: any) {
+        let token =
+            req.headers[EnumKeysHttpHeader.AUTHORIZATION] ||
+            req.headers[EnumKeysHttpHeader.AUTHORIZATION_UPPER_KEY_FIRST] ||
+            req.headers[EnumKeysHttpHeader.X_ACCESS_TOKEN];
+        let tokenReturn = null;
+        if (isNotNull(token)) {
+            token = token.replace(EnumKeysHttpHeader.BEARER, EMPTY);
+            tokenReturn = decodeJwt(token, this.propertiesExpressApp.keyJwtToken);
+        }
+        return tokenReturn;
+    }
+
+    /**
+     * Method for get data secure inside in token 
+     * @param req  request express
+     */
+    getDataSecureToken(req: any) {
+        let dataReturn = null;
+        const token = this.decodeJwt(req);
+        if (isNotNull(token)) {
+            dataReturn = this.decryptToJsonDataSession(token!.data);
+        }
+        return dataReturn;
     }
 
 

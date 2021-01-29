@@ -27,9 +27,9 @@ export class PropertiesExpressApp {
     truxProxy: boolean = true;
 
     /**
-     *  Use csrf protection
+     *  Use csurf protection
      */
-    userCrsf: boolean = false;
+    useCsurf: boolean = false;
 
     /**
      *  Use router for manage request
@@ -60,6 +60,16 @@ export class PropertiesExpressApp {
      * Algorithm crytp
      */
     algorithmCryptoJsonDataSession: string = "aes-256-cbc"
+
+    /**
+     * Body parser size limit
+     */
+    bodyParserSizeLimit = "50mb"
+
+    /**
+     * Indicate cors configuration for cross side request
+     */
+    enableCors: boolean = false;
 
     constructor() {
 
