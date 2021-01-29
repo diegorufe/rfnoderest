@@ -10,5 +10,13 @@ export enum EnumKeysHttpHeader {
 
     X_ACCESS_TOKEN = "x-access-token",
 
-    BEARER = "Bearer"
+    BEARER = "Bearer",
+
+    ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin",
+
+    ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers",
+
+    ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods",
+
+    ALLOW = "Allow"
 }

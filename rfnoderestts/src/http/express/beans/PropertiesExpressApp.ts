@@ -71,6 +71,11 @@ export class PropertiesExpressApp {
      */
     enableCors: boolean = false;
 
+    /**
+     * Map secure patterns interceptor
+     */
+    mapSecurePatterns: string[] = [];
+
     constructor() {
 
     }

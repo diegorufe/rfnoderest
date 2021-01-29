@@ -1,9 +1,13 @@
 import { HttpExpressFactory } from "../factory/HttpExpressFactory";
 import bodyParser from "body-parser";
 import express from "express";
-import { isNotEmpty } from "rfcorets";
+import { EMPTY, isArrayNotEmpty, isNotEmpty, isNotNull } from "rfcorets";
 import { EnumKeysExpressApp } from "../constants/EnumKeysExpressApp";
 import csurf from "csurf";
+import { EnumKeysHttpHeader } from '../../core/constants/EnumKeysHttpHeader'
+import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
+import jsonwebtoken from "jsonwebtoken";
+
 /**
  * Method for create express app from express factory 
  * @param httpExpressFactory for create express app
@@ -53,6 +57,104 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
     // Use crsf protection
     if (httpExpressFactory.propertiesExpressApp.useCsurf) {
         app.use(csurf());
+    }
+
+    // Router and security interceptor
+    if (httpExpressFactory.propertiesExpressApp.useRouter) {
+        httpExpressFactory.router = express.Router();
+        // Secure interceptor
+        // add middelware for intercept all request include secure pattern
+        httpExpressFactory.router.use(function (req: any, res: any, next: any) {
+            const error = new Error("Not allowed permission");
+            error.stack = "";
+            error.name = "ACCESS_DENIED";
+
+            // Only intercept secure url when request mehtod distinct to options
+            if (req.method != "OPTIONS") {
+                let includeurlSecurePattern: boolean = false;
+
+                // For map secure patterns
+                if (isArrayNotEmpty(httpExpressFactory.propertiesExpressApp.mapSecurePatterns)) {
+                    for (let pattern of httpExpressFactory.propertiesExpressApp.mapSecurePatterns) {
+                        includeurlSecurePattern = req.originalUrl.includes(
+                            pattern
+                        )
+
+                        if (includeurlSecurePattern) {
+                            break;
+                        }
+                    }
+                }
+
+                // Check security
+                if (includeurlSecurePattern) {
+
+                    // Find jwt 
+                    let token =
+                        req.headers[EnumKeysHttpHeader.AUTHORIZATION] ||
+                        req.headers[EnumKeysHttpHeader.AUTHORIZATION_UPPER_KEY_FIRST] ||
+                        req.headers[EnumKeysHttpHeader.X_ACCESS_TOKEN];
+
+                    if (token == null || token == undefined || !token) {
+                        res.status(EnumHttpStatus.UNAUTHORIZED);
+                        next(error);
+                    } else {
+                        // jwt token replace bearer for empty
+                        token = token.replace(EnumKeysHttpHeader.BEARER, EMPTY);
+
+                        let permissionAllowed: boolean = true;
+
+                        try {
+                            const decodeToken = jsonwebtoken.verify(
+                                token,
+                                httpExpressFactory.propertiesExpressApp.keyJwtToken);
+                            permissionAllowed = isNotNull(decodeToken);
+                        } catch (exception) {
+                            permissionAllowed = false;
+                        }
+
+                        if (permissionAllowed) {
+                            next();
+                        } else {
+                            // Invalid access for resources
+                            res.status(EnumHttpStatus.UNAUTHORIZED);
+                            res.json({
+                                data: "Not allowed permission",
+                                status: EnumHttpStatus.UNAUTHORIZED,
+                            });
+                        }
+
+                    }
+                } else {
+                    next();
+                }
+            } else {
+                next();
+            }
+        });
+    }
+
+
+
+    // cors
+    if (!httpExpressFactory.propertiesExpressApp.enableCors) {
+        app.use(function (req, res, next) {
+
+            // res.header("Access-Control-Allow-Origin", "*");
+            // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            res.header(EnumKeysHttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+            res.header(
+                EnumKeysHttpHeader.ACCESS_CONTROL_ALLOW_HEADERS,
+                "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method"
+            );
+            res.header(
+                EnumKeysHttpHeader.ACCESS_CONTROL_ALLOW_METHODS,
+                "GET, POST, OPTIONS, PUT, DELETE"
+            );
+            res.header(EnumKeysHttpHeader.ALLOW, "GET, POST, OPTIONS, PUT, DELETE");
+
+            next();
+        });
     }
 
 }
