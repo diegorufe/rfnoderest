@@ -14,6 +14,7 @@
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
     "rfcorets": "file:../rfcorets",
+    "rfdataaccessts": "file:../rfdataaccessts",
     "typeorm": "^0.2.30"
   },
   "devDependencies": {

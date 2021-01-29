@@ -1,5 +1,3 @@
-import { IBaseService } from "../../../dataaccess/service/IBaseService";
-
 /**
  * Base interface controller
  */

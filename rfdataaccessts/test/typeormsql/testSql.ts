@@ -1,10 +1,10 @@
 import { Column, createConnection, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { Field } from "../../src/dataaccess/beans/query/Field";
-import { Join } from "../../src/dataaccess/beans/query/Join";
-import { Limit } from "../../src/dataaccess/beans/query/Limit";
-import { EnumJoinTypes } from "../../src/dataaccess/constants/query/EnumJoinTypes";
-import { BaseCrudSQLTypeOrmDaoImpl } from "../../src/dataaccess/typeorm/dao/impl/BaseCrudSQLTypeOrmDaoImpl";
-import { BaseCrudSQLTypeOrmServiceImpl } from "../../src/dataaccess/typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl";
+import { Field } from "../../src/beans/query/Field";
+import { Join } from "../../src/beans/query/Join";
+import { Limit } from "../../src/beans/query/Limit";
+import { EnumJoinTypes } from "../../src/constants/query/EnumJoinTypes";
+import { BaseCrudSQLTypeOrmDaoImpl } from "../../src/typeorm/dao/impl/BaseCrudSQLTypeOrmDaoImpl";
+import { BaseCrudSQLTypeOrmServiceImpl } from "../../src/typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl";
 
 
 @Entity("test")

@@ -1,7 +1,7 @@
-import { RequestBrowser } from "../../../dataaccess/beans/core/RequestBrowser";
-import { ResponseBrowser } from "../../../dataaccess/beans/core/ResponseBrowser";
-import { IBaseSearchDao } from "../../../dataaccess/dao/IBaseSearhDao";
-import { IBaseSearchService } from "../../../dataaccess/service/IBaseSearchService";
+import { RequestBrowser } from "rfdataaccessts";
+import { ResponseBrowser } from "rfdataaccessts";
+import { IBaseSearchDao } from "rfdataaccessts";
+import { IBaseSearchService } from "rfdataaccessts";
 import { RestRequestBody } from "../beans/RestRequestBody";
 import { RestRequestResponse } from "../beans/RestRequestResponse";
 import { IBaseController } from "./IBaseController";
