@@ -1,5 +1,5 @@
-import { IBaseCrudDao } from "../../../../dataaccess/dao/IBaseCrudDao";
-import { IBaseCrudService } from "../../../../dataaccess/service/IBaseCrudService";
+import { IBaseCrudDao } from "rfdataaccessts";
+import { IBaseCrudService } from "rfdataaccessts";
 import { RestRequestBody } from "../../beans/RestRequestBody";
 import { RestRequestResponse } from "../../beans/RestRequestResponse";
 import { IBaseCrudController } from "../IBaseCrudController";
