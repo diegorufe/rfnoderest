@@ -2,6 +2,7 @@ import { IBaseCrudDao } from "rfdataaccessts";
 import { IBaseCrudService } from "rfdataaccessts";
 import { RestRequestBody } from "../../beans/RestRequestBody";
 import { RestRequestResponse } from "../../beans/RestRequestResponse";
+import { EnumHttpStatus } from "../../constants/EnumHttpStatus";
 import { IBaseCrudController } from "../IBaseCrudController";
 import { BaseSearchControllerImpl } from "./BaseSearchControllerImpl";
 
@@ -20,6 +21,7 @@ export abstract class BaseCrudControllerImpl<T, DAO extends IBaseCrudDao<T>, SER
     async add(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>> {
         const restRequestResponse: RestRequestResponse<T> = new RestRequestResponse();
         restRequestResponse.data = (await this.getService().add(restRequestBody.mapParams || {}, restRequestBody.data!)).data;
+        restRequestResponse.httpStaus = EnumHttpStatus.CREATED;
         return restRequestResponse;
     }
 

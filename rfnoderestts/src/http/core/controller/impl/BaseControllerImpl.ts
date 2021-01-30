@@ -1,4 +1,3 @@
-import { IBaseService } from "../../../../dataaccess/service/IBaseService";
 import { IBaseController } from "../IBaseController";
 
 /**

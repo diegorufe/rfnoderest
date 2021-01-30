@@ -1,16 +1,19 @@
-import { PropertiesExpressApp } from "../beans/PropertiesExpressApp";
 import crypto from "crypto";
-import { EnumKeysEncryptJsonSession } from "../constants/EnumKeysEncryptJsonSession";
 import expressAsyncHandler from "express-async-handler";
 import { CONTEXT, EMPTY, IErrorCodes, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
-import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
-import { decodeJwt, signJwt } from "../../core/utils/UtilsSecurity";
-import { EnumKeysHttpHeader } from "../../core/constants/EnumKeysHttpHeader";
+import { IBaseCrudDao, IBaseCrudService } from "rfdataaccessts";
 import { ResponseError } from "../../core/beans/ResponseError";
 import { RFSecurityException } from "../../core/beans/RFSecurityException";
-import { processRFException, processRFSecurityException } from "../utils/UtilsProcessExceptions";
-import { createExpressApp } from "../utils/UtilsCreateExpressApp";
+import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
+import { EnumKeysHttpHeader } from "../../core/constants/EnumKeysHttpHeader";
+import { IBaseCrudController } from "../../core/controller/IBaseCrudController";
+import { decodeJwt, signJwt } from "../../core/utils/UtilsSecurity";
+import { PropertiesExpressApp } from "../beans/PropertiesExpressApp";
 import { EnumKeysContextExpressApp } from "../constants/EnumKeysContextExpressApp";
+import { EnumKeysEncryptJsonSession } from "../constants/EnumKeysEncryptJsonSession";
+import { createExpressApp } from "../utils/UtilsCreateExpressApp";
+import { handleCrudRoutes } from "../utils/UtilsCrudRoutes";
+import { processRFException, processRFSecurityException } from "../utils/UtilsProcessExceptions";
 
 /**
  * Class for manage express app
@@ -226,6 +229,14 @@ export class HttpExpressFactory {
             this.app.post(path, functionRoute);
         }
 
+    }
+
+    /**
+     * Method for add curd controller. Add, edit, delete, list, count, loadNew ...
+     * @param baseController to add crud routes
+     */
+    addCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends IBaseCrudService<T, DAO>>(baseController: IBaseCrudController<T, DAO, SERVICE>) {
+        handleCrudRoutes(this, baseController);
     }
 
     /**
