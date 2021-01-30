@@ -6,6 +6,11 @@ import crypto from "crypto";
 export class PropertiesExpressApp {
 
     /**
+     * Api url
+     */
+    apiUrl: string = "/api"
+
+    /**
      * Port express app
      */
     port: number = 3000;

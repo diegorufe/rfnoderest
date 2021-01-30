@@ -2,13 +2,15 @@ import { PropertiesExpressApp } from "../beans/PropertiesExpressApp";
 import crypto from "crypto";
 import { EnumKeysEncryptJsonSession } from "../constants/EnumKeysEncryptJsonSession";
 import expressAsyncHandler from "express-async-handler";
-import { EMPTY, IErrorCodes, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
+import { CONTEXT, EMPTY, IErrorCodes, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
 import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
 import { decodeJwt, signJwt } from "../../core/utils/UtilsSecurity";
 import { EnumKeysHttpHeader } from "../../core/constants/EnumKeysHttpHeader";
 import { ResponseError } from "../../core/beans/ResponseError";
 import { RFSecurityException } from "../../core/beans/RFSecurityException";
 import { processRFException, processRFSecurityException } from "../utils/UtilsProcessExceptions";
+import { createExpressApp } from "../utils/UtilsCreateExpressApp";
+import { EnumKeysContextExpressApp } from "../constants/EnumKeysContextExpressApp";
 
 /**
  * Class for manage express app
@@ -35,10 +37,13 @@ export class HttpExpressFactory {
      */
     router: any;
 
+    /**
+     * Map services app
+     */
+    mapServicies: { [key: string]: any } = {};
 
 
     constructor() {
-
     }
 
     /**
@@ -112,7 +117,7 @@ export class HttpExpressFactory {
     /**
      * Method to configure error handler
      */
-    configErrorHandler() {
+    private configErrorHandler() {
         const method = "use";
         const routerHandler = this.routerIsNull() ? this.app : this.router;
 
@@ -189,5 +194,108 @@ export class HttpExpressFactory {
         return dataReturn;
     }
 
+    /**
+     * Method for add get route 
+     * @param path for handle route 
+     * @param functionRoute execute route 
+     */
+    addGetRoute(path: string, functionRoute: Function) {
 
+        // if have router configuration add to router
+        if (!this.routerIsNull()) {
+            this.router.get(path, functionRoute);
+            // if not have router add to app if exists
+        } else if (!this.appIsNull()) {
+            this.app.get(path, functionRoute);
+        }
+
+    }
+
+    /**
+     * Method for add post route 
+     * @param path for handle route 
+     * @param functionRoute execute route 
+     */
+    addPostRoute(path: string, functionRoute: Function) {
+
+        // if have router configuration add to router
+        if (!this.routerIsNull()) {
+            this.router.post(path, functionRoute);
+        } else if (!this.appIsNull()) {
+            // if not have router add to app if exists
+            this.app.post(path, functionRoute);
+        }
+
+    }
+
+    /**
+     *  Method to add midleware to router. If not use route function dont add
+     * @param functionMidleware to add
+     */
+    addMidlewareRouter(functionMidleware: Function) {
+
+        if (!this.routerIsNull()) {
+            this.router.use(functionMidleware);
+        }
+
+    }
+
+    /**
+     * Method for load app
+     */
+    loadAppConfig() {
+        // Create express app
+        createExpressApp(this);
+
+        // Add this to context
+        CONTEXT.mapProperties[EnumKeysContextExpressApp.HTTP_EXPRESS_FACTORY] = this;
+    }
+
+    /**
+     * Method to start listen server. 
+     * @param {*} port is the port of server
+     * @param {*} hostname is th hostame of server
+     */
+    listen(hostname?: string, port?: number) {
+        // check exists app
+        if (!this.appIsNull()) {
+
+            // Config error handler
+            this.configErrorHandler();
+
+            // If router is not null use by star api url
+            if (!this.routerIsNull()) {
+                this.app.use(this.propertiesExpressApp.apiUrl, this.router);
+            }
+
+            // If port is null get default port
+            if (isNull(port)) {
+                port = this.propertiesExpressApp.port;
+            }
+
+            const self = this;
+            this.app.listen(port, hostname, function () {
+                //self.logger.info("App on port " + port);
+            });
+        }
+    }
+
+    /**
+     * Method for add service. Only add service if serviceName is not empty and service is not null 
+     * @param serviceName for add service 
+     * @param service to add 
+     */
+    addService(serviceName: string, service: any) {
+        if (isNotEmpty(serviceName) && isNotNull(service)) {
+            this.mapServicies[serviceName] = service;
+        }
+    }
+
+    /**
+     * Method to get service by name
+     * @param {*} serviceName name for service
+     */
+    getService(serviceName: string) {
+        return this.mapServicies[serviceName];
+    }
 }
