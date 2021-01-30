@@ -71,23 +71,23 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
 
             // Only intercept secure url when request mehtod distinct to options
             if (req.method != "OPTIONS") {
-                let includeurlSecurePattern: boolean = false;
+                let includeurlNotSecurePattern: boolean = false;
 
                 // For map secure patterns
-                if (isArrayNotEmpty(httpExpressFactory.propertiesExpressApp.mapSecurePatterns)) {
-                    for (let pattern of httpExpressFactory.propertiesExpressApp.mapSecurePatterns) {
-                        includeurlSecurePattern = req.originalUrl.includes(
+                if (isArrayNotEmpty(httpExpressFactory.propertiesExpressApp.mapNotSecurePatterns)) {
+                    for (let pattern of httpExpressFactory.propertiesExpressApp.mapNotSecurePatterns) {
+                        includeurlNotSecurePattern = req.originalUrl.includes(
                             pattern
                         )
 
-                        if (includeurlSecurePattern) {
+                        if (includeurlNotSecurePattern) {
                             break;
                         }
                     }
                 }
 
-                // Check security
-                if (includeurlSecurePattern) {
+                // Check security if not url secure patten
+                if (!includeurlNotSecurePattern) {
 
                     // Find jwt 
                     let token =
