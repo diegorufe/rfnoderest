@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CONTEXTS = void 0;
+exports.CONTEXT = void 0;
 /**
  * Class for store data context
  */
 class ContextFactory {
+    constructor() {
+        this.mapProperties = {};
+    }
 }
-exports.CONTEXTS = new ContextFactory();
+exports.CONTEXT = new ContextFactory();
