@@ -74,7 +74,7 @@ export class PropertiesExpressApp {
     /**
      * Map not secure patterns interceptor
      */
-    mapNotSecurePatterns: string[] = [];
+    mapNotSecurePatterns: string[] = ["/auth/"];
 
     constructor() {
 

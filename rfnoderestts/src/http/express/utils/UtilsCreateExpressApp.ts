@@ -7,6 +7,7 @@ import csurf from "csurf";
 import { EnumKeysHttpHeader } from '../../core/constants/EnumKeysHttpHeader'
 import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
 import jsonwebtoken from "jsonwebtoken";
+import { RFSecurityException } from "../../core/beans/RFSecurityException";
 
 /**
  * Method for create express app from express factory 
@@ -65,9 +66,8 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
         // Secure interceptor
         // add middelware for intercept all request include secure pattern
         httpExpressFactory.router.use(function (req: any, res: any, next: any) {
-            const error = new Error("Not allowed permission");
+            const error = new RFSecurityException("ACCESS_DENIED", "Not allowed permission");
             error.stack = "";
-            error.name = "ACCESS_DENIED";
 
             // Only intercept secure url when request mehtod distinct to options
             if (req.method != "OPTIONS") {
@@ -118,10 +118,7 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
                         } else {
                             // Invalid access for resources
                             res.status(EnumHttpStatus.UNAUTHORIZED);
-                            res.json({
-                                data: "Not allowed permission",
-                                status: EnumHttpStatus.UNAUTHORIZED,
-                            });
+                            next(error);
                         }
 
                     }
@@ -157,4 +154,6 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
         });
     }
 
+    // Set app to factory 
+    httpExpressFactory.app = app;
 }

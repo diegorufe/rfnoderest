@@ -7,6 +7,8 @@ import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
 import { decodeJwt, signJwt } from "../../core/utils/UtilsSecurity";
 import { EnumKeysHttpHeader } from "../../core/constants/EnumKeysHttpHeader";
 import { ResponseError } from "../../core/beans/ResponseError";
+import { RFSecurityException } from "../../core/beans/RFSecurityException";
+import { processRFException, processRFSecurityException } from "../utils/UtilsProcessExceptions";
 
 /**
  * Class for manage express app
@@ -45,7 +47,7 @@ export class HttpExpressFactory {
      * @returns a map contains iv and ecrypted data for json store in data session
      */
     encryptJsonDataSession(jsonData: any): {} {
-        let text = JSON.stringify(jsonData);
+        let text = parseToJson(jsonData);
         let cipher = crypto.createCipheriv(
             this.propertiesExpressApp.algorithmCryptoJsonDataSession,
             this.propertiesExpressApp.keyCrytoJsonDataSession,
@@ -132,9 +134,13 @@ export class HttpExpressFactory {
                 responseError.message = error.message;
                 responseError.name = error.name;
 
+                // RFSecurity exception
+                if (error instanceof RFSecurityException) {
+                    processRFSecurityException(error, responseError);
+                }
                 // RFExpcetion
-                if (error instanceof RFException) {
-                    this.processRFException(error, responseError);
+                else if (error instanceof RFException) {
+                    processRFException(error, responseError);
                 }
 
                 res.status(responseError.httpStatus);
@@ -143,21 +149,6 @@ export class HttpExpressFactory {
             }
             next(error);
         });
-    }
-
-    /**
-     * Method for process rf exception
-     * @param error to proccess
-     * @param responseError for set properties exception
-     */
-    private processRFException(error: any, responseError: ResponseError) {
-        responseError.httpStatus = EnumHttpStatus.BAD_REQUEST;
-
-        if (isNotNull(error.baseExceptionErrorCodeDefinition)) {
-            responseError.code = error.baseExceptionErrorCodeDefinition.getCode();
-        } else if (isNotNull(error.code)) {
-            responseError.code = error.code;
-        }
     }
 
     /**
