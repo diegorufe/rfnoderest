@@ -4,7 +4,7 @@
  * @param data to pase
  */
 export function parseToJson(data: any) {
-    return JSON.parse(data);
+    return JSON.stringify(data);
 }
 
 /**
@@ -12,5 +12,5 @@ export function parseToJson(data: any) {
  * @param json to convert
  */
 export function jsonToObject(json: string) {
-    return JSON.stringify(json);
+    return JSON.parse(json);
 }
