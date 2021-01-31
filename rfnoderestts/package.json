@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testExpress": "nodemon ./test/testExpress.ts"
+    "testExpress": "nodemon ./test/testExpress.ts",
+    "build": "tsc",
+    "link": "npm run build && cd dist && npm link"
   },
   "author": "diego.ruiz",
   "license": "ISC",

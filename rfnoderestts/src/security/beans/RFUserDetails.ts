@@ -4,6 +4,7 @@ import { IRFUserDetails } from "../features/IRFUserDetails";
  */
 export class RFUserDetils implements IRFUserDetails {
 
+
     userName!: string;
     userId: any;
     mapClaims!: { [key: string]: any; };
@@ -58,6 +59,13 @@ export class RFUserDetils implements IRFUserDetails {
      */
     getCollectionPermission(): string[] {
         return this.collectionPermission;
+    }
+
+    /**
+     * @override
+     */
+    setCollectionPermission(collectionPermission: string[]): void {
+        this.collectionPermission = collectionPermission;
     }
 
     /**
