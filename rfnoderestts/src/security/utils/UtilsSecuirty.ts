@@ -1,8 +1,12 @@
-import { isNotEmpty, isNotNull } from "rfcorets";
+import { isNotEmpty, isNotNull, parseToJson } from "rfcorets";
 import { EnumKeysJwtToken } from "../../http/core/constants/EnumKeysJwtToken";
-import { PATTERN_ONLY_CHECK_AUTHENTICATE } from "../constants/IConstantsSecurity";
+import { JWT_CRYPTO_CLAIMS, JWT_SUB, PATTERN_ONLY_CHECK_AUTHENTICATE } from "../constants/IConstantsSecurity";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
+import { IRFUserDetails } from "../features/IRFUserDetails";
+import { EnumBasicParamClaims } from "../constants/EnumBasicParamClaims";
+import crypto from "crypto";
+import { EnumKeysEncryptJsonSession } from "../../http/express/constants/EnumKeysEncryptJsonSession";
 
 /**
  * Method for know only check authenticate url if contains patter onlye check
@@ -78,4 +82,75 @@ export function decodeJwt(token: any, jwtKey: any) {
         token,
         jwtKey
     );
+}
+
+/**
+ * Method encrytp json data session
+ * @param jsonData 
+ * @param algorithmCryptoJsonDataSession 
+ * @param keyCrytoJsonDataSession 
+ * @param iviCrytoJsonDataSession 
+ */
+export function encryptJsonDataSession(jsonData: any, algorithmCryptoJsonDataSession: string, keyCrytoJsonDataSession: Buffer, iviCrytoJsonDataSession: Buffer): {} {
+    let text = parseToJson(jsonData);
+    let cipher = crypto.createCipheriv(
+        algorithmCryptoJsonDataSession,
+        keyCrytoJsonDataSession,
+        iviCrytoJsonDataSession
+    );
+
+    let encrypted = cipher.update(text);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+    return {
+        [EnumKeysEncryptJsonSession.IV]: iviCrytoJsonDataSession.toString("hex"),
+        [EnumKeysEncryptJsonSession.ENCRYPTED_DATA]: encrypted.toString("hex"),
+    };
+}
+
+/**
+ * Method to decript to json data session
+ * @param jsonDataEcnrypted is a json to decrypt for obtain json data session
+ * @param algorithmCryptoJsonDataSession 
+ * @param keyCrytoJsonDataSession 
+ * @returns a json data decryted
+ */
+export function decryptToJsonDataSession(jsonDataEcnrypted: { [key: string]: any }, algorithmCryptoJsonDataSession: string, keyCrytoJsonDataSession: Buffer): any {
+    const iv = Buffer.from(jsonDataEcnrypted[EnumKeysEncryptJsonSession.IV], "hex");
+    const encryptedText = Buffer.from(jsonDataEcnrypted[EnumKeysEncryptJsonSession.ENCRYPTED_DATA], "hex");
+    const decipher = crypto.createDecipheriv(
+        algorithmCryptoJsonDataSession,
+        keyCrytoJsonDataSession,
+        iv
+    );
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return JSON.parse(decrypted.toString());
+}
+
+
+/**
+ * Method for generate token for user details
+ * @param userDetails for user detais
+ * @param timeExpireJsonWebToken time expire json webtoken
+ * @param keyJwt to sign
+ * @param algorithmCryptoJsonDataSession 
+ * @param keyCrytoJsonDataSession 
+ * @param iviCrytoJsonDataSession 
+ */
+export function generateTokenForUserDetails(userDetails: IRFUserDetails, timeExpireJsonWebToken: number | undefined, keyJwt: string, algorithmCryptoJsonDataSession: string, keyCrytoJsonDataSession: Buffer, iviCrytoJsonDataSession: Buffer): String {
+    const mapParamsJwt: { [key: string]: any } = {};
+    // Set user
+    mapParamsJwt[JWT_SUB] = userDetails.getUserName();
+
+    // Set crypto claims 
+    const mapClaims: { [key: string]: any } = {};
+    mapClaims[EnumBasicParamClaims.USER_ID] = userDetails.getUserId();
+    mapClaims[EnumBasicParamClaims.AUTHORITIES] = null;
+    mapClaims[EnumBasicParamClaims.PERMISSIONS] = userDetails.getCollectionPermission();
+    // TODO Merge other map params claims 
+    mapParamsJwt[JWT_CRYPTO_CLAIMS] = encryptJsonDataSession(mapClaims, algorithmCryptoJsonDataSession, keyCrytoJsonDataSession, iviCrytoJsonDataSession);
+
+    // signJwt
+    return signJwt(mapParamsJwt, timeExpireJsonWebToken, keyJwt);
 }

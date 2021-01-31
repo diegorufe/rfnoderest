@@ -4,6 +4,17 @@
 export interface IRFUserDetails {
 
     /**
+     * Method for get user name
+     */
+    getUserName(): string;
+
+    /**
+     * Method for set unser name 
+     * @param unserName to set
+     */
+    setUserName(unserName: string): void;
+
+    /**
      * Method for get user id for session. This return object because in NOSQL
      * database id can be object
      * 
