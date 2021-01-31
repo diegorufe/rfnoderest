@@ -11,12 +11,13 @@ import { EnumFilterOperationType } from '../../../constants/query/EnumFilterOper
 import { EnumFilterTypes } from '../../../constants/query/EnumFilterTypes';
 import { EnumJoinTypes } from '../../../constants/query/EnumJoinTypes';
 import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
-import { createEntityManagerrFromTransaction, createQueryBuilderFromTransaction, findQueryBuilderMapParams, findTransactionMapParams, putQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
+import { createEntityManagerrFromTransaction, createQueryBuilderFromTransaction, findEntityManagerMapParams, findQueryBuilderMapParams, findTransactionMapParams, putQueryBuilderMapParams } from "../../../utils/UtilsTransactions";
 
 /**
  * Base search SQL dao implementantion for type orm
  */
 export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T>{
+
 
     /**
      * Method for create query builder and put in map params 
@@ -438,6 +439,17 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
     */
     getTableNameBuildORM(): string {
         throw new Error("Method not implemented.");
+    }
+
+    /**
+    * @override
+    */
+    async rawQuery(mapParams: {}, query: string, mapParamsQuery: { [key: string]: any; }): Promise<any> {
+        // create query builder and punt in map params
+        this.createEntityManagerAndPutInMapParams(mapParams);
+
+        // Execute query and return raw data
+        return await findEntityManagerMapParams(mapParams).query(query, mapParamsQuery);
     }
 
 }

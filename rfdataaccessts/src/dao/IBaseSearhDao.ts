@@ -133,4 +133,14 @@ export interface IBaseSearchDao<T> {
      */
     getTableNameBuildORM(): string;
 
+    /**
+     * Method for execute raw query
+     * 
+     * @param mapParams is a map for params send to method, example builder,
+     *                          constants ...
+     * @param query to execute 
+     * @param mapParamsQuery to set in query
+     */
+    rawQuery(mapParams: {}, query: string, mapParamsQuery: { [key: string]: any }): Promise<any>;
+
 }
