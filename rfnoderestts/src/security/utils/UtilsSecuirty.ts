@@ -1,8 +1,19 @@
-import { isNotNull } from "rfcorets";
-import jsonwebtoken from "jsonwebtoken";
-import { EnumKeysJwtToken } from "../constants/EnumKeysJwtToken";
+import { isNotEmpty, isNotNull } from "rfcorets";
+import { EnumKeysJwtToken } from "../../http/core/constants/EnumKeysJwtToken";
+import { PATTERN_ONLY_CHECK_AUTHENTICATE } from "../constants/IConstantsSecurity";
 import bcrypt from "bcrypt";
+import jsonwebtoken from "jsonwebtoken";
 
+/**
+ * Method for know only check authenticate url if contains patter onlye check
+ * authenticate
+ * 
+ * @param url to check
+ * @return true if only check authenticate
+ */
+export function isUrlOnlyCkeckAuthenticate(url: string): boolean {
+    return isNotEmpty(url) && url.includes(PATTERN_ONLY_CHECK_AUTHENTICATE);
+}
 
 /**
  * Method to sign jwt

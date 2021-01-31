@@ -1,16 +1,13 @@
-import crypto from "crypto";
 import expressAsyncHandler from "express-async-handler";
-import { CONTEXT, EMPTY, IErrorCodes, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
+import { CONTEXT, IErrorCodes, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
 import { IBaseCrudDao, IBaseCrudService } from "rfdataaccessts";
 import { ResponseError } from "../../core/beans/ResponseError";
 import { RFSecurityException } from "../../core/beans/RFSecurityException";
 import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
-import { EnumKeysHttpHeader } from "../../core/constants/EnumKeysHttpHeader";
 import { IBaseCrudController } from "../../core/controller/IBaseCrudController";
-import { decodeJwt, signJwt } from "../../core/utils/UtilsSecurity";
 import { PropertiesExpressApp } from "../beans/PropertiesExpressApp";
 import { EnumKeysContextExpressApp } from "../constants/EnumKeysContextExpressApp";
-import { EnumKeysEncryptJsonSession } from "../constants/EnumKeysEncryptJsonSession";
+import { SecurityService } from "../service/SecurityService";
 import { createExpressApp } from "../utils/UtilsCreateExpressApp";
 import { handleCrudRoutes } from "../utils/UtilsCrudRoutes";
 import { processRFException, processRFSecurityException } from "../utils/UtilsProcessExceptions";
@@ -45,48 +42,12 @@ export class HttpExpressFactory {
      */
     mapServicies: { [key: string]: any } = {};
 
+    securityService: SecurityService;
+
 
     constructor() {
-    }
-
-    /**
-     * Method to encrypt json data session
-     * @param jsonData is json data to store in session encrypted
-     * @returns a map contains iv and ecrypted data for json store in data session
-     */
-    encryptJsonDataSession(jsonData: any): {} {
-        let text = parseToJson(jsonData);
-        let cipher = crypto.createCipheriv(
-            this.propertiesExpressApp.algorithmCryptoJsonDataSession,
-            this.propertiesExpressApp.keyCrytoJsonDataSession,
-            this.propertiesExpressApp.iviCrytoJsonDataSession
-        );
-
-        let encrypted = cipher.update(text);
-        encrypted = Buffer.concat([encrypted, cipher.final()]);
-
-        return {
-            [EnumKeysEncryptJsonSession.IV]: this.propertiesExpressApp.iviCrytoJsonDataSession.toString("hex"),
-            [EnumKeysEncryptJsonSession.ENCRYPTED_DATA]: encrypted.toString("hex"),
-        };
-    }
-
-    /**
-     * Method to decript to json data session
-     * @param jsonDataEcnrypted is a json to decrypt for obtain json data session
-     * @returns a json data decryted
-     */
-    decryptToJsonDataSession(jsonDataEcnrypted: { [key: string]: any }): any {
-        const iv = Buffer.from(jsonDataEcnrypted[EnumKeysEncryptJsonSession.IV], "hex");
-        const encryptedText = Buffer.from(jsonDataEcnrypted[EnumKeysEncryptJsonSession.ENCRYPTED_DATA], "hex");
-        const decipher = crypto.createDecipheriv(
-            this.propertiesExpressApp.algorithmCryptoJsonDataSession,
-            this.propertiesExpressApp.keyCrytoJsonDataSession,
-            iv
-        );
-        let decrypted = decipher.update(encryptedText);
-        decrypted = Buffer.concat([decrypted, decipher.final()]);
-        return JSON.parse(decrypted.toString());
+        // Instace security service
+        this.securityService = new SecurityService(this);
     }
 
     /**
@@ -157,44 +118,6 @@ export class HttpExpressFactory {
             }
             next(error);
         });
-    }
-
-    /**
-     * Method for sign jwt
-     * @param tokenData to sign
-     */
-    signJwt(tokenData: {}): string {
-        return signJwt(tokenData, this.propertiesExpressApp.timeExpireJwtToken, this.propertiesExpressApp.keyJwtToken);
-    }
-
-    /**
-     * Method for decode jwt 
-     * @param req request express
-     */
-    decodeJwt(req: any) {
-        let token =
-            req.headers[EnumKeysHttpHeader.AUTHORIZATION] ||
-            req.headers[EnumKeysHttpHeader.AUTHORIZATION_UPPER_KEY_FIRST] ||
-            req.headers[EnumKeysHttpHeader.X_ACCESS_TOKEN];
-        let tokenReturn = null;
-        if (isNotNull(token)) {
-            token = token.replace(EnumKeysHttpHeader.BEARER, EMPTY);
-            tokenReturn = decodeJwt(token, this.propertiesExpressApp.keyJwtToken);
-        }
-        return tokenReturn;
-    }
-
-    /**
-     * Method for get data secure inside in token 
-     * @param req  request express
-     */
-    getDataSecureToken(req: any) {
-        let dataReturn = null;
-        const token = this.decodeJwt(req);
-        if (isNotNull(token)) {
-            dataReturn = this.decryptToJsonDataSession(token!.data);
-        }
-        return dataReturn;
     }
 
     /**

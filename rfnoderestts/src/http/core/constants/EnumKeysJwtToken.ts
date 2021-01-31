@@ -6,5 +6,5 @@ export enum EnumKeysJwtToken {
 
     EXP = "exp",
 
-    IAT = "iat";
+    IAT = "iat"
 }
