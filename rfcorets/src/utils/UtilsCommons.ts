@@ -44,3 +44,13 @@ export function isArrayNotEmpty(array?: any[]) {
 export function canBeDictionary(value: any) {
     return typeof value === "object";
 }
+/**
+ * Method for merge dictionaries 
+ * @param target 
+ * @param source 
+ */
+export function mergeDictionaries(target: { [key: string]: any }, source: { [key: string]: any }): void {
+    for (let key in source) {
+        target[key] = source[key];
+    }
+}
