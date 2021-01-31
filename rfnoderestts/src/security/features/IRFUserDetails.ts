@@ -57,6 +57,17 @@ export interface IRFUserDetails {
     setCollectionPermission(collectionPermission: string[]): void;
 
     /**
+    * Method for get collection authorities
+    */
+    getCollectionAuthorities(): string[];
+
+    /**
+    * Method for set collection authorities
+    * @param collectionAuthorities 
+    */
+    setCollectionAuthorities(collectionAuthorities: string[]): void;
+
+    /**
      * Method for get token for principal user
      * 
      * @return token for principal user in session

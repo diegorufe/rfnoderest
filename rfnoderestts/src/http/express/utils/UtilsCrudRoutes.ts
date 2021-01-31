@@ -1,8 +1,8 @@
 import { IBaseCrudDao, IBaseCrudService } from "rfdataaccessts";
 import { IBaseCrudController } from "../../core/controller/IBaseCrudController";
-import { finishResponseRequest } from "../../core/utils/UtilsHttp";
 import { EnumPathRoutesCurd } from "../constants/EnumPathRoutesCurd";
 import { HttpExpressFactory } from "../factory/HttpExpressFactory";
+import { finishResponseRequestExpress } from "./UtilsHttpExpress";
 
 /**
  * Function for handle crud routes
@@ -24,8 +24,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.count(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -41,8 +41,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.list(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -58,8 +58,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.browser(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -75,8 +75,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.add(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -92,8 +92,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.edit(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -109,8 +109,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.delete(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -126,8 +126,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.loadNew(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );
@@ -143,8 +143,8 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             // Response request
             const responseRequest = await baseController.read(bodydRequest);
 
-            // Finis response request
-            finishResponseRequest(res, responseRequest);
+            // Finish response request
+            finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
 
         })
     );

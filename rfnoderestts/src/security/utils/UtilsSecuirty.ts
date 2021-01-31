@@ -1,4 +1,4 @@
-import { isNotEmpty, isNotNull, parseToJson } from "rfcorets";
+import { isNotEmpty, isNotNull, mergeDictionaries, parseToJson } from "rfcorets";
 import { EnumKeysJwtToken } from "../../http/core/constants/EnumKeysJwtToken";
 import { JWT_CRYPTO_CLAIMS, JWT_SUB, PATTERN_ONLY_CHECK_AUTHENTICATE } from "../constants/IConstantsSecurity";
 import bcrypt from "bcrypt";
@@ -138,7 +138,7 @@ export function decryptToJsonDataSession(jsonDataEcnrypted: { [key: string]: any
  * @param keyCrytoJsonDataSession 
  * @param iviCrytoJsonDataSession 
  */
-export function generateTokenForUserDetails(userDetails: IRFUserDetails, timeExpireJsonWebToken: number | undefined, keyJwt: string, algorithmCryptoJsonDataSession: string, keyCrytoJsonDataSession: Buffer, iviCrytoJsonDataSession: Buffer): String {
+export function generateTokenForUserDetails(userDetails: IRFUserDetails, timeExpireJsonWebToken: number | undefined, keyJwt: string, algorithmCryptoJsonDataSession: string, keyCrytoJsonDataSession: Buffer, iviCrytoJsonDataSession: Buffer): string {
     const mapParamsJwt: { [key: string]: any } = {};
     // Set user
     mapParamsJwt[JWT_SUB] = userDetails.getUserName();
@@ -146,9 +146,15 @@ export function generateTokenForUserDetails(userDetails: IRFUserDetails, timeExp
     // Set crypto claims 
     const mapClaims: { [key: string]: any } = {};
     mapClaims[EnumBasicParamClaims.USER_ID] = userDetails.getUserId();
-    mapClaims[EnumBasicParamClaims.AUTHORITIES] = null;
+    mapClaims[EnumBasicParamClaims.AUTHORITIES] = userDetails.getCollectionAuthorities();
     mapClaims[EnumBasicParamClaims.PERMISSIONS] = userDetails.getCollectionPermission();
-    // TODO Merge other map params claims 
+
+    // Merge aditional data
+    if (isNotNull(userDetails.getMapParamsSetToClaims())) {
+        mergeDictionaries(mapClaims, userDetails.getMapParamsSetToClaims());
+    }
+
+    // Encrypt claims
     mapParamsJwt[JWT_CRYPTO_CLAIMS] = encryptJsonDataSession(mapClaims, algorithmCryptoJsonDataSession, keyCrytoJsonDataSession, iviCrytoJsonDataSession);
 
     // signJwt

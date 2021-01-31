@@ -13,3 +13,8 @@ export const JWT_CRYPTO_CLAIMS = "CRYPTO_CLAIMS";
  * User generate token
  */
 export const JWT_SUB = "sub";
+
+/**
+ * User details 
+ */
+export const USER_DETAILS = "userDetails";

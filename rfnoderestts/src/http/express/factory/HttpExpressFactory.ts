@@ -42,6 +42,9 @@ export class HttpExpressFactory {
      */
     mapServicies: { [key: string]: any } = {};
 
+    /**
+     * Secuirty service
+     */
     securityService: SecurityService;
 
 

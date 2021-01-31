@@ -2,13 +2,14 @@ import { IRFUserDetails } from "../features/IRFUserDetails";
 /**
  * Default implementantion user details
  */
-export class RFUserDetils implements IRFUserDetails {
+export class RFUserDetails implements IRFUserDetails {
 
 
     userName!: string;
     userId: any;
     mapClaims!: { [key: string]: any; };
     collectionPermission!: string[];
+    collectionAuthorities!: string[];
     token!: string;
     mapClaimsSetToClaims!: { [key: string]: any; };
 
@@ -66,6 +67,20 @@ export class RFUserDetils implements IRFUserDetails {
      */
     setCollectionPermission(collectionPermission: string[]): void {
         this.collectionPermission = collectionPermission;
+    }
+
+    /**
+     * @override
+     */
+    getCollectionAuthorities(): string[] {
+        return this.collectionAuthorities;
+    }
+
+    /**
+     * @override
+     */
+    setCollectionAuthorities(collectionAuthorities: string[]): void {
+        this.collectionAuthorities = collectionAuthorities;
     }
 
     /**

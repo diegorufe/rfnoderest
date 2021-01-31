@@ -42,6 +42,7 @@ export * from './http/express/service/SecurityService'
 export * from './http/express/utils/UtilsCreateExpressApp'
 export * from './http/express/utils/UtilsCrudRoutes'
 export * from './http/express/utils/UtilsProcessExceptions'
+export * from './http/express/utils/UtilsHttpExpress'
 
 // Security
 // beans

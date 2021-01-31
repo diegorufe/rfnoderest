@@ -8,6 +8,7 @@ import { EnumKeysHttpHeader } from '../../core/constants/EnumKeysHttpHeader'
 import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
 import jsonwebtoken from "jsonwebtoken";
 import { RFSecurityException } from "../../core/beans/RFSecurityException";
+import { findJWTTokenRequestHeaders } from "./UtilsHttpExpress";
 
 /**
  * Method for create express app from express factory 
@@ -90,17 +91,14 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
                 if (!includeurlNotSecurePattern) {
 
                     // Find jwt 
-                    let token =
-                        req.headers[EnumKeysHttpHeader.AUTHORIZATION] ||
-                        req.headers[EnumKeysHttpHeader.AUTHORIZATION_UPPER_KEY_FIRST] ||
-                        req.headers[EnumKeysHttpHeader.X_ACCESS_TOKEN];
+                    const token =
+                        findJWTTokenRequestHeaders(req);
 
                     if (token == null || token == undefined || !token) {
                         res.status(EnumHttpStatus.UNAUTHORIZED);
                         next(error);
                     } else {
-                        // jwt token replace bearer for empty
-                        token = token.replace(EnumKeysHttpHeader.BEARER, EMPTY);
+
 
                         let permissionAllowed: boolean = true;
 
