@@ -1,9 +1,10 @@
-import { isArrayNotEmpty } from "rfcorets";
+import { isArrayNotEmpty, isNotNull } from "rfcorets";
 import { Filter } from "../../../beans/query/Filter";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { IBaseCrudDao } from "../../../dao/IBaseCrudDao";
 import { findEntityManagerMapParams } from "../../../utils/UtilsTransactions";
+import { BaseAuditTypeOrmEntity } from "../../entities/BaseAuditTypeOrmEntity";
 import { BaseSearchSQLTypeOrmDaoImpl } from "./BaseSearchSQLTypeOrmDaoImpl";
 
 /**
@@ -15,6 +16,10 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      * @override
      */
     async add(mapParams: {}, data: T): Promise<T> {
+        // Add createdAt updatedAt
+        this.addCreatedAt(data);
+        this.addUpdatedAt(data);
+
         // create query builder and punt in map params
         this.createEntityManagerAndPutInMapParams(mapParams);
         const dataReturn = await findEntityManagerMapParams(mapParams).save(data);
@@ -25,6 +30,9 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      * @override
      */
     async edit(mapParams: {}, data: T): Promise<T> {
+        // Add updatedAt
+        this.addUpdatedAt(data);
+
         // create query builder and punt in map params
         this.createEntityManagerAndPutInMapParams(mapParams);
         const dataReturn = await findEntityManagerMapParams(mapParams).save(data);
@@ -65,5 +73,25 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      */
     getPKFieldName(): string {
         return "id";
+    }
+
+    /**
+     * Method for add createdAt in data
+     * @param data to add createdAt
+     */
+    private addCreatedAt(data: T): void {
+        if (isNotNull(data) && data instanceof BaseAuditTypeOrmEntity) {
+            data.createdAt = new Date();
+        }
+    }
+
+    /**
+     * Method for add updatedAt in data
+     * @param data to add updatedAt
+     */
+    private addUpdatedAt(data: T): void {
+        if (isNotNull(data) && data instanceof BaseAuditTypeOrmEntity) {
+            data.updatedAt = new Date();
+        }
     }
 }

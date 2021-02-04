@@ -42,3 +42,5 @@ export * from './typeorm/decorators/TransactionalDecorator'
 
 export * from './typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl'
 export * from './typeorm/service/impl/BaseSearchSQLTypeOrmServiceImpl'
+
+export * from './typeorm/entities/BaseAuditTypeOrmEntity'
