@@ -19,20 +19,23 @@ export interface IBaseSearchController<T, DAO extends IBaseSearchDao<T>, SERVICE
 
     /**
      * Method for count data 
+     * @param mapParamsRequest
      * @param restRequestBody 
      */
-    count(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<number>>;
+    count(mapParamsRequest: { [key: string]: any },restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<number>>;
 
     /**
      * Method for list data 
+     * @param mapParamsRequest
      * @param restRequestBody 
      */
-    list(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T[]>>;
+    list(mapParamsRequest: { [key: string]: any },restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T[]>>;
 
     /**
      * Method for browser request. Count and data
+     * @param mapParamsRequest
      * @param restRequestBody 
      */
-    browser(restRequestBody: RestRequestBody<RequestBrowser>): Promise<RestRequestResponse<ResponseBrowser<T>>>;
+    browser(mapParamsRequest: { [key: string]: any },restRequestBody: RestRequestBody<RequestBrowser>): Promise<RestRequestResponse<ResponseBrowser<T>>>;
 
 }

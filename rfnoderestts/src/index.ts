@@ -31,6 +31,7 @@ export * from './http/express/constants/EnumKeysContextExpressApp'
 export * from './http/express/constants/EnumKeysEncryptJsonSession'
 export * from './http/express/constants/EnumKeysExpressApp'
 export * from './http/express/constants/EnumPathRoutesCurd'
+export * from './http/express/constants/EnumParamsRequest'
 
 // Factory
 export * from './http/express/factory/HttpExpressFactory'

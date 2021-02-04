@@ -11,31 +11,36 @@ export interface IBaseCrudController<T, DAO extends IBaseCrudDao<T>, SERVICE ext
 
     /**
      * Method for add data
+     * @param mapParamsRequest
      * @param restRequestBody 
      */
-    add(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>>;
+    add(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>>;
 
     /**
      * Method for edit data
+     * @param mapParamsRequest
      * @param restRequestBody 
      */
-    edit(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>>;
+    edit(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T>>;
 
     /**
     * Method for delete data
+    * @param mapParamsRequest
     * @param restRequestBody 
     */
-    delete(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<boolean>>;
+    delete(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<boolean>>;
 
     /**
      * Method for create new instance
+     * @param mapParamsRequest
      * @param mapParams 
      */
-    loadNew(mapParams: {}): Promise<RestRequestResponse<T>>;
+    loadNew(mapParamsRequest: { [key: string]: any }, mapParams: {}): Promise<RestRequestResponse<T>>;
 
     /**
      * Method for read data
+     * @param mapParamsRequest
      * @param restRequestBody 
      */
-    read(restRequestBody: RestRequestBody<any>): Promise<RestRequestResponse<T>>;
+    read(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<any>): Promise<RestRequestResponse<T>>;
 }

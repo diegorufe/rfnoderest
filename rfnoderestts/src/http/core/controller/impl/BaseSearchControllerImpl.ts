@@ -30,7 +30,7 @@ export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>,
     /**
      * @override
      */
-    async count(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<number>> {
+    async count(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<number>> {
         const restRequestResponse: RestRequestResponse<number> = new RestRequestResponse();
         restRequestResponse.data = (await this.getService().count(restRequestBody.mapParams || {}, restRequestBody.filters || [], restRequestBody.joins || [], [])).data;
         return restRequestResponse;
@@ -39,7 +39,7 @@ export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>,
     /**
      * @override
      */
-    async list(restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T[]>> {
+    async list(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<T>): Promise<RestRequestResponse<T[]>> {
         const restRequestResponse: RestRequestResponse<T[]> = new RestRequestResponse();
         restRequestResponse.data = (await this.getService().list(restRequestBody.mapParams || {}, restRequestBody.fields || [], restRequestBody.filters || [], restRequestBody.joins || [], restRequestBody.orders || [], [], restRequestBody.limit || new Limit(0, 0))).data;
         return restRequestResponse;
@@ -48,7 +48,7 @@ export abstract class BaseSearchControllerImpl<T, DAO extends IBaseSearchDao<T>,
     /**
      * @override
      */
-    async browser(restRequestBody: RestRequestBody<RequestBrowser>): Promise<RestRequestResponse<ResponseBrowser<T>>> {
+    async browser(mapParamsRequest: { [key: string]: any }, restRequestBody: RestRequestBody<RequestBrowser>): Promise<RestRequestResponse<ResponseBrowser<T>>> {
         const restRequestResponse: RestRequestResponse<ResponseBrowser<T>> = new RestRequestResponse();
         restRequestResponse.data = (await this.getService().browser(restRequestBody.mapParams || {}, restRequestBody.data || new RequestBrowser())).data;
         return restRequestResponse;

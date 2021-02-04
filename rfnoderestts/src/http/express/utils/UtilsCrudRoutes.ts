@@ -3,6 +3,17 @@ import { IBaseCrudController } from "../../core/controller/IBaseCrudController";
 import { EnumPathRoutesCurd } from "../constants/EnumPathRoutesCurd";
 import { HttpExpressFactory } from "../factory/HttpExpressFactory";
 import { finishResponseRequestExpress } from "./UtilsHttpExpress";
+import { EnumParamsRequest } from "../constants/EnumParamsRequest";
+
+/**
+ * Create params send method request 
+ * @param req start request
+ */
+export function createParamsSendMethodRequest(req: any) {
+    const mapParamsRequest: { [key: string]: any } = {}
+    mapParamsRequest[EnumParamsRequest.REQUEST] = req;
+    return mapParamsRequest;
+}
 
 /**
  * Function for handle crud routes
@@ -22,7 +33,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.count(bodydRequest);
+            const responseRequest = await baseController.count(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -39,7 +50,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.list(bodydRequest);
+            const responseRequest = await baseController.list(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -56,7 +67,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.browser(bodydRequest);
+            const responseRequest = await baseController.browser(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -73,7 +84,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.add(bodydRequest);
+            const responseRequest = await baseController.add(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -90,7 +101,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.edit(bodydRequest);
+            const responseRequest = await baseController.edit(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -107,7 +118,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.delete(bodydRequest);
+            const responseRequest = await baseController.delete(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -124,7 +135,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.loadNew(bodydRequest);
+            const responseRequest = await baseController.loadNew(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
@@ -141,7 +152,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
             const bodydRequest = req.body;
 
             // Response request
-            const responseRequest = await baseController.read(bodydRequest);
+            const responseRequest = await baseController.read(createParamsSendMethodRequest(req), bodydRequest);
 
             // Finish response request
             finishResponseRequestExpress(httpExpressFactory, res, res, responseRequest);
