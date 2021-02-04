@@ -212,6 +212,7 @@ export class HttpExpressFactory {
 
             const self = this;
             this.app.listen(port, hostname, function () {
+                console.log(`⚡️[server]: Server is running at http://${hostname ? hostname : "localhost"}:${port}`);
                 //self.logger.info("App on port " + port);
             });
         }
