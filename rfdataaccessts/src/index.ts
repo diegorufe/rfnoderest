@@ -3,6 +3,7 @@ export * from './beans/core/ParamBuildQuery'
 export * from './beans/core/RequestBrowser'
 export * from './beans/core/ResponseBrowser'
 export * from './beans/core/ResponseService'
+export * from './beans/core/RFDataAccessException'
 
 export * from './beans/query/Field'
 export * from './beans/query/Filter'
