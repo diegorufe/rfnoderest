@@ -2,7 +2,7 @@ import { ErrorCodes } from "../beans/ErrorCodes";
 /**
  * Interface error codes
  */
-export class IErrorCodes {
+export class BaseErrorCodes {
 
     /**
      * General code error

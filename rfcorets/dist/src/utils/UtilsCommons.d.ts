@@ -28,3 +28,13 @@ export declare function isArrayNotEmpty(array?: any[]): boolean;
  * @returns true if value can be dictionary
  */
 export declare function canBeDictionary(value: any): boolean;
+/**
+ * Method for merge dictionaries
+ * @param target
+ * @param source
+ */
+export declare function mergeDictionaries(target: {
+    [key: string]: any;
+}, source: {
+    [key: string]: any;
+}): void;

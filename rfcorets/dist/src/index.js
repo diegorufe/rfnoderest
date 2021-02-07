@@ -24,4 +24,4 @@ __exportStar(require("./factory/ContextFactory"), exports);
 // features
 __exportStar(require("./features/IBaseExceptionErrorCodeDefinition"), exports);
 // Constants
-__exportStar(require("./constants/IErrorCodes"), exports);
+__exportStar(require("./constants/BaseErrorCodes"), exports);

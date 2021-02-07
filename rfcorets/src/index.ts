@@ -16,4 +16,4 @@ export * from './factory/ContextFactory'
 export * from './features/IBaseExceptionErrorCodeDefinition'
 
 // Constants
-export * from './constants/IErrorCodes'
+export * from './constants/BaseErrorCodes'

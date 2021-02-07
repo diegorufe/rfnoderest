@@ -7,4 +7,4 @@ export * from './utils/UtilsString';
 export * from './utils/UtilsJSON';
 export * from './factory/ContextFactory';
 export * from './features/IBaseExceptionErrorCodeDefinition';
-export * from './constants/IErrorCodes';
+export * from './constants/BaseErrorCodes';

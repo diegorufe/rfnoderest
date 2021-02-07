@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.canBeDictionary = exports.isArrayNotEmpty = exports.isArrayEmpty = exports.isNotNull = exports.isNull = void 0;
+exports.mergeDictionaries = exports.canBeDictionary = exports.isArrayNotEmpty = exports.isArrayEmpty = exports.isNotNull = exports.isNull = void 0;
 /**
  * Method to check value is null
  * @param value to check
@@ -46,3 +46,14 @@ function canBeDictionary(value) {
     return typeof value === "object";
 }
 exports.canBeDictionary = canBeDictionary;
+/**
+ * Method for merge dictionaries
+ * @param target
+ * @param source
+ */
+function mergeDictionaries(target, source) {
+    for (let key in source) {
+        target[key] = source[key];
+    }
+}
+exports.mergeDictionaries = mergeDictionaries;
