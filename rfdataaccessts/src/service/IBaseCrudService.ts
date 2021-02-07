@@ -20,6 +20,14 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     add(mapParams: {}, data: T): Promise<ResponseService<T>>;
 
     /**
+     * Method for check data before add 
+     * @param mapParams is a map for params send to method, example builder,
+     *                          constants ...
+     * @param data to check
+     */
+    defaulCheckBeforeAdd(mapParams: {}, data: T): void;
+
+    /**
      * Method for edit data
      * 
      * @param mapParams is a map for params send to method, example builder,
@@ -28,6 +36,14 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      * @return data edited
      */
     edit(mapParams: {}, data: T): Promise<ResponseService<T>>;
+
+    /**
+    * Method for check data before edit 
+    * @param mapParams is a map for params send to method, example builder,
+    *                          constants ...
+    * @param data to check
+    */
+    defaulCheckBeforeEdit(mapParams: {}, data: T): void;
 
     /**
      * Remove data
@@ -39,6 +55,15 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     delete(mapParams: {}, data: T): Promise<ResponseService<boolean>>;
 
     /**
+     * Method for check data before delete 
+     * @param mapParams is a map for params send to method, example builder,
+     *                          constants ...
+     * @param data to check
+     */
+    defaulCheckBeforeDelete(mapParams: {}, data: T): void;
+
+
+    /**
      * Method for read value with pk
      * 
      * @param mapParams is a map for params send to method, example builder,
@@ -47,6 +72,14 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      * @return data
      */
     read(mapParams: {}, pkValue: any): Promise<ResponseService<T | undefined>>;
+
+    /**
+    * Method for check data after read 
+    * @param mapParams is a map for params send to method, example builder,
+    *                          constants ...
+    * @param data to check
+    */
+    defaulCheckAfterRead(mapParams: {}, data: T): void;
 
     /**
     * Method by find by pk
@@ -67,4 +100,13 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      * @return instace data
      */
     loadNew(mapParams: {}): Promise<ResponseService<T>>;
+
+    /**
+    * Method for check data after laod new 
+    * @param mapParams is a map for params send to method, example builder,
+    *                          constants ...
+    * @param data to check
+    */
+    defaulCheckAfterLoadNew(mapParams: {}, data: T): void;
+
 }

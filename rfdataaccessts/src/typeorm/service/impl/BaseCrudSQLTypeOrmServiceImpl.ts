@@ -1,3 +1,4 @@
+import { isNotNull } from "rfcorets";
 import { ResponseService } from "../../../beans/core/ResponseService";
 import { Join } from "../../../beans/query/Join";
 import { EnumTransactionsTypes } from "../../../constants/transactions/EnumTransactionsTypes";
@@ -25,7 +26,17 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async add(mapParams: {}, data: T): Promise<ResponseService<T>> {
+
+        this.defaulCheckBeforeAdd(mapParams, data);
+
         return new ResponseService(await this.getDao().add(mapParams, data));
+    }
+
+    /**
+     * @override
+     */
+    defaulCheckBeforeAdd(mapParams: {}, data: T): void {
+
     }
 
     /**
@@ -33,7 +44,17 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async edit(mapParams: {}, data: T): Promise<ResponseService<T>> {
+
+        this.defaulCheckBeforeEdit(mapParams, data);
+
         return new ResponseService(await this.getDao().edit(mapParams, data));
+    }
+
+    /**
+     * @override
+     */
+    defaulCheckBeforeEdit(mapParams: {}, data: T): void {
+
     }
 
     /**
@@ -41,7 +62,17 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async delete(mapParams: {}, data: T): Promise<ResponseService<boolean>> {
+
+        this.defaulCheckBeforeDelete(mapParams, data);
+
         return new ResponseService(await this.getDao().delete(mapParams, data));
+    }
+
+    /**
+     * @override
+     */
+    defaulCheckBeforeDelete(mapParams: {}, data: T): void {
+
     }
 
     /**
@@ -49,7 +80,20 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      */
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async read(mapParams: {}, pkValue: any): Promise<ResponseService<T | undefined>> {
-        return new ResponseService(await this.getDao().read(mapParams, pkValue));
+        const dataReturn = await this.getDao().read(mapParams, pkValue);
+
+        if (isNotNull(dataReturn)) {
+            this.defaulCheckAfterRead(mapParams, dataReturn!);
+        }
+
+        return new ResponseService(dataReturn);
+    }
+
+    /**
+     * @override
+     */
+    defaulCheckAfterRead(mapParams: {}, data: T): void {
+
     }
 
     /**
@@ -65,8 +109,20 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
      * @override
      */
     async loadNew(mapParams: {}): Promise<ResponseService<T>> {
-        return new ResponseService(await this.getDao().newInstace(mapParams));
+        const dataReturn = await this.getDao().newInstace(mapParams);
+
+        if (isNotNull(dataReturn)) {
+            this.defaulCheckAfterLoadNew(mapParams, dataReturn!);
+        }
+
+        return new ResponseService(dataReturn);
     }
 
+    /**
+     * @override
+     */
+    defaulCheckAfterLoadNew(mapParams: {}, data: T): void {
+
+    }
 
 }
