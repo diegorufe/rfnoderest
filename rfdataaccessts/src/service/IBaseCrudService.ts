@@ -25,7 +25,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      *                          constants ...
      * @param data to check
      */
-    defaulCheckBeforeAdd(mapParams: {}, data: T): void;
+    defaulCheckBeforeAdd(mapParams: {}, data: T): Promise<void>;
 
     /**
      * Method for edit data
@@ -43,7 +43,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     *                          constants ...
     * @param data to check
     */
-    defaulCheckBeforeEdit(mapParams: {}, data: T): void;
+    defaulCheckBeforeEdit(mapParams: {}, data: T): Promise<void>;
 
     /**
      * Remove data
@@ -60,7 +60,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
      *                          constants ...
      * @param data to check
      */
-    defaulCheckBeforeDelete(mapParams: {}, data: T): void;
+    defaulCheckBeforeDelete(mapParams: {}, data: T): Promise<void>;
 
 
     /**
@@ -79,7 +79,7 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     *                          constants ...
     * @param data to check
     */
-    defaulCheckAfterRead(mapParams: {}, data: T): void;
+    defaulCheckAfterRead(mapParams: {}, data: T): Promise<void>;
 
     /**
     * Method by find by pk
@@ -107,6 +107,6 @@ export interface IBaseCrudService<T, DAO extends IBaseCrudDao<T>> extends IBaseS
     *                          constants ...
     * @param data to check
     */
-    defaulCheckAfterLoadNew(mapParams: {}, data: T): void;
+    defaulCheckAfterLoadNew(mapParams: {}, data: T): Promise<void>;
 
 }

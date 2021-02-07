@@ -27,7 +27,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async add(mapParams: {}, data: T): Promise<ResponseService<T>> {
 
-        this.defaulCheckBeforeAdd(mapParams, data);
+        await this.defaulCheckBeforeAdd(mapParams, data);
 
         return new ResponseService(await this.getDao().add(mapParams, data));
     }
@@ -35,7 +35,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     /**
      * @override
      */
-    defaulCheckBeforeAdd(mapParams: {}, data: T): void {
+    async defaulCheckBeforeAdd(mapParams: {}, data: T): Promise<void> {
 
     }
 
@@ -45,7 +45,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async edit(mapParams: {}, data: T): Promise<ResponseService<T>> {
 
-        this.defaulCheckBeforeEdit(mapParams, data);
+        await this.defaulCheckBeforeEdit(mapParams, data);
 
         return new ResponseService(await this.getDao().edit(mapParams, data));
     }
@@ -53,7 +53,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     /**
      * @override
      */
-    defaulCheckBeforeEdit(mapParams: {}, data: T): void {
+    async defaulCheckBeforeEdit(mapParams: {}, data: T): Promise<void> {
 
     }
 
@@ -63,7 +63,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     @Transactional(EnumTransactionsTypes.REQUIRED)
     async delete(mapParams: {}, data: T): Promise<ResponseService<boolean>> {
 
-        this.defaulCheckBeforeDelete(mapParams, data);
+        await this.defaulCheckBeforeDelete(mapParams, data);
 
         return new ResponseService(await this.getDao().delete(mapParams, data));
     }
@@ -71,7 +71,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     /**
      * @override
      */
-    defaulCheckBeforeDelete(mapParams: {}, data: T): void {
+    async defaulCheckBeforeDelete(mapParams: {}, data: T): Promise<void> {
 
     }
 
@@ -83,7 +83,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
         const dataReturn = await this.getDao().read(mapParams, pkValue);
 
         if (isNotNull(dataReturn)) {
-            this.defaulCheckAfterRead(mapParams, dataReturn!);
+            await this.defaulCheckAfterRead(mapParams, dataReturn!);
         }
 
         return new ResponseService(dataReturn);
@@ -92,7 +92,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     /**
      * @override
      */
-    defaulCheckAfterRead(mapParams: {}, data: T): void {
+    async defaulCheckAfterRead(mapParams: {}, data: T): Promise<void> {
 
     }
 
@@ -112,7 +112,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
         const dataReturn = await this.getDao().newInstace(mapParams);
 
         if (isNotNull(dataReturn)) {
-            this.defaulCheckAfterLoadNew(mapParams, dataReturn!);
+            await this.defaulCheckAfterLoadNew(mapParams, dataReturn!);
         }
 
         return new ResponseService(dataReturn);
@@ -121,7 +121,7 @@ export abstract class BaseCrudSQLTypeOrmServiceImpl<T, DAO extends IBaseCrudDao<
     /**
      * @override
      */
-    defaulCheckAfterLoadNew(mapParams: {}, data: T): void {
+    async defaulCheckAfterLoadNew(mapParams: {}, data: T): Promise<void> {
 
     }
 
