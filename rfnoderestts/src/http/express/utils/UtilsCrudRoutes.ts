@@ -94,7 +94,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
 
     // edit
     httpExpressFactory.addPostRoute(
-        path + EnumPathRoutesCurd.ADD,
+        path + EnumPathRoutesCurd.EDIT,
         httpExpressFactory.asyncHandler()(async (req: any, res: any, next: any) => {
 
             // Body request
@@ -111,7 +111,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
 
     // delete
     httpExpressFactory.addPostRoute(
-        path + EnumPathRoutesCurd.ADD,
+        path + EnumPathRoutesCurd.DELETE,
         httpExpressFactory.asyncHandler()(async (req: any, res: any, next: any) => {
 
             // Body request
@@ -128,7 +128,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
 
     // loadNew
     httpExpressFactory.addPostRoute(
-        path + EnumPathRoutesCurd.ADD,
+        path + EnumPathRoutesCurd.LOAD_NEW,
         httpExpressFactory.asyncHandler()(async (req: any, res: any, next: any) => {
 
             // Body request
@@ -145,7 +145,7 @@ export function handleCrudRoutes<T, DAO extends IBaseCrudDao<T>, SERVICE extends
 
     // read
     httpExpressFactory.addPostRoute(
-        path + EnumPathRoutesCurd.ADD,
+        path + EnumPathRoutesCurd.READ,
         httpExpressFactory.asyncHandler()(async (req: any, res: any, next: any) => {
 
             // Body request

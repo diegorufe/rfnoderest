@@ -1,5 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
-import { CONTEXT, IErrorCodes, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
+import { BaseErrorCodes, CONTEXT, isNotEmpty, isNotNull, isNull, parseToJson, RFException } from "rfcorets";
 import { IBaseCrudDao, IBaseCrudService } from "rfdataaccessts";
 import { ResponseError } from "../../core/beans/ResponseError";
 import { RFSecurityException } from "../../core/beans/RFSecurityException";
@@ -101,7 +101,7 @@ export class HttpExpressFactory {
 
                 const responseError: ResponseError = new ResponseError();
                 responseError.httpStatus = EnumHttpStatus.INTERNAL_SERVER_ERROR;
-                responseError.code = IErrorCodes.GENERAL.code;
+                responseError.code = BaseErrorCodes.GENERAL.code;
                 responseError.stack = error.stack;
                 responseError.message = error.message;
                 responseError.name = error.name;
