@@ -81,6 +81,11 @@ export class PropertiesExpressApp {
      */
     mapNotSecurePatterns: string[] = ["/auth/"];
 
+    /**
+     * Disble security. !!! ONLY for personal applications
+     */
+    disableSecurity: boolean = false;
+
     constructor() {
 
     }

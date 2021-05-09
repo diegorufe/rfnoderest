@@ -71,7 +71,7 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
             error.stack = "";
 
             // Only intercept secure url when request mehtod distinct to options
-            if (req.method != "OPTIONS") {
+            if (req.method != "OPTIONS" && !httpExpressFactory.propertiesExpressApp.disableSecurity) {
                 let includeurlNotSecurePattern: boolean = false;
 
                 // For map secure patterns
