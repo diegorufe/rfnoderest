@@ -1,13 +1,12 @@
-import { HttpExpressFactory } from "../factory/HttpExpressFactory";
-import bodyParser from "body-parser";
-import express from "express";
-import { EMPTY, isArrayNotEmpty, isNotEmpty, isNotNull } from "rfcorets";
-import { EnumKeysExpressApp } from "../constants/EnumKeysExpressApp";
 import csurf from "csurf";
-import { EnumKeysHttpHeader } from '../../core/constants/EnumKeysHttpHeader'
-import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
+import express from "express";
 import jsonwebtoken from "jsonwebtoken";
+import { isArrayNotEmpty, isNotEmpty, isNotNull } from "rfcorets";
 import { RFSecurityException } from "../../core/beans/RFSecurityException";
+import { EnumHttpStatus } from "../../core/constants/EnumHttpStatus";
+import { EnumKeysHttpHeader } from '../../core/constants/EnumKeysHttpHeader';
+import { EnumKeysExpressApp } from "../constants/EnumKeysExpressApp";
+import { HttpExpressFactory } from "../factory/HttpExpressFactory";
 import { findJWTTokenRequestHeaders } from "./UtilsHttpExpress";
 
 /**
@@ -18,27 +17,33 @@ export function createExpressApp(httpExpressFactory: HttpExpressFactory) {
     // Create express 
     const app = express();
 
-    // body parser 
+    // // body parser 
+    // if (isNotEmpty(httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit)) {
+    //     // set limit bodyparser json
+    //     app.use(
+    //         bodyParser.json({
+    //             limit: httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit,
+    //         })
+    //     );
+
+    //     // set limit bodyparser url
+    //     app.use(
+    //         bodyParser.urlencoded({
+    //             limit: httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit,
+    //             extended: true,
+    //         })
+    //     );
+    // } else {
+    //     app.use(bodyParser.urlencoded({ extended: true }));
+    // }
+
+    // app.use(bodyParser.json());
+
     if (isNotEmpty(httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit)) {
-        // set limit bodyparser json
-        app.use(
-            bodyParser.json({
-                limit: httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit,
-            })
-        );
-
-        // set limit bodyparser url
-        app.use(
-            bodyParser.urlencoded({
-                limit: httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit,
-                extended: true,
-            })
-        );
+        app.use(express.json({ limit: httpExpressFactory.propertiesExpressApp.bodyParserSizeLimit }));
     } else {
-        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(express.json());
     }
-
-    app.use(bodyParser.json());
 
     // Use helmet 
     if (httpExpressFactory.propertiesExpressApp.useHelmet) {
