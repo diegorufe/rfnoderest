@@ -7,5 +7,14 @@ import { RestRequestResponse } from "../beans/RestRequestResponse";
  */
 export function finishResponseRequest(res: any, restRequestResponse: RestRequestResponse<any>) {
     res.status(restRequestResponse.httpStaus);
+
+    // This is for normal response json
     res.json(restRequestResponse);
+
+    // chunked
+    // res.setHeader('Content-Type', 'application/json; charset=UTF-8');
+    // res.setHeader('Transfer-Encoding', 'chunked');
+
+    // res.write(JSON.stringify(restRequestResponse));
+    // res.end();
 }
