@@ -1,4 +1,3 @@
-import { parseToJson } from "rfcorets";
 import { RestRequestResponse } from "../beans/RestRequestResponse";
 
 /**
@@ -8,5 +7,5 @@ import { RestRequestResponse } from "../beans/RestRequestResponse";
  */
 export function finishResponseRequest(res: any, restRequestResponse: RestRequestResponse<any>) {
     res.status(restRequestResponse.httpStaus);
-    res.json(parseToJson(restRequestResponse));
+    res.json(restRequestResponse);
 }

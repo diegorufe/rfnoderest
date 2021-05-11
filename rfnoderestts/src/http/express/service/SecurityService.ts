@@ -41,19 +41,21 @@ export class SecurityService implements IRFSecurityCheckAccessAllowedFeature {
      * @param restRequestResponse for set token if refresh token is needed
      */
     refreshJWTTokenIfNeeded(req: any, restRequestResponse: RestRequestResponse<any>): void {
-        const token = isNotNull(restRequestResponse.token) ? restRequestResponse.token : findJWTTokenRequestHeaders(req);
+        if (!this.expressFactory.propertiesExpressApp.disableSecurity) {
+            const token = isNotNull(restRequestResponse.token) ? restRequestResponse.token : findJWTTokenRequestHeaders(req);
 
-        if (isNotNull(token)) {
-            const jwtDecode: any = decodeJwt(token, this.expressFactory.propertiesExpressApp.keyJwtToken);
+            if (isNotNull(token)) {
+                const jwtDecode: any = decodeJwt(token, this.expressFactory.propertiesExpressApp.keyJwtToken);
 
-            if (isNotNull(jwtDecode)) {
-                const timeExpire = jwtDecode[EnumKeysJwtToken.EXP];
+                if (isNotNull(jwtDecode)) {
+                    const timeExpire = jwtDecode[EnumKeysJwtToken.EXP];
 
-                // Refhesh token
-                if ((new Date().getTime() -
-                    timeExpire.getTime()) >= (this.expressFactory.propertiesExpressApp.timeExpireJwtToken - 1000)) {
+                    // Refhesh token
+                    if ((new Date().getTime() -
+                        timeExpire.getTime()) >= (this.expressFactory.propertiesExpressApp.timeExpireJwtToken - 1000)) {
 
-                    restRequestResponse.token = generateTokenForUserDetails(this.getIRFUserDetailsFromRequest(req), this.expressFactory.propertiesExpressApp.timeExpireJwtToken, this.expressFactory.propertiesExpressApp.keyJwtToken, this.expressFactory.propertiesExpressApp.algorithmCryptoJsonDataSession, this.expressFactory.propertiesExpressApp.keyCrytoJsonDataSession, this.expressFactory.propertiesExpressApp.iviCrytoJsonDataSession)
+                        restRequestResponse.token = generateTokenForUserDetails(this.getIRFUserDetailsFromRequest(req), this.expressFactory.propertiesExpressApp.timeExpireJwtToken, this.expressFactory.propertiesExpressApp.keyJwtToken, this.expressFactory.propertiesExpressApp.algorithmCryptoJsonDataSession, this.expressFactory.propertiesExpressApp.keyCrytoJsonDataSession, this.expressFactory.propertiesExpressApp.iviCrytoJsonDataSession)
+                    }
                 }
             }
         }
