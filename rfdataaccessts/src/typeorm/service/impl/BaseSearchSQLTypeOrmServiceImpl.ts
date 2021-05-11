@@ -1,17 +1,17 @@
+import { ParamBuildQuery } from "../../../beans/core/ParamBuildQuery";
+import { RequestBrowser } from "../../../beans/core/RequestBrowser";
+import { ResponseBrowser } from "../../../beans/core/ResponseBrowser";
+import { ResponseService } from "../../../beans/core/ResponseService";
 import { Field } from "../../../beans/query/Field";
 import { Filter } from "../../../beans/query/Filter";
 import { Group } from "../../../beans/query/Group";
 import { Join } from "../../../beans/query/Join";
 import { Limit } from "../../../beans/query/Limit";
 import { Order } from "../../../beans/query/Order";
+import { EnumTransactionsTypes } from "../../../constants/transactions/EnumTransactionsTypes";
 import { IBaseSearchDao } from "../../../dao/IBaseSearhDao";
 import { IBaseSearchService } from "../../../service/IBaseSearchService";
 import { Transactional } from "../../decorators/TransactionalDecorator";
-import { EnumTransactionsTypes } from "../../../constants/transactions/EnumTransactionsTypes";
-import { RequestBrowser } from "../../../beans/core/RequestBrowser";
-import { ResponseBrowser } from "../../../beans/core/ResponseBrowser";
-import { ParamBuildQuery } from "../../../beans/core/ParamBuildQuery";
-import { ResponseService } from "../../../beans/core/ResponseService";
 
 /**
  * Base class implementation for service serach sql type orm
@@ -51,6 +51,9 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
      */
     private buildParamsQueryCountListAndBrowser(requestBrowser: RequestBrowser): ParamBuildQuery {
         const paramBuildQuery = new ParamBuildQuery();
+        paramBuildQuery.collectionJoins = requestBrowser.joins;
+        paramBuildQuery.collectionFilters = requestBrowser.filters;
+        paramBuildQuery.collectionOrders = requestBrowser.orders;
         return paramBuildQuery;
     }
 
@@ -68,7 +71,7 @@ export abstract class BaseSearchSQLTypeOrmServiceImpl<T, DAO extends IBaseSearch
         const numberOfPages: number = Math.ceil(parseFloat("" + totalRecords) / parseFloat("" + recordsPage));
 
         if (first >= 0) {
-            page = parseInt((Math.ceil(first / recordsPage) + 1) + "");
+            page = parseInt((first / recordsPage + 1) + "");
         }
 
         if (page > numberOfPages) {
