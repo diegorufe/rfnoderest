@@ -1,6 +1,6 @@
-import { getConnection } from "typeorm";
 import { Transaction } from "../beans/transactions/Transaction";
 import { EnumParamsBuildQueryDataAccess } from "../constants/core/EnumParamsBuildQueryDataAccess";
+import { DATA_ACESS_CONTEXT_FACTORY } from "../factory/DataAccessContextFactory";
 
 /**
  * Method for create transaction. By the moment only works with typeOrm
@@ -10,7 +10,7 @@ export function createTransaction(): Transaction {
 
     // Type orm 
     // https://typeorm.io/#/transactions
-    const connection = getConnection();
+    const connection = DATA_ACESS_CONTEXT_FACTORY.getConnectionTypeORM();
     const queryRunner = connection.createQueryRunner();
 
     trasanction.connection = connection;

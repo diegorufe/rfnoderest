@@ -1,8 +1,8 @@
-import { canBeDictionary, isArrayNotEmpty, isNotNull, ReponseMethod, applyFunctionWithHandlerError } from "rfcorets";
+import { applyFunctionWithHandlerError, canBeDictionary, isArrayNotEmpty, isNotNull, ReponseMethod } from "rfcorets";
 import { Transaction } from "../../beans/transactions/Transaction";
-import { createTransaction } from "../../utils/UtilsTransactions";
-import { EnumTransactionsTypes } from "../../constants/transactions/EnumTransactionsTypes";
 import { EnumParamsBuildQueryDataAccess } from "../../constants/core/EnumParamsBuildQueryDataAccess";
+import { EnumTransactionsTypes } from "../../constants/transactions/EnumTransactionsTypes";
+import { createTransaction } from "../../utils/UtilsTransactions";
 
 /**
  * Decorator for indicante service have a transaction 
@@ -75,7 +75,7 @@ export function Transactional(enumTransactionType: EnumTransactionsTypes) {
             try {
 
                 // Start transaction
-                if (transactional) {
+                if (haveCreateTransaction) {
                     await transaction.stratTransaction();
                 }
 
@@ -96,7 +96,7 @@ export function Transactional(enumTransactionType: EnumTransactionsTypes) {
                 console.log(exception);
                 throw exception;
             } finally {
-                if (transactional) {
+                if (transactional && haveCreateTransaction) {
 
                     // If has error rollback
                     if (haveError) {

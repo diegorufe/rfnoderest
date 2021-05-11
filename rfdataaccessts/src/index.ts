@@ -45,3 +45,6 @@ export * from './typeorm/service/impl/BaseCrudSQLTypeOrmServiceImpl'
 export * from './typeorm/service/impl/BaseSearchSQLTypeOrmServiceImpl'
 
 export * from './typeorm/entities/BaseAuditTypeOrmEntity'
+
+// Factory
+export * from './factory/DataAccessContextFactory'
