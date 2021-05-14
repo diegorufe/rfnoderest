@@ -5,6 +5,8 @@ export enum EnumFilterTypes {
 
     EQUAL = "=",
 
+    LITERAL_EQUAL = "EQUAL",
+
     GE = ">",
 
     GT = ">=",

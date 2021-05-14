@@ -16,13 +16,17 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      * @override
      */
     async add(mapParams: {}, data: T): Promise<T> {
+
+        // Prevent unable to find entity annotation
+        const dataEntity = Object.assign(await this.newInstace(mapParams), data);
+
         // Add createdAt updatedAt
-        this.addCreatedAt(data);
-        this.addUpdatedAt(data);
+        this.addCreatedAt(dataEntity);
+        this.addUpdatedAt(dataEntity);
 
         // create query builder and punt in map params
         this.createEntityManagerAndPutInMapParams(mapParams);
-        const dataReturn = await findEntityManagerMapParams(mapParams).save(data);
+        const dataReturn = await findEntityManagerMapParams(mapParams).save(dataEntity);
         return dataReturn;
     }
 
@@ -30,12 +34,16 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      * @override
      */
     async edit(mapParams: {}, data: T): Promise<T> {
+
+        // Prevent unable to find entity annotation
+        const dataEntity = Object.assign(await this.newInstace(mapParams), data);
+
         // Add updatedAt
-        this.addUpdatedAt(data);
+        this.addUpdatedAt(dataEntity);
 
         // create query builder and punt in map params
         this.createEntityManagerAndPutInMapParams(mapParams);
-        const dataReturn = await findEntityManagerMapParams(mapParams).save(data);
+        const dataReturn = await findEntityManagerMapParams(mapParams).save(dataEntity);
         return dataReturn;
     }
 
@@ -43,9 +51,11 @@ export abstract class BaseCrudSQLTypeOrmDaoImpl<T> extends BaseSearchSQLTypeOrmD
      * @override
      */
     async delete(mapParams: {}, data: T): Promise<boolean> {
+        // Prevent unable to find entity annotation
+        const dataEntity = Object.assign(await this.newInstace(mapParams), data);
         // create query builder and punt in map params
         this.createEntityManagerAndPutInMapParams(mapParams);
-        await findEntityManagerMapParams(mapParams).remove(data);
+        await findEntityManagerMapParams(mapParams).remove(dataEntity);
         return true;
     }
 

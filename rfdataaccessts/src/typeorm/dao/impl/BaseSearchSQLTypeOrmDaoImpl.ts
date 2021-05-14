@@ -185,6 +185,7 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                     // Filter type
                     switch (filterType) {
                         case EnumFilterTypes.EQUAL:
+                        case EnumFilterTypes.LITERAL_EQUAL:
                             builder = builder + SPACE + EnumFilterTypes.EQUAL;
                             break;
 
@@ -200,7 +201,16 @@ export abstract class BaseSearchSQLTypeOrmDaoImpl<T> implements IBaseSearchDao<T
                     const keyParam = starIdParam + counterParam;
 
                     // Add value 
-                    mapParamsApplyFilters[keyParam] = filter.value;
+                    // Filter type
+                    switch (filterType) {
+                        case EnumFilterTypes.LIKE:
+                            mapParamsApplyFilters[keyParam] = '%' + filter.value + '%';
+                            break;
+                        default:
+                            mapParamsApplyFilters[keyParam] = filter.value;
+                            break;
+                    }
+
 
                     builder = builder + SPACE + TWO_POINTS + keyParam;
 
