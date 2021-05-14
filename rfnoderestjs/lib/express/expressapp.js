@@ -1,8 +1,9 @@
 const SECURITY_MODULE = require("../security/security.config");
 const ROUTES = require("../routes/routes.config").routes;
-const MAP_PROPERTIES_STATUS_HTTP = require("./properties.express")
-  .MAP_PROPERTIES_STATUS_HTTP;
+const MAP_PROPERTIES_STATUS_HTTP =
+  require("./properties.express").MAP_PROPERTIES_STATUS_HTTP;
 const crypto = require("crypto");
+const UtilsCommons = require("../utils/UtilsCommons");
 
 /**
  * Class to save configuration for express app
@@ -184,7 +185,7 @@ class ExpressApp {
     }
 
     routerHandler[method]((error, req, res, next) => {
-      if (error != null && error != undefined) {
+      if (UtilsCommons.isNotNull(error)) {
         if (
           error.stack != null &&
           error.stack != undefined &&
@@ -223,12 +224,14 @@ class ExpressApp {
    * @param {*} service to add
    */
   addService(serviceName, service) {
-    if (service != null && service != undefined) {
+    if (UtilsCommons.isNotNull(service)) {
       // Add logger to services and daos
       service.logger = this.logger;
-      if (service.dao != null && service.dao != undefined) {
+
+      if (UtilsCommons.isNotNull(service.dao)) {
         service.dao.logger = this.logger;
       }
+
       // Add service to map services
       this.mapProperties.SERVICES[serviceName] = service;
     }
@@ -442,12 +445,13 @@ class ExpressApp {
               mapPropertiesExp.SEUCRITY_METHOD_INTECERPTOR_PERMISIONS_FUNCTION !=
                 undefined
             ) {
-              permissionAllowed = mapPropertiesExp.SEUCRITY_METHOD_INTECERPTOR_PERMISIONS_FUNCTION(
-                req.originalUrl,
-                mapPropertiesExp,
-                mapPropertiesSta,
-                user
-              );
+              permissionAllowed =
+                mapPropertiesExp.SEUCRITY_METHOD_INTECERPTOR_PERMISIONS_FUNCTION(
+                  req.originalUrl,
+                  mapPropertiesExp,
+                  mapPropertiesSta,
+                  user
+                );
             }
             // console.log(permissionAllowed);
             if (permissionAllowed) {
