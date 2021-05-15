@@ -1,4 +1,5 @@
 const Limit = require("../beans/query/Limit");
+const Filter = require("../beans/query/Filter");
 const UtilsCommons = require("../utils/UtilsCommons");
 const UtilsDbMongo = require("../utils/UtilsDbMongo");
 
