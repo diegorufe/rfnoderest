@@ -210,14 +210,15 @@ class BaseDaoSequelize {
    * Method for build a new register
    * @param {*} transaction
    * @param {*} mapParams for pass extra data
+   * @param {*} paramsBuild for pass to build mdole
    * @returns register build
    */
-  async loadNew(transaction, mapParams) {
+  async loadNew(transaction, mapParams, paramsBuild) {
     try {
       try {
         return await this.model.loadNew();
       } catch (ex) {
-        return await this.model.build();
+        return await this.model.build(paramsBuild);
       }
     } catch (ex) {
       throw ex;
