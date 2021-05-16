@@ -202,6 +202,12 @@ class BaseCrudService extends BaseService {
    * @param {*} mapParams
    */
   async edit(expressApp, element, transaction, mapParams) {
+    element = await this.beforeAddEdit(
+      expressApp,
+      element,
+      transaction,
+      mapParams
+    );
     return await this.dao.edit(element, transaction, mapParams);
   }
 
@@ -213,7 +219,25 @@ class BaseCrudService extends BaseService {
    * @param {*} mapParams
    */
   async add(expressApp, element, transaction, mapParams) {
+    element = await this.beforeAddEdit(
+      expressApp,
+      element,
+      transaction,
+      mapParams
+    );
     return await this.dao.add(element, transaction, mapParams);
+  }
+
+  /**
+   * Method execute before add/edit
+   * @param {*} expressApp
+   * @param {*} element
+   * @param {*} transaction
+   * @param {*} mapParams
+   * @returns element
+   */
+  async beforeAddEdit(expressApp, element, transaction, mapParams) {
+    return element;
   }
 
   /**
