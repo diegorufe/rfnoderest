@@ -66,13 +66,17 @@ class UtilsDbSequelize {
   static resolveValueFilter(filter) {
     let value = filter.value;
     const hashtagFilter = filter.hashtagFilter || false;
-
-    if (
-      UtilsCommons.isNotNull(filter) &&
-      UtilsCommons.isNotNull(filter.propertyValue)
-    ) {
-      value = filter.value[filter.propertyValue];
-    }
+    // By the moment is not necesy.
+    // if (
+    //   UtilsCommons.isNotNull(filter) &&
+    //   UtilsCommons.isNotNull(filter.propertyValue)
+    // ) {
+    //   try {
+    //     value = filter.value[filter.propertyValue];
+    //   } catch (ex) {
+    //     console.log(ex);
+    //   }
+    // }
     if (
       UtilsCommons.isNotNull(filter) &&
       UtilsCommons.isNotNull(filter.filterType) &&

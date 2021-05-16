@@ -130,7 +130,7 @@ class BaseCrudService extends BaseService {
    *
    * @returns element read by pk
    */
-  async read(expressApp, elemen, transaction, mapParams) {
+  async readWithElement(expressApp, elemen, transaction, mapParams) {
     return await this.dao.read(
       elemen,
       this.pkProperty,
@@ -138,6 +138,19 @@ class BaseCrudService extends BaseService {
       transaction,
       mapParams
     );
+  }
+
+  /**
+   * Method for read one element by pk
+   * @param {*} expressApp
+   * @param {*} pkValue
+   * @param {*} transaction
+   * @param {*} mapParams
+   *
+   * @returns element read by pk
+   */
+  async read(expressApp, pkValue, transaction, mapParams) {
+    return await this.dao.read(pkValue, null, transaction, mapParams);
   }
 
   /**
@@ -211,6 +224,14 @@ class BaseCrudService extends BaseService {
    */
   async loadNew(expressApp, transaction, mapParams) {
     return await this.dao.loadNew(transaction, mapParams);
+  }
+
+  /**
+   * Method for get pk property
+   * @returns
+   */
+  getPkProperty() {
+    return this.dao.getPkProperty();
   }
 }
 

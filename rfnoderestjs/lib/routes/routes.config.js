@@ -170,15 +170,12 @@ function create_route_service_db(
       let data = null;
       if (
         UtilsCommons.isNotNull(bodydRequest) &&
-        UtilsCommons.isNotNull(bodydRequest.data) &&
-        UtilsCommons.isNotNull(bodydRequest.data.id)
+        UtilsCommons.isNotNull(bodydRequest.data)
       ) {
         data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].read(
           EXPRESS_APP,
-          data
+          bodydRequest.data
         );
-      } else if (UtilsCommons.isNotNull(bodydRequest) && bodydRequest.data) {
-        data = bodydRequest.data;
       }
 
       let responseData = null;
@@ -278,7 +275,7 @@ function create_route_service_db(
       if (UtilsCommons.isNotNull(data)) {
         data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].read(
           EXPRESS_APP,
-          data,
+          data[EXPRESS_APP.mapProperties.SERVICES[serviceName].getPkProperty()],
           joins
         );
       }

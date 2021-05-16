@@ -7,6 +7,8 @@ const DATABASE_SEQUELIZE = require("./lib/db/database.sequelize");
 // Configuration for database mongo
 const DATABASE_MONGO = require("./lib/db/database.mongodb");
 
+const BEANS = require("./lib/beans/beans");
+
 module.exports = {
   rfnoderest: {
     create_express_app: EXPRESS.create_express_app,
@@ -14,5 +16,6 @@ module.exports = {
     services: SERVICES,
     databaseSequelize: DATABASE_SEQUELIZE,
     databaseMongo: DATABASE_MONGO,
+    beans: BEANS,
   },
 };

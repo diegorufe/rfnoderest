@@ -155,7 +155,7 @@ class BaseDaoSequelize {
    * @param {*} mapParams for pass extra data
    * @returns element read by pk
    */
-  async read(element, pkProperty, joins, transaction, mapParams) {
+  async readWithElement(element, pkProperty, joins, transaction, mapParams) {
     const filters = [new Filter(pkProperty, "EQUAL", element[pkProperty])];
     return await this.findOne(
       filters,
@@ -164,6 +164,39 @@ class BaseDaoSequelize {
       new Limit(0, 1),
       transaction
     );
+  }
+
+  /**
+   * Method for read one element by pk
+   * @param {*} pkValue
+   * @param {*} joins
+   * @param {*} transaction
+   * @param {*} mapParams for pass extra data
+   * @returns element read by pk
+   */
+  async read(pkValue, joins, transaction, mapParams) {
+    let element = null;
+
+    if (isNotNull(pkValue)) {
+      const filters = [new Filter(this.getPkProperty(), "EQUAL", pkValue)];
+      element = await this.findOne(
+        filters,
+        joins,
+        null,
+        new Limit(0, 1),
+        transaction
+      );
+    }
+
+    return element;
+  }
+
+  /**
+   * Method for get pk property
+   * @returns
+   */
+  getPkProperty() {
+    return "id";
   }
 
   /**
