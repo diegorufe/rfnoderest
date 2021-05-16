@@ -2,6 +2,8 @@ const UtilsCommons = require("../utils/UtilsCommons");
 const Filter = require("../beans/query/Filter");
 const Limit = require("../beans/query/Limit");
 const UtilsDbSequelize = require("../utils/UtilsDbSequelize");
+const { isNotNull } = require("../utils/UtilsCommons");
+const ResponseBrowser = require("../beans/core/ResponseBrowser");
 
 /**
  * Base class dao for sequelize get data
@@ -38,8 +40,8 @@ class BaseDaoSequelize {
    * Method for find registers
    * @param {*} fields to get
    * @param {*} filters  to apply
-   * @param {*} fetchs to apply
    * @param {*} joins to apply
+   * @param {*} orders to apply
    * @param {*} limit star, end for query
    * @param {*} transaction if pass use this transaction else create new
    * @param {*} mapParams for pass extra data
@@ -50,6 +52,77 @@ class BaseDaoSequelize {
       this.__queryFind(fields, filters, joins, orders, limit),
       { transaction: transaction }
     );
+  }
+
+  /**
+   * Method for count and find data
+   * @param {*} fields to get
+   * @param {*} filters  to apply
+   * @param {*} joins to apply
+   * @param {*} orders to apply
+   * @param {*} first to start find
+   * @param {*} recordsPage end to limit
+   * @param {*} transaction  if pass use this transaction else create new
+   * @param {*} mapParams for pass extra data
+   */
+  async browser(
+    fields,
+    filters,
+    joins,
+    orders,
+    first,
+    recordsPage,
+    transaction,
+    mapParams
+  ) {
+    const responseBrowser = new ResponseBrowser();
+    const count = await this.count(filters, joins, transaction, mapParams);
+
+    if (isNotNull(count) && count > 0) {
+      responseBrowser.count = count;
+
+      responseBrowser.data = await this.list(
+        fields,
+        filters,
+        joins,
+        orders,
+        this.__calculateLimitPage(first, recordsPage, count),
+        transaction,
+        mapParams
+      );
+    }
+
+    return responseBrowser;
+  }
+
+  /**
+   * Method for calculate page
+   *
+   * @param first        for calculate page
+   * @param recordsPage  record page show in page
+   * @param totalRecords for calculate number of pages
+   * @return limit for page. Cant be null
+   */
+  __calculateLimitPage(first, recordsPage, totalRecords) {
+    let page = 0;
+
+    const numberOfPages = Math.ceil(
+      parseFloat("" + totalRecords) / parseFloat("" + recordsPage)
+    );
+
+    if (first >= 0) {
+      page = parseInt(first / recordsPage + 1 + "");
+    }
+
+    if (page > numberOfPages) {
+      page = 1;
+    }
+
+    if (page < 1) {
+      page = 1;
+    }
+
+    return new Limit((page - 1) * recordsPage, recordsPage);
   }
 
   /**

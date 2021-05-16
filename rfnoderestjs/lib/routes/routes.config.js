@@ -1,3 +1,5 @@
+const { MAP_ROUTES_CRUD } = require("../constants/routes.constants");
+
 /**
  * Function to create routes for crud operations for service db for default object BaseService
  * All request have in body param "data". Example: {data: filters: [] .... }
@@ -20,12 +22,16 @@ function create_route_service_db(
 
   // Count
   EXPRESS_APP.addPostRoute(
-    url + "/count",
+    url + MAP_ROUTES_CRUD.COUNT,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/count", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.COUNT,
+          EXPRESS_APP,
+          req
+        );
       }
       const data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].count(
         EXPRESS_APP,
@@ -40,7 +46,7 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/count",
+          MAP_ROUTES_CRUD.COUNT,
           EXPRESS_APP,
           req,
           responseData
@@ -54,12 +60,16 @@ function create_route_service_db(
 
   // list
   EXPRESS_APP.addPostRoute(
-    url + "/list",
+    url + MAP_ROUTES_CRUD.LIST,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/list", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.LIST,
+          EXPRESS_APP,
+          req
+        );
       }
 
       const data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].list(
@@ -78,7 +88,52 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/list",
+          MAP_ROUTES_CRUD.LIST,
+          EXPRESS_APP,
+          req,
+          responseData
+        );
+      }
+
+      res.status(responseData.status);
+      res.json(responseData);
+    })
+  );
+
+  // browser
+  EXPRESS_APP.addPostRoute(
+    url + MAP_ROUTES_CRUD.BROWSER,
+    EXPRESS_APP.asyncHandler()(async (req, res, next) => {
+      let bodydRequest = req.body;
+      // If not not nul pre handle action
+      if (UtilsCommons.isNotNull(functionBeforeAction)) {
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.BROWSER,
+          EXPRESS_APP,
+          req
+        );
+      }
+
+      const data = await EXPRESS_APP.mapProperties.SERVICES[
+        serviceName
+      ].browser(
+        EXPRESS_APP,
+        bodydRequest.data.fields,
+        bodydRequest.data.filters,
+        bodydRequest.data.joins,
+        bodydRequest.data.orders,
+        bodydRequest.data.first,
+        bodydRequest.data.recordsPage
+      );
+
+      let responseData = {
+        data: data,
+        status: EXPRESS_APP.mapStatusHttp.ACCESS_SUCCES,
+      };
+
+      if (UtilsCommons.isNotNull(functionAfterAction)) {
+        responseData = await functionAfterAction(
+          MAP_ROUTES_CRUD.BROWSER,
           EXPRESS_APP,
           req,
           responseData
@@ -92,12 +147,16 @@ function create_route_service_db(
 
   // read
   EXPRESS_APP.addPostRoute(
-    url + "/read",
+    url + MAP_ROUTES_CRUD.READ,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/read", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.READ,
+          EXPRESS_APP,
+          req
+        );
       }
 
       let joins = null;
@@ -138,7 +197,7 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/read",
+          MAP_ROUTES_CRUD.READ,
           EXPRESS_APP,
           req,
           responseData
@@ -152,13 +211,17 @@ function create_route_service_db(
 
   // Delete
   EXPRESS_APP.addPostRoute(
-    url + "/delete",
+    url + MAP_ROUTES_CRUD.DELETE,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
 
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/delete", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.DELETE,
+          EXPRESS_APP,
+          req
+        );
       }
       const data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].delete(
         EXPRESS_APP,
@@ -172,7 +235,7 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/delete",
+          MAP_ROUTES_CRUD.DELETE,
           EXPRESS_APP,
           req,
           responseData
@@ -186,13 +249,17 @@ function create_route_service_db(
 
   // Edit
   EXPRESS_APP.addPostRoute(
-    url + "/edit",
+    url + MAP_ROUTES_CRUD.EDIT,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
 
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/edit", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.EDIT,
+          EXPRESS_APP,
+          req
+        );
       }
       let data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].edit(
         EXPRESS_APP,
@@ -223,7 +290,7 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/edit",
+          MAP_ROUTES_CRUD.EDIT,
           EXPRESS_APP,
           req,
           responseData
@@ -237,12 +304,16 @@ function create_route_service_db(
 
   // add
   EXPRESS_APP.addPostRoute(
-    url + "/add",
+    url + MAP_ROUTES_CRUD.ADD,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/add", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.ADD,
+          EXPRESS_APP,
+          req
+        );
       }
       const data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].add(
         EXPRESS_APP,
@@ -256,7 +327,7 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/add",
+          MAP_ROUTES_CRUD.ADD,
           EXPRESS_APP,
           req,
           responseData
@@ -270,16 +341,20 @@ function create_route_service_db(
 
   // loadNew
   EXPRESS_APP.addPostRoute(
-    url + "/loadNew",
+    url + MAP_ROUTES_CRUD.LOAD_NEW,
     EXPRESS_APP.asyncHandler()(async (req, res, next) => {
       let bodydRequest = req.body;
       // If not not nul pre handle action
       if (UtilsCommons.isNotNull(functionBeforeAction)) {
-        bodydRequest = await functionBeforeAction("/loadNew", EXPRESS_APP, req);
+        bodydRequest = await functionBeforeAction(
+          MAP_ROUTES_CRUD.LOAD_NEW,
+          EXPRESS_APP,
+          req
+        );
       }
-      let data = await EXPRESS_APP.mapProperties.SERVICES[
-        serviceName
-      ].loadNew();
+      let data = await EXPRESS_APP.mapProperties.SERVICES[serviceName].loadNew(
+        EXPRESS_APP
+      );
 
       let responseData = {
         data: data,
@@ -288,7 +363,7 @@ function create_route_service_db(
 
       if (UtilsCommons.isNotNull(functionAfterAction)) {
         responseData = await functionAfterAction(
-          "/loadNew",
+          MAP_ROUTES_CRUD.LOAD_NEW,
           EXPRESS_APP,
           req,
           responseData

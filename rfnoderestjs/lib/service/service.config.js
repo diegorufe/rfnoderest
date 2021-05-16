@@ -87,6 +87,41 @@ class BaseCrudService extends BaseService {
   }
 
   /**
+   * Method for count and find data
+   * @param {*}  expressApp
+   * @param {*} fields to get
+   * @param {*} filters  to apply
+   * @param {*} joins to apply
+   * @param {*} orders to apply
+   * @param {*} first to start find
+   * @param {*} recordsPage end to limit
+   * @param {*} transaction  if pass use this transaction else create new
+   * @param {*} mapParams for pass extra data
+   */
+  async browser(
+    expressApp,
+    fields,
+    filters,
+    joins,
+    orders,
+    first,
+    recordsPage,
+    transaction,
+    mapParams
+  ) {
+    return await this.dao.browser(
+      fields,
+      filters,
+      joins,
+      orders,
+      first,
+      recordsPage,
+      transaction,
+      mapParams
+    );
+  }
+
+  /**
    * Method for read one element by pk
    * @param {*} expressApp
    * @param {*} element

@@ -145,7 +145,7 @@ class UtilsDbSequelize {
 
       for (let i = 0; i < fields.length; i++) {
         field = fields[i];
-        fieldValue = field.property.split(field.fieldSeparator);
+        fieldValue = field.name.split(field.fieldSeparator);
         fieldsQuery.push(
           (UtilsCommons.isNotNull(field.aliasTabla)
             ? field.aliasTabla + "."
